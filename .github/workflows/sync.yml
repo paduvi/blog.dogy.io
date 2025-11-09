@@ -1,0 +1,34 @@
+name: Sync Hashnode to GitHub
+
+on:
+  schedule:
+    - cron: '0 */12 * * *'  # chạy 2 lần mỗi ngày
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Fetch posts from Hashnode
+        run: |
+          curl -X POST https://gql.hashnode.com \
+          -H "Content-Type: application/json" \
+          -H "Authorization: ${{ secrets.HASHNODE_TOKEN }}" \
+          -d '{"query": "query { me { publication { posts { title slug brief } } } }"}' \
+          > posts.json
+
+      - name: Save posts as Markdown
+        run: |
+          mkdir -p posts
+          cat posts.json | jq -r '.data.me.publication.posts[] | "# " + .title + "\n\n" + .brief' > posts/latest.md
+
+      - name: Commit & Push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add .
+          git commit -m "Sync posts from Hashnode" || echo "No changes"
+          git push
