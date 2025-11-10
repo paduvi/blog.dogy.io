@@ -76,7 +76,7 @@ def add(x):
         BF[position] = 1
 ```
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1762761305456/139d1513-aa3a-4bd3-a50d-3ca7272287d6.jpeg align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1762807013528/546a26d1-902f-4e51-82a6-7c9849df4ac1.png align="center")
 
 ### **Checking for an Element**
 
@@ -110,7 +110,7 @@ def check(x):
     
 * **True Negative:** x is *not* in S and the Bloom filter returns False.
     
-* **False Negative:** x is in S, but the Bloom filter returns False. *Note: Standard Bloom filters have* *zero false negatives.*
+* **False Negative:** x is in S, but the Bloom filter returns False. *Note: Standard Bloom filter have* *zero false negatives.*
     
 
 Despite its simplicity, the Bloom filter's false positive rate can be surprisingly low. The following chart illustrates how the rate decreases as the size of the bit array (M) and the number of hash functions (k) increase.
