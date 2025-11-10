@@ -131,11 +131,13 @@ You can plug in the expected number of elements (N) for your application and exp
 
 For those curious about the derivation, let's break it down. It's simpler than it looks!
 
-Let's consider a Bloom filter with M=15 and k=3. We can conceptually divide the BF array into k segments (each of length \\(m=\frac{M}{k}=5\\)).
+Let’s consider a Bloom filter with \\(M=15\\) and \\(k=3\\) **hash functions**. We imagine dividing the main array \\(M\\) into \\(k\\) segments (each of length \\(m=\frac{M}{k}=5\\)).
 
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1762758879021/f3f564c3-b5b2-428a-b18a-3bb4ec797d97.jpeg align="center")
 
-Due to the properties of a good hash function, the probability that a specific bit in a segment is set to 1 after inserting one element is \\(\frac{1}{m}=\frac{1}{5}\\).
+A characteristic of a good hash function is that the resulting bit distribution is close to **uniform randomness**. Hence, we expect that, for every element inserted, only **one bit** in the segment will be set.
+
+Therefore, the probability of any given bit in a segment being set to **1** following the insertion of one element is \\(\frac{1}{5}\\). More generally, this probability is \\(\frac{1}{m}\\).
 
 * Therefore, the probability that a specific bit is **not** set is \\(1-\frac{1}{m}\\).
     
@@ -162,9 +164,9 @@ $$k=\log_{2}\left ( \frac{1}{P} \right )$$
 
 Let's allocate about 32kB of memory (M = 262,144 bits) and see the results for different false positive probabilities (P). The numbers are impressive for such a small memory footprint!
 
-| P | 0.1% | 0.01% | 0.001% | 0.0001% |
+| \\(P\\) | 0.1% | 0.01% | 0.001% | 0.0001% |
 | --- | --- | --- | --- | --- |
-| **k** | 10 | 14 | 17 | 20 |
+| \\(k\\) | 10 | 14 | 17 | 20 |
 | \\(N_{max}\\) | 18,232 | 13,674 | 10,939 | 9,116 |
 
 ## **Important Considerations**
