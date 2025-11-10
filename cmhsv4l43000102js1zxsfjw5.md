@@ -37,9 +37,9 @@ This is where the Bloom Filter becomes popular, even though it might seem quite 
     
 * **Web Browsing:** Google Chrome uses them to identify and warn users about malicious websites.
     
-* **Content Platforms:** Medium uses them to avoid recommending articles a user has already read.
+* **Content Platforms:** [Medium](https://blog.medium.com/what-are-bloom-filters-1ec2a50c68ff) uses them to avoid recommending articles a user has already read.
     
-* **Security:** Mitigating DDoS attacks and checking for weak passwords or existing usernames/emails in a system.
+* **Security:** [Mitigating DDoS attacks](https://eudl.eu/pdf/10.4108/eai.19-6-2018.155865) and checking for weak passwords or existing usernames/emails in a system.
     
 * **Spell Checking:** Verifying if a word exists in a dictionary.
     
@@ -77,6 +77,8 @@ def add(x):
 ```
 
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1762807013528/546a26d1-902f-4e51-82a6-7c9849df4ac1.png align="center")
+
+When we add more elements, we repeat the same process. The bit we set might already be 1 (which is okay).
 
 ### **Checking for an Element**
 
@@ -150,9 +152,9 @@ $$P=\rho ^{k}$$
 
 Based on \\(\rho \approx1-e^{-N/m}\\), we can work backward to find the threshold number of elements N at which the Bloom filter becomes saturated and the false positive rate rises too high. With M and P fixed, the optimal N is approximately:
 
-$$N \approx -\frac{M}{k}\ln \left ( 1-\rho \right ) \approx M\frac{\ln \rho \ln \left ( 1-\rho \right )}{-\ln P} \leqslant M\frac{\left (\ln 2 \right )^{2}}{\left |ln P \right |}$$
+$$N \approx -\frac{M}{k}\ln \left ( 1-\rho \right ) = M\frac{\ln \rho \ln \left ( 1-\rho \right )}{-\ln P}$$
 
-\\(N_{max}\\) is achieved when \\(\rho =\frac 1{2}\\). Substituting into \\(P=\rho ^{k}\\), we find the optimal number of hash functions is:
+\\(N_{max}=M\frac{\left (\ln 2 \right )^{2}}{\left |ln P \right |}\\) is achieved when \\(\rho =\frac 1{2}\\). Substituting into \\(P=\rho ^{k}\\), we find the optimal number of hash functions is:
 
 $$k=\log_{2}\left ( \frac{1}{P} \right )$$
 
@@ -167,7 +169,7 @@ Let's allocate about 32kB of memory (M = 262,144 bits) and see the results for d
 
 ## **Important Considerations**
 
-* **Deletion:** Traditional Bloom Filter do not support deletion. However, variants like the **Counting Bloom Filter** and **Cuckoo Filter** have been developed to solve this problem.
+* **Deletion:** Traditional Bloom Filter do not support deletion. However, variants like the [**Counting Bloom Filter**](https://en.wikipedia.org/wiki/Counting_Bloom_filter) and [**Cuckoo Filter**](https://en.wikipedia.org/wiki/Cuckoo_filter) have been developed to solve this problem.
     
 * **Data Storage:** A Bloom Filter does not store the actual elements. It only tests for membership. Therefore, a separate, definitive data store is still required to retrieve the elements themselves (which is why it's called a "filter").
     
