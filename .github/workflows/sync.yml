@@ -27,8 +27,8 @@ jobs:
 
       - name: Commit & Push
         run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
+          git config user.name "paduvi"
+          git config user.email "paduvi@users.noreply.github.com"
           git add .
           git commit -m "Sync posts from Hashnode" || echo "No changes"
           git push
