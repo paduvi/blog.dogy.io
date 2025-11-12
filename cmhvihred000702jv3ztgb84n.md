@@ -5,8 +5,8 @@ seoDescription: "Explore the surprising mathematics of the Birthday Paradox and 
 datePublished: Wed Nov 12 2025 04:40:23 GMT+0000 (Coordinated Universal Time)
 cuid: cmhvihred000702jv3ztgb84n
 slug: the-birthday-paradox-explained-real-world-applications
-cover: https://cdn.hashnode.com/res/hashnode/image/upload/v1762918550189/23f82088-5dfe-48f5-80a1-f5160cbba2b6.jpeg
-tags: probability
+cover: https://cdn.hashnode.com/res/hashnode/image/upload/v1762923110685/6fd3a4ea-1a8f-400c-a6f5-38acfd1d1cbe.png
+tags: algorithms, cybersecurity, probability, birthday-paradox
 
 ---
 
@@ -22,7 +22,7 @@ Can you believe it? With just 23 people in a room, the probability that at least
 
 First, we need to understand why it's considered a paradox. With 365 days in a year, our intuition tells us it should take about 182 people (half of 365) to reach a 50% probability. However, the reality is that it only takes 23—a number that feels incredibly small compared to 182. This vast gap between intuition and mathematical reality is what makes it so "paradoxical."
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1762920287398/797e783f-5112-493a-8664-ae0a5e1f5221.jpeg align="center")
+![](https://cdn.hashnode.com/res/hashnode/image/upload/v1762922787149/61f50323-d08a-4dd6-8b39-7985ecc03691.jpeg align="center")
 
 ---
 
