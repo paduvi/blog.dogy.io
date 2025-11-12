@@ -123,7 +123,7 @@ def check(x):
 
 Despite its simplicity, the Bloom filter's false positive rate can be surprisingly low. The following chart illustrates how the rate decreases as the size of the bit array (M) and the number of hash functions (k) increase.
 
-![Source: https://medium.com/@ngtung/bloom-filter-trong-golang-211d00443721](https://miro.medium.com/max/1600/1*sSuuWFeLpwVZIPuNSoAiyQ.png align="center")
+![Source: https://medium.com/@ngtung/bloom-filter-trong-golang-211d00443721](https://miro.medium.com/v2/resize:fit:720/format:webp/1*sSuuWFeLpwVZIPuNSoAiyQ.png align="center")
 
 ---
 
