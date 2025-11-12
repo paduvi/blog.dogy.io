@@ -20,9 +20,11 @@ Can you believe it? With just 23 people in a room, the probability that at least
 
 ## **Why Is It Called a Paradox?**
 
-First, we need to understand why it's considered a paradox. With 365 days in a year, our intuition tells us it should take about 182 people (half of 365) to reach a 50% probability. However, the reality is that it only takes 23—a number that feels incredibly small compared to 182. This vast gap between intuition and mathematical reality is what makes it so "paradoxical."
+First, we need to understand why it's considered a paradox. With 365 days in a year, our intuition tells us it should take about 182 people (half of 365) to reach a 50% probability.
 
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1762922787149/61f50323-d08a-4dd6-8b39-7985ecc03691.jpeg align="center")
+
+However, the reality is that it only takes 23—a number that feels incredibly small compared to 182. This vast gap between intuition and mathematical reality is what makes it so "paradoxical."
 
 ---
 
