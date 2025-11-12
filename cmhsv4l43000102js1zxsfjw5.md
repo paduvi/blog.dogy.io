@@ -1,6 +1,6 @@
 ---
 title: "Understanding Bloom Filter: Efficient Data Filtering Explained"
-seoTitle: "Efficient Data Filtering with Bloom Filter"
+seoTitle: "Understanding Bloom Filter: Efficient Data Filtering Explained"
 seoDescription: "Bloom Filter use probabilistic methods for efficient data filtering and set membership, significant in many applications"
 datePublished: Mon Nov 10 2025 08:10:44 GMT+0000 (Coordinated Universal Time)
 cuid: cmhsv4l43000102js1zxsfjw5
@@ -14,6 +14,8 @@ A Bloom Filter is a probabilistic data structure used to test whether an element
 
 The reason it's called "probabilistic" is that the result it returns is not guaranteed to be 100% accurate; there is a certain margin of error.
 
+---
+
 ## **The Problem: Set Membership**
 
 > Given a set S of N elements, check if an element x is a member of S (x ∈ S).
@@ -26,6 +28,8 @@ This is a simple problem with multiple solutions:
     
 
 But what if set S is extremely large? In such cases, the cost of iterating over S becomes expensive. Furthermore, if the data doesn't fit in memory and requires continuous disk access, the cost of checking membership can be significant.
+
+---
 
 ## Why does the Bloom Filter shine?
 
@@ -43,6 +47,8 @@ This is where the Bloom Filter becomes popular, even though it might seem quite 
     
 * **Spell Checking:** Verifying if a word exists in a dictionary.
     
+
+---
 
 ## **How does a Bloom Filter work?**
 
@@ -160,6 +166,8 @@ $$N \approx -\frac{M}{k}\ln \left ( 1-\rho \right ) = M\frac{\ln \rho \ln \left 
 
 $$k=\log_{2}\left ( \frac{1}{P} \right )$$
 
+---
+
 ## **Practical Example: The Power of 32kB**
 
 Let's allocate about 32kB of memory (M = 262,144 bits) and see the results for different false positive probabilities (P). The numbers are impressive for such a small memory footprint!
@@ -168,6 +176,10 @@ Let's allocate about 32kB of memory (M = 262,144 bits) and see the results for d
 | --- | --- | --- | --- | --- |
 | \\(k\\) | 10 | 14 | 17 | 20 |
 | \\(N_{max}\\) | 18,232 | 13,674 | 10,939 | 9,116 |
+
+---
+
+---
 
 ## **Important Considerations**
 
