@@ -18,7 +18,7 @@ Can you believe it? With just 23 people in a room, the probability that at least
 
 ---
 
-## **Why Is It Called a Paradox?**
+## **Why is it called a Paradox?**
 
 First, we need to understand why it's considered a paradox. With 365 days in a year, our intuition tells us it should take about 182 people (half of 365) to reach a 50% probability.
 
@@ -171,7 +171,7 @@ As we can see, with a salt **≥ 12 bytes (96 bits)**, the probability of a coll
 
 ---
 
-### **Conclusion**
+## **Conclusion**
 
 The Birthday Paradox is a perfect demonstration of how human intuition can be easily misled by numbers. It teaches us a crucial lesson: in a complex and interconnected world, things that seem incredibly rare can actually have a surprisingly high probability of occurring.
 
