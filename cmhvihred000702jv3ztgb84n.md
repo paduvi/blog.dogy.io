@@ -6,6 +6,7 @@ datePublished: Wed Nov 12 2025 04:40:23 GMT+0000 (Coordinated Universal Time)
 cuid: cmhvihred000702jv3ztgb84n
 slug: the-birthday-paradox-explained-real-world-applications
 cover: https://cdn.hashnode.com/res/hashnode/image/upload/v1762918550189/23f82088-5dfe-48f5-80a1-f5160cbba2b6.jpeg
+tags: probability
 
 ---
 
