@@ -173,3 +173,5 @@ As we can see, with a salt **≥ 12 bytes (96 bits)**, the probability of a coll
 The Birthday Paradox is a perfect demonstration of how human intuition can be easily misled by numbers. It teaches us a crucial lesson: in a complex and interconnected world, things that seem incredibly rare can actually have a surprisingly high probability of occurring.
 
 Next time you're at an event with more than 23 people, challenge yourself to find someone who shares your birthday. You might not only be surprised by the result but also have a fascinating story about mathematics to share with everyone.
+
+<details data-node-type="hn-details-summary"><summary>Author's Note:</summary><div data-type="detailsContent"><em>This English article is an adapted and expanded version of my </em><a target="_self" rel="noopener noreferrer nofollow" href="https://dogy.io/2025/10/12/birthday-paradox/" style="pointer-events: none"><em>original blog post</em></a><em>, which was first written in Vietnamese. I have translated, refined, and structured the content for a wider audience.</em></div></details>
