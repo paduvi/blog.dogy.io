@@ -24,7 +24,7 @@ First, we need to understand why it's considered a paradox. With 365 days in a y
 
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1762922787149/61f50323-d08a-4dd6-8b39-7985ecc03691.jpeg align="center")
 
-However, the reality is that it only takes 23—a number that feels incredibly small compared to 182. This vast gap between intuition and mathematical reality is what makes it so "paradoxical."
+However, the reality is that it only takes 23—a number that feels incredibly small compared to 182. This vast gap between intuition and mathematical reality is what makes it so "paradoxical".
 
 ---
 
@@ -135,7 +135,7 @@ Typically, a system never stores your original password in its database. Instead
 
 ![](https://images.ctfassets.net/23aumh6u8s0i/5C8Vmfi1nfSSh9GDQw4IxZ/d2f5d28320b37760c2e86b141822e029/password-salt-example align="center")
 
-However, hashing alone is not sufficient. If a hacker knows a common password like "123456," they can find all other accounts using the same hash. Worse, if they have a pre-computed **rainbow table**, they can reverse the hashes for common passwords in an instant.
+However, hashing alone is not sufficient. If a hacker knows a common password like "123456", they can find all other accounts using the same hash. Worse, if they have a pre-computed **rainbow table**, they can reverse the hashes for common passwords in an instant.
 
 This is why we **add "salt"** to each password before hashing. Each user gets a unique, random salt. This ensures that even if two users have the same password, their **hashed results are completely different**. In other words, salt prevents hackers from using a "one-size-fits-all" attack.
 
@@ -146,7 +146,7 @@ This is why we **add "salt"** to each password before hashing. Each user gets a 
 
 But how big does this salt need to be to make the probability of two salts colliding nearly zero?
 
-Let's return to our **Birthday Paradox**. Suppose your system has 1 billion users ( *k* = 10⁹ ). We can use our formula to see how different salt sizes hold up: \\(P(\text{collision})\approx 1-e^{-\frac{k^{2}}{2N}}\\)
+Let's return to our **Birthday Paradox**. Suppose your system has 1 billion users (*k* = 10⁹). We can use our formula to see how different salt sizes hold up: \\(P(\text{collision})\approx 1-e^{-\frac{k^{2}}{2N}}\\)
 
 | Salt (bytes) | Bits | N=2<sup>bits</sup> | P(collision) |
 | --- | --- | --- | --- |
