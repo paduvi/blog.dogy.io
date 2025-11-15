@@ -24,7 +24,7 @@ First, we need to understand why it's considered a paradox. With 365 days in a y
 
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1762922787149/61f50323-d08a-4dd6-8b39-7985ecc03691.jpeg align="center")
 
-However, the reality is that it only takes 23—a number that feels incredibly small compared to 182. This vast gap between intuition and mathematical reality is what makes it so "paradoxical".
+However, the reality is that it only takes 23 - a number that feels incredibly small compared to 182. This vast gap between intuition and mathematical reality is what makes it so "paradoxical".
 
 ---
 
@@ -167,7 +167,7 @@ Let's return to our **Birthday Paradox**. Suppose your system has 1 billion user
 | 15 | 120 | 2<sup>120</sup> | 3.762×10⁻¹⁹ |
 | 16 | 128 | 2<sup>128</sup> | 1.469×10⁻²¹ |
 
-As we can see, with a salt **≥ 12 bytes (96 bits)**, the probability of a collision becomes extremely small (10⁻¹² and below), making it practically impossible in a real-world scenario. However, in security research and implementation, we must also consider execution factors and other attack vectors for a holistic security assessment—topics that extend beyond the scope of this article.
+As we can see, with a salt **≥ 12 bytes (96 bits)**, the probability of a collision becomes extremely small (10⁻¹² and below), making it practically impossible in a real-world scenario. However, in security research and implementation, we must also consider execution factors and other attack vectors for a holistic security assessment - topics that extend beyond the scope of this article.
 
 ---
 
