@@ -61,7 +61,7 @@ export default function Header() {
                                 </button>
 
                                 <div className="absolute top-full left-0 w-48 pt-2 opacity-0 invisible group-hover-opacity-100 group-hover-visible transition-all duration-200 transform translate-y-2 group-hover-translate-y-0 z-50">
-                                    <div className="bg-white border border-[var(--border-color)] rounded-lg shadow-lg p-2">
+                                    <div className="bg-white border rounded-lg shadow-lg p-2">
                                         {group.categories.map((category) => (
                                             <Link
                                                 key={category.id}
