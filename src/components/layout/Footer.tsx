@@ -10,7 +10,7 @@ export default function Footer() {
                             D
                         </div>
                         <span className="font-bold text-lg">Dogy.io</span>
-                        <span className="text-muted text-sm ml-2">© 2023</span>
+                        <span className="text-muted text-sm ml-2">© {new Date().getFullYear()}</span>
                     </div>
 
                     <div className="flex gap-6 text-sm text-muted">

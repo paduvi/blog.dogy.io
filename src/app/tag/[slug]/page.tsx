@@ -35,7 +35,7 @@ export default function TagPage({ params }: PageProps) {
                 <p className="text-muted">A collection of {tagPosts.length} posts</p>
             </div>
 
-            <div className="grid grid-cols-1 md-grid-cols-2 lg-grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md_grid-cols-2 lg_grid_cols-3 gap-6">
                 {tagPosts.map((post) => (
                     <PostCard key={post.id} post={post} />
                 ))}

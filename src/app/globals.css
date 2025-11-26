@@ -328,6 +328,10 @@ img {
   height: 600px;
 }
 
+.h-400 {
+  height: 400px;
+}
+
 /* Typography */
 .text-xs {
   font-size: 0.75rem;
@@ -567,7 +571,7 @@ img {
   visibility: visible;
 }
 
-.group:hover .group-hover-scale-115 {
+.group:hover .group-hover-scale_115 {
   transform: scale(1.15);
 }
 
@@ -642,71 +646,71 @@ img {
 }
 
 @media (min-width: 768px) {
-  .md-block {
+  .md_block {
     display: block;
   }
 
-  .md-hidden {
+  .md_hidden {
     display: none;
   }
 
-  .md-flex {
+  .md_flex {
     display: flex;
   }
 
-  .md-flex-row {
+  .md_flex-row {
     flex-direction: row;
   }
 
-  .md-gap-4 {
+  .md_gap-4 {
     gap: 1rem;
   }
 
-  .md-grid-cols-2 {
+  .md_grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1024px) {
-  .lg-col-span-2 {
+  .lg_col-span-2 {
     grid-column: span 2 / span 2;
   }
 
-  .lg-col-span-3 {
+  .lg_col-span-3 {
     grid-column: span 3 / span 3;
   }
 
-  .lg-col-span-7 {
+  .lg_col-span-7 {
     grid-column: span 7 / span 7;
   }
 
-  .lg-col-span-8 {
+  .lg_col-span-8 {
     grid-column: span 8 / span 8;
   }
 
-  .lg-col-span-4 {
+  .lg_col-span-4 {
     grid-column: span 4 / span 4;
   }
 
-  .lg-grid-cols-3 {
+  .lg_grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .lg-grid-cols-10 {
+  .lg_grid-cols-10 {
     grid-template-columns: repeat(10, minmax(0, 1fr));
   }
 
-  .lg-grid-cols-12 {
+  .lg_grid-cols-12 {
     grid-template-columns: repeat(12, minmax(0, 1fr));
   }
 }
 
 /* Added during refactoring */
-.group:hover .group-hover-text-primary-hover {
+.group:hover .group-hover-text-primary_hover {
   color: var(--primary-hover);
 }
 
-.hover-text-primary-hover:hover {
+.hover-text-primary_hover:hover {
   color: var(--primary-hover);
 }
 
@@ -752,7 +756,7 @@ img {
 }
 
 /* Added missing utilities */
-.w-1_3 {
+.w-one-third {
   width: 33.333333%;
 }
 
@@ -797,11 +801,11 @@ img {
 }
 
 @media (min-width: 768px) {
-  .md-text-xl {
+  .md_text-xl {
     font-size: 1.25rem;
   }
 
-  .md-text-3xl {
+  .md_text-3xl {
     font-size: 1.875rem;
   }
 }

@@ -29,14 +29,14 @@ export default function PostPage({ params }: PageProps) {
     return (
         <article className="container py-8 max-w-4xl mx-auto">
             <div className="mb-8">
-                <Link href={`/category/${post.category.slug}`} className="text-[var(--primary)] font-medium mb-4 inline-block hover:underline">
+                <Link href={`/category/${post.category.slug}`} className="text-primary font-medium mb-4 inline-block hover:underline">
                     {post.category.name}
                 </Link>
-                <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                <h1 className="text-4xl md_text-5xl font-bold mb-6 leading-tight">
                     {post.title}
                 </h1>
 
-                <div className="flex items-center gap-6 text-muted text-sm mb-8 border-b border-[var(--border-color)] pb-8">
+                <div className="flex items-center gap-6 text-muted text-sm mb-8 border-b pb-8">
 
 
                     <div className="flex items-center gap-2">
@@ -51,7 +51,7 @@ export default function PostPage({ params }: PageProps) {
                 </div>
             </div>
 
-            <div className="relative w-full h-[400px] mb-10 rounded-xl overflow-hidden">
+            <div className="relative w-full h-400 mb-10 rounded-xl overflow-hidden">
                 <img
                     src={post.coverImage}
                     alt={post.title}
@@ -68,7 +68,7 @@ export default function PostPage({ params }: PageProps) {
                 <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             </div>
 
-            <div className="border-t border-[var(--border-color)] pt-8">
+            <div className="border-t pt-8">
                 <h3 className="font-bold mb-4 flex items-center gap-2">
                     <TagIcon size={20} />
                     Tags

@@ -81,7 +81,7 @@ export default function LatestPosts({ posts }: LatestPostsProps) {
                 </h2>
             </div>
 
-            <div className="grid grid-cols-1 md-grid-cols-2 lg-grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md_grid-cols-2 lg_grid-cols-3 gap-6">
                 {displayedPosts.map((post) => (
                     <PostCard key={post.id} post={post} />
                 ))}
