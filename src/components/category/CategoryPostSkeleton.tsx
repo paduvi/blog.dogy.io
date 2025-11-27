@@ -6,14 +6,14 @@ export default function CategoryPostSkeleton() {
                 <div>
                     {/* Title skeleton - 2 lines */}
                     <div className="mb-3">
-                        <div className="skeleton-title shimmer" style={{ height: '2rem' }}></div>
-                        <div className="skeleton-title-short shimmer" style={{ height: '2rem', width: '70%' }}></div>
+                        <div className="skeleton-title shimmer h-8"></div>
+                        <div className="skeleton-title-short shimmer h-8 w-3-4"></div>
                     </div>
 
                     {/* Excerpt skeleton - 2 lines */}
                     <div className="mb-4">
                         <div className="skeleton-excerpt shimmer"></div>
-                        <div className="skeleton-excerpt shimmer" style={{ width: '85%' }}></div>
+                        <div className="skeleton-excerpt shimmer w-4-5"></div>
                     </div>
                 </div>
 
@@ -21,13 +21,13 @@ export default function CategoryPostSkeleton() {
                 <div className="flex items-center gap-4">
                     {/* Date */}
                     <div className="flex items-center gap-2">
-                        <div className="skeleton-category shimmer" style={{ width: '14px', height: '14px', marginBottom: 0 }}></div>
-                        <div className="skeleton-text shimmer" style={{ width: '100px', height: '14px' }}></div>
+                        <div className="skeleton-category shimmer w-4 h-4"></div>
+                        <div className="skeleton-text shimmer w-24 h-4"></div>
                     </div>
                     {/* Read time */}
                     <div className="flex items-center gap-2">
-                        <div className="skeleton-category shimmer" style={{ width: '14px', height: '14px', marginBottom: 0 }}></div>
-                        <div className="skeleton-text shimmer" style={{ width: '60px', height: '14px' }}></div>
+                        <div className="skeleton-category shimmer w-4 h-4"></div>
+                        <div className="skeleton-text shimmer w-16 h-4"></div>
                     </div>
                 </div>
             </div>

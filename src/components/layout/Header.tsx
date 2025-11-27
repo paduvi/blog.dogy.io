@@ -79,7 +79,7 @@ export default function Header() {
                 </div>
 
                 <div className="flex items-center gap-2 md_gap-4">
-                    <form onSubmit={handleSearch} className="hidden md_flex items-center bg-gray-100 rounded-full px-4 w-64" style={{ height: '40px' }}>
+                    <form onSubmit={handleSearch} className="hidden md_flex items-center bg-gray-100 rounded-full px-4 w-64 h-10">
                         <Search size={18} className="text-gray-500 mr-2" />
                         <input
                             type="text"
@@ -131,7 +131,7 @@ export default function Header() {
                         {isMobileSearchOpen ? <X size={18} /> : <Search size={18} />}
                     </button>
 
-                    <button className="hidden cursor-pointer md_flex items-center gap-2 px-4 bg-primary text-white text-sm font-medium rounded-full hover-bg-primary-hover hover-scale-105 transition-all" style={{ height: '40px' }}>
+                    <button className="hidden cursor-pointer md_flex items-center gap-2 px-4 bg-primary text-white text-sm font-medium rounded-full hover-bg-primary-hover hover-scale-105 transition-all h-10">
                         <Bell size={16} />
                         Subscribe
                     </button>

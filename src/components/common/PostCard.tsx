@@ -10,11 +10,11 @@ interface PostCardProps {
 export default function PostCard({ post, compact = false }: PostCardProps) {
     return (
         <div className={`card group flex ${compact ? 'flex-row h-32' : 'flex-col'}`}>
-            <div className={`relative ${compact ? 'w-one-third overflow-hidden' : 'w-full h-48 overflow-hidden'}`}>
+            <div className={`relative ${compact ? 'w-1-3 overflow-hidden' : 'w-full h-48 overflow-hidden'}`}>
                 <img
                     src={post.coverImage}
                     alt={post.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover-scale_115"
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover-scale-115"
                 />
             </div>
 

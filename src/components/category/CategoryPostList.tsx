@@ -8,23 +8,33 @@ import { Calendar, Clock } from 'lucide-react';
 
 interface CategoryPostListProps {
     posts: Post[];
+    sortOrder?: 'newest' | 'oldest';
 }
 
 const POSTS_PER_PAGE = 6;
 
-export default function CategoryPostList({ posts }: CategoryPostListProps) {
+export default function CategoryPostList({ posts, sortOrder = 'newest' }: CategoryPostListProps) {
+    const [sortedPosts, setSortedPosts] = useState<Post[]>([]);
     const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const observerTarget = useRef<HTMLDivElement>(null);
 
-    // Initialize with first page
+    // Initialize and sort posts
     useEffect(() => {
-        setDisplayedPosts(posts.slice(0, POSTS_PER_PAGE));
-        setHasMore(posts.length > POSTS_PER_PAGE);
+        // Sort posts according to sortOrder
+        const sorted = [...posts].sort((a, b) => {
+            const dateA = new Date(a.publishedAt).getTime();
+            const dateB = new Date(b.publishedAt).getTime();
+            return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+        });
+
+        setSortedPosts(sorted);
+        setDisplayedPosts(sorted.slice(0, POSTS_PER_PAGE));
+        setHasMore(sorted.length > POSTS_PER_PAGE);
         setPage(1);
-    }, [posts]);
+    }, [posts, sortOrder]);
 
     // Load more posts
     const loadMore = useCallback(() => {
@@ -37,19 +47,19 @@ export default function CategoryPostList({ posts }: CategoryPostListProps) {
             const nextPage = page + 1;
             const startIndex = page * POSTS_PER_PAGE;
             const endIndex = startIndex + POSTS_PER_PAGE;
-            const newPosts = posts.slice(startIndex, endIndex);
+            const newPosts = sortedPosts.slice(startIndex, endIndex);
 
             if (newPosts.length > 0) {
                 setDisplayedPosts(prev => [...prev, ...newPosts]);
                 setPage(nextPage);
-                setHasMore(endIndex < posts.length);
+                setHasMore(endIndex < sortedPosts.length);
             } else {
                 setHasMore(false);
             }
 
             setLoading(false);
         }, 800); // 800ms delay to show shimmer animation
-    }, [page, posts, loading, hasMore]);
+    }, [page, sortedPosts, loading, hasMore]);
 
     // Intersection Observer for infinite scroll
     useEffect(() => {
@@ -81,7 +91,7 @@ export default function CategoryPostList({ posts }: CategoryPostListProps) {
                     <Link
                         key={post.id}
                         href={`/post/${post.slug}`}
-                        className="group grid grid-cols-1 md_grid-cols-3 gap-6 pb-8 border-b hover-border-primary transition-colors"
+                        className="group grid grid-cols-1 md_grid-cols-3 gap-6 pb-8 border-b transition-colors"
                     >
                         {/* Left: Content */}
                         <div className="md_col-span-2 flex flex-col justify-between">

@@ -10,7 +10,7 @@ export default function PostCardSkeleton() {
             <div className="p-4 flex flex-col justify-between flex-1">
                 {/* Date skeleton */}
                 <div className="mb-2">
-                    <div className="skeleton-category" style={{ width: '120px', height: '14px' }}></div>
+                    <div className="skeleton-category w-32 h-4"></div>
                 </div>
 
                 {/* Title skeleton */}
@@ -29,14 +29,14 @@ export default function PostCardSkeleton() {
                 <div className="flex flex-col gap-3 mt-auto">
                     {/* Read time */}
                     <div className="flex items-center gap-2">
-                        <div className="skeleton-category" style={{ width: '14px', height: '14px', marginBottom: 0 }}></div>
-                        <div className="skeleton-text" style={{ width: '60px', height: '14px' }}></div>
+                        <div className="skeleton-category w-4 h-4"></div>
+                        <div className="skeleton-text w-16 h-4"></div>
                     </div>
 
                     {/* Tags */}
                     <div className="flex gap-2">
-                        <div className="skeleton-category" style={{ width: '80px', marginBottom: 0 }}></div>
-                        <div className="skeleton-category" style={{ width: '90px', marginBottom: 0 }}></div>
+                        <div className="skeleton-category w-20"></div>
+                        <div className="skeleton-category w-24"></div>
                     </div>
                 </div>
             </div>

@@ -2,6 +2,7 @@ import { posts } from '@/data/mockData';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Calendar, Clock, Tag as TagIcon } from 'lucide-react';
+import SeriesSection from '@/components/post/SeriesSection';
 
 interface PageProps {
     params: Promise<{
@@ -31,9 +32,11 @@ export default async function PostPage({ params }: PageProps) {
     return (
         <article className="container py-8 max-w-4xl mx-auto">
             <div className="mb-8">
-                <Link href={`/category/${post.category.slug}`} className="text-primary font-medium mb-4 inline-block hover-underline">
-                    {post.category.name}
-                </Link>
+                {post.category && (
+                    <Link href={`/category/${post.category.slug}`} className="text-primary font-medium mb-4 inline-block hover-underline">
+                        {post.category.name}
+                    </Link>
+                )}
                 <h1 className="text-4xl md_text-5xl font-bold mb-6 leading-tight">
                     {post.title}
                 </h1>
@@ -87,6 +90,14 @@ export default async function PostPage({ params }: PageProps) {
                     ))}
                 </div>
             </div>
+
+            {post.category && (
+                <SeriesSection
+                    categorySlug={post.category.slug}
+                    categoryName={post.category.name}
+                    currentPostSlug={post.slug}
+                />
+            )}
         </article>
     );
 }

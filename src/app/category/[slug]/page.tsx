@@ -34,13 +34,6 @@ export default async function CategoryPage({ params }: PageProps) {
 
     let categoryPosts = posts.filter((post) => post.category.slug === slug);
 
-    // Default sort by newest
-    categoryPosts.sort((a, b) => {
-        const dateA = new Date(a.publishedAt).getTime();
-        const dateB = new Date(b.publishedAt).getTime();
-        return dateB - dateA;
-    });
-
     return (
         <div className="container py-8">
             {/* Header Section - Two Column Layout */}
@@ -75,7 +68,7 @@ export default async function CategoryPage({ params }: PageProps) {
             <div className="grid grid-cols-1 lg_grid-cols-12 gap-8">
                 {/* Main Content */}
                 <div className="lg_col-span-8">
-                    <CategoryPostList posts={categoryPosts} />
+                    <CategoryPostList posts={categoryPosts} sortOrder={category.sortOrder} />
                 </div>
 
                 {/* Sidebar */}
