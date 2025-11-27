@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { posts, categories } from '@/data/mockData';
 import Link from 'next/link';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Calendar, Clock } from 'lucide-react';
 import type { Post } from '@/data/mockData';
 
 interface SeriesSectionProps {
@@ -160,7 +160,7 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
                             >
                                 {/* Post Number */}
                                 <div className="flex-shrink-0">
-                                    <div className={`w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs ${isCurrentPost
+                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${isCurrentPost
                                         ? 'bg-primary text-white'
                                         : 'bg-gray-200 text-gray-600 group-hover-bg-gray-300 transition-colors'
                                         }`}>
@@ -170,16 +170,32 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
 
                                 {/* Post Content */}
                                 <div className="flex-grow min-w-0">
-                                    <h4 className={`font-bold mb-1 text-base leading-tight ${isCurrentPost ? 'text-primary' : 'text-gray-900 group-hover-text-primary transition-colors'
+                                    <h4 className={`font-bold mb-3 text-xl leading-tight ${isCurrentPost ? 'text-primary' : 'text-gray-900 group-hover-text-primary transition-colors'
                                         }`}>
                                         {post.title}
                                     </h4>
-                                    <p className="text-xs text-muted line-clamp-2 leading-relaxed">{post.excerpt}</p>
+                                    <p className="text-base text-muted line-clamp-2 leading-relaxed mb-4">{post.excerpt}</p>
+
+                                    {/* Post Metadata */}
+                                    <div className="flex items-center gap-4 text-sm text-muted">
+                                        <span className="flex items-center gap-2">
+                                            <Calendar size={14} />
+                                            {new Date(post.publishedAt).toLocaleDateString('en-US', {
+                                                year: 'numeric',
+                                                month: 'short',
+                                                day: 'numeric'
+                                            })}
+                                        </span>
+                                        <span className="flex items-center gap-2">
+                                            <Clock size={14} />
+                                            {post.readTime}
+                                        </span>
+                                    </div>
                                 </div>
 
                                 {/* Post Image */}
                                 <div className="flex-shrink-0">
-                                    <div className="w-24 h-16 md_w-32 md_h-20 rounded-lg overflow-hidden bg-gray-100 border">
+                                    <div className="w-64 h-48 rounded-lg overflow-hidden bg-gray-100 border">
                                         <img
                                             src={post.coverImage}
                                             alt={post.title}
