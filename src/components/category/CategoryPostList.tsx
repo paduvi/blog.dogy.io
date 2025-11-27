@@ -1,7 +1,7 @@
 "use client";
 
 import { Post } from '@/data/mockData';
-import PostCardSkeleton from '@/components/common/PostCardSkeleton';
+import CategoryPostSkeleton from '@/components/category/CategoryPostSkeleton';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { Calendar, Clock } from 'lucide-react';
@@ -119,8 +119,8 @@ export default function CategoryPostList({ posts }: CategoryPostListProps) {
                 {/* Show skeleton loaders while loading */}
                 {loading && (
                     <>
-                        <PostCardSkeleton />
-                        <PostCardSkeleton />
+                        <CategoryPostSkeleton />
+                        <CategoryPostSkeleton />
                     </>
                 )}
             </div>
