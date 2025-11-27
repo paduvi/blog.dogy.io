@@ -4,13 +4,14 @@ import Link from 'next/link';
 import { Calendar, Clock, Tag as TagIcon } from 'lucide-react';
 
 interface PageProps {
-    params: {
+    params: Promise<{
         slug: string;
-    };
+    }>;
 }
 
 export async function generateMetadata({ params }: PageProps) {
-    const post = posts.find((p) => p.slug === params.slug);
+    const { slug } = await params;
+    const post = posts.find((p) => p.slug === slug);
     if (!post) return { title: 'Post Not Found' };
 
     return {
@@ -19,8 +20,9 @@ export async function generateMetadata({ params }: PageProps) {
     };
 }
 
-export default function PostPage({ params }: PageProps) {
-    const post = posts.find((p) => p.slug === params.slug);
+export default async function PostPage({ params }: PageProps) {
+    const { slug } = await params;
+    const post = posts.find((p) => p.slug === slug);
 
     if (!post) {
         notFound();
@@ -29,7 +31,7 @@ export default function PostPage({ params }: PageProps) {
     return (
         <article className="container py-8 max-w-4xl mx-auto">
             <div className="mb-8">
-                <Link href={`/category/${post.category.slug}`} className="text-primary font-medium mb-4 inline-block hover:underline">
+                <Link href={`/category/${post.category.slug}`} className="text-primary font-medium mb-4 inline-block hover-underline">
                     {post.category.name}
                 </Link>
                 <h1 className="text-4xl md_text-5xl font-bold mb-6 leading-tight">
@@ -78,7 +80,7 @@ export default function PostPage({ params }: PageProps) {
                         <Link
                             key={tag.id}
                             href={`/tag/${tag.slug}`}
-                            className="px-4 py-2 bg-gray-100 rounded-full text-sm hover:bg-gray-200 transition-colors"
+                            className="px-4 py-2 bg-gray-100 rounded-full text-sm hover-bg-gray-200 transition-colors"
                         >
                             #{tag.name}
                         </Link>

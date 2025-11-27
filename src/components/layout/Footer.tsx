@@ -4,7 +4,7 @@ export default function Footer() {
     return (
         <footer className="bg-white border-t mt-12 py-8">
             <div className="container">
-                <div className="flex flex-col md-flex-row justify-between items-center gap-4">
+                <div className="flex flex-row md_flex-row justify-between items-center gap-4">
                     <div className="flex items-center gap-2">
                         <div className="w-6 h-6 bg-primary rounded flex items-center justify-center text-white font-bold text-sm">
                             D
@@ -14,10 +14,10 @@ export default function Footer() {
                     </div>
 
                     <div className="flex gap-6 text-sm text-muted">
-                        {/* <Link href="/about" className="hover-text-main">About</Link>
-                        <Link href="/privacy" className="hover-text-main">Privacy</Link>
-                        <Link href="/terms" className="hover-text-main">Terms</Link>
-                        <Link href="/contact" className="hover-text-main">Contact</Link> */}
+                        <Link href="https://hashnode.com/privacy?source=blog-footer" target="_blank"
+                            rel="noopener noreferrer" className="hover-text-main">Privacy Policy</Link>
+                        <Link href="https://hashnode.com/terms?source=blog-footer" target="_blank"
+                            rel="noopener noreferrer" className="hover-text-main">Terms</Link>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 import PinnedPosts from '@/components/home/PinnedPosts';
 import LatestPosts from '@/components/home/LatestPosts';
-import TagCloud from '@/components/home/TagCloud';
+import TagCloud from '@/components/common/TagCloud';
 import BuyMeACoffee from '@/components/common/BuyMeACoffee';
 import { posts, tags } from '@/data/mockData';
 

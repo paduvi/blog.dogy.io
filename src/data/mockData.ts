@@ -8,6 +8,7 @@ export interface Category {
     id: string;
     name: string;
     slug: string;
+    coverImage?: string;
 }
 
 export interface Tag {
@@ -39,10 +40,30 @@ export interface Post {
 }
 
 export const categories: Category[] = [
-    { id: '1', name: 'Development', slug: 'development' },
-    { id: '2', name: 'Design', slug: 'design' },
-    { id: '3', name: 'Productivity', slug: 'productivity' },
-    { id: '4', name: 'AI', slug: 'ai' },
+    {
+        id: '1',
+        name: 'Development',
+        slug: 'development',
+        coverImage: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=2072'
+    },
+    {
+        id: '2',
+        name: 'Design',
+        slug: 'design',
+        coverImage: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=2000'
+    },
+    {
+        id: '3',
+        name: 'Productivity',
+        slug: 'productivity',
+        coverImage: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&q=80&w=2072'
+    },
+    {
+        id: '4',
+        name: 'AI',
+        slug: 'ai',
+        coverImage: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=2070'
+    },
 ];
 
 export const categoryGroups: CategoryGroup[] = [

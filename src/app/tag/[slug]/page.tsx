@@ -3,13 +3,14 @@ import PostCard from '@/components/common/PostCard';
 import { notFound } from 'next/navigation';
 
 interface PageProps {
-    params: {
+    params: Promise<{
         slug: string;
-    };
+    }>;
 }
 
 export async function generateMetadata({ params }: PageProps) {
-    const tag = tags.find((t) => t.slug === params.slug);
+    const { slug } = await params;
+    const tag = tags.find((t) => t.slug === slug);
     if (!tag) return { title: 'Tag Not Found' };
 
     return {
@@ -18,14 +19,15 @@ export async function generateMetadata({ params }: PageProps) {
     };
 }
 
-export default function TagPage({ params }: PageProps) {
-    const tag = tags.find((t) => t.slug === params.slug);
+export default async function TagPage({ params }: PageProps) {
+    const { slug } = await params;
+    const tag = tags.find((t) => t.slug === slug);
 
     if (!tag) {
         notFound();
     }
 
-    const tagPosts = posts.filter((post) => post.tags.some((t) => t.slug === params.slug));
+    const tagPosts = posts.filter((post) => post.tags.some((t) => t.slug === slug));
 
     return (
         <div className="container py-8">
@@ -35,7 +37,7 @@ export default function TagPage({ params }: PageProps) {
                 <p className="text-muted">A collection of {tagPosts.length} posts</p>
             </div>
 
-            <div className="grid grid-cols-1 md_grid-cols-2 lg_grid_cols-3 gap-6">
+            <div className="grid grid-cols-1 md_grid-cols-2 lg_grid-cols-3 gap-6">
                 {tagPosts.map((post) => (
                     <PostCard key={post.id} post={post} />
                 ))}

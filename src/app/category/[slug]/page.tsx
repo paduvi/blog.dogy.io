@@ -1,15 +1,21 @@
-import { posts, categories } from '@/data/mockData';
-import PostCard from '@/components/common/PostCard';
+import { posts, categories, tags } from '@/data/mockData';
+import CategoryPostList from '@/components/category/CategoryPostList';
+import TagCloud from '@/components/common/TagCloud';
+import BuyMeACoffee from '@/components/common/BuyMeACoffee';
 import { notFound } from 'next/navigation';
 
 interface PageProps {
-    params: {
+    params: Promise<{
         slug: string;
-    };
+    }>;
+    searchParams: Promise<{
+        sort?: string;
+    }>;
 }
 
 export async function generateMetadata({ params }: PageProps) {
-    const category = categories.find((c) => c.slug === params.slug);
+    const { slug } = await params;
+    const category = categories.find((c) => c.slug === slug);
     if (!category) return { title: 'Category Not Found' };
 
     return {
@@ -18,34 +24,68 @@ export async function generateMetadata({ params }: PageProps) {
     };
 }
 
-export default function CategoryPage({ params }: PageProps) {
-    const category = categories.find((c) => c.slug === params.slug);
+export default async function CategoryPage({ params }: PageProps) {
+    const { slug } = await params;
+    const category = categories.find((c) => c.slug === slug);
 
     if (!category) {
         notFound();
     }
 
-    const categoryPosts = posts.filter((post) => post.category.slug === params.slug);
+    let categoryPosts = posts.filter((post) => post.category.slug === slug);
+
+    // Default sort by newest
+    categoryPosts.sort((a, b) => {
+        const dateA = new Date(a.publishedAt).getTime();
+        const dateB = new Date(b.publishedAt).getTime();
+        return dateB - dateA;
+    });
 
     return (
         <div className="container py-8">
-            <div className="mb-8 text-center py-12 bg-gray-50 rounded-xl border">
-                <span className="text-sm font-bold text-primary uppercase tracking-wider mb-2 block">Category</span>
-                <h1 className="text-4xl font-bold mb-4">{category.name}</h1>
-                <p className="text-muted">A collection of {categoryPosts.length} posts</p>
-            </div>
-
-            <div className="grid grid-cols-1 md-grid-cols-2 lg-grid-cols-3 gap-6">
-                {categoryPosts.map((post) => (
-                    <PostCard key={post.id} post={post} />
-                ))}
-            </div>
-
-            {categoryPosts.length === 0 && (
-                <div className="text-center py-12">
-                    <p className="text-muted">No posts found in this category.</p>
+            {/* Header Section - Two Column Layout */}
+            <div className="grid grid-cols-1 lg_grid-cols-2 gap-8 mb-12">
+                {/* Left: Category Info */}
+                <div className="flex flex-col justify-center">
+                    <span className="text-xs font-bold text-muted uppercase tracking-wider mb-3">SERIES</span>
+                    <h1 className="text-4xl md_text-5xl font-bold mb-4">{category.name}</h1>
+                    <p className="text-muted text-lg mb-6">
+                        In this series, I will cover most of famous and useful algorithms in the real world
+                    </p>
                 </div>
-            )}
+
+                {/* Right: Cover Image */}
+                <div className="relative rounded-xl overflow-hidden bg-gray-900 aspect-video lg_aspect-auto lg_h-full min-h-300">
+                    {category.coverImage && (
+                        <img
+                            src={category.coverImage}
+                            alt={category.name}
+                            className="absolute inset-0 w-full h-full object-cover"
+                        />
+                    )}
+                </div>
+            </div>
+
+            {/* Articles Section */}
+            <div className="mb-8 pb-4 border-b">
+                <h2 className="text-xl font-semibold text-center">Articles in this series</h2>
+            </div>
+
+            {/* Posts List with Sidebar */}
+            <div className="grid grid-cols-1 lg_grid-cols-12 gap-8">
+                {/* Main Content */}
+                <div className="lg_col-span-8">
+                    <CategoryPostList posts={categoryPosts} />
+                </div>
+
+                {/* Sidebar */}
+                <aside className="lg_col-span-4">
+                    <div className="sticky top-24 flex flex-col gap-6">
+                        <TagCloud tags={tags} />
+                        <BuyMeACoffee />
+                    </div>
+                </aside>
+            </div>
         </div>
     );
 }
