@@ -1,6 +1,8 @@
 import { posts, tags } from '@/data/mockData';
 
 import InfinitePostGrid from '@/components/common/InfinitePostGrid';
+import TagCloud from '@/components/common/TagCloud';
+import BuyMeACoffee from '@/components/common/BuyMeACoffee';
 import { notFound } from 'next/navigation';
 
 interface PageProps {
@@ -38,13 +40,24 @@ export default async function TagPage({ params }: PageProps) {
                 <p className="text-muted">A collection of {tagPosts.length} posts</p>
             </div>
 
-            <InfinitePostGrid posts={tagPosts} />
+            <div className="grid grid-cols-1 lg_grid-cols-12 gap-8">
+                <div className="lg_col-span-8">
+                    <InfinitePostGrid posts={tagPosts} />
 
-            {tagPosts.length === 0 && (
-                <div className="text-center py-12">
-                    <p className="text-muted">No posts found with this tag.</p>
+                    {tagPosts.length === 0 && (
+                        <div className="text-center py-12">
+                            <p className="text-muted">No posts found with this tag.</p>
+                        </div>
+                    )}
                 </div>
-            )}
+
+                <aside className="lg_col-span-4">
+                    <div className="sticky top-24 flex flex-col gap-6">
+                        <TagCloud tags={tags} currentTagSlug={slug} />
+                        <BuyMeACoffee />
+                    </div>
+                </aside>
+            </div>
         </div>
     );
 }

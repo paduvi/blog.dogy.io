@@ -90,14 +90,7 @@ export default function Header() {
                         />
                     </form>
 
-                    <button
-                        onClick={toggleMobileSearch}
-                        className="md_hidden p-2 hover-bg-gray-100 rounded-full border-none"
-                    >
-                        {isMobileSearchOpen ? <X size={18} /> : <Search size={18} />}
-                    </button>
-
-                    <div className="relative group hidden md_flex items-center">
+                    <div className="relative group flex md_flex items-center">
                         <button
                             onClick={toggleLanguage}
                             className="language-toggle-pill bg-gray-100"
@@ -130,6 +123,13 @@ export default function Header() {
                             {language === 'VI' ? 'Switch to English' : 'Switch to Vietnamese'}
                         </span>
                     </div>
+
+                    <button
+                        onClick={toggleMobileSearch}
+                        className="md_hidden p-2 hover-bg-gray-100 rounded-full border-none"
+                    >
+                        {isMobileSearchOpen ? <X size={18} /> : <Search size={18} />}
+                    </button>
 
                     <button className="hidden cursor-pointer md_flex items-center gap-2 px-4 bg-primary text-white text-sm font-medium rounded-full hover-bg-primary-hover hover-scale-105 transition-all" style={{ height: '40px' }}>
                         <Bell size={16} />
