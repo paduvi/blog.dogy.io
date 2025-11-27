@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation';
 import { posts } from '@/data/mockData';
-import PostCard from '@/components/common/PostCard';
+import InfinitePostGrid from '@/components/common/InfinitePostGrid';
 import { Search } from 'lucide-react';
 import { Suspense } from 'react';
 
@@ -31,11 +31,7 @@ function SearchResults() {
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md_grid-cols-2 lg_grid-cols-3 gap-6">
-                {searchResults.map((post) => (
-                    <PostCard key={post.id} post={post} />
-                ))}
-            </div>
+            <InfinitePostGrid posts={searchResults} />
 
             {searchResults.length === 0 && (
                 <div className="text-center py-20 bg-gray-50 rounded-xl border border-dashed border-gray-300">

@@ -79,7 +79,7 @@ export default function Header() {
                 </div>
 
                 <div className="flex items-center gap-2 md_gap-4">
-                    <form onSubmit={handleSearch} className="hidden md_flex items-center bg-gray-100 rounded-full px-4 py-2 w-64">
+                    <form onSubmit={handleSearch} className="hidden md_flex items-center bg-gray-100 rounded-full px-4 w-64" style={{ height: '40px' }}>
                         <Search size={18} className="text-gray-500 mr-2" />
                         <input
                             type="text"
@@ -100,7 +100,7 @@ export default function Header() {
                     <div className="relative group hidden md_flex items-center">
                         <button
                             onClick={toggleLanguage}
-                            className="language-toggle-pill"
+                            className="language-toggle-pill bg-gray-100"
                         >
                             {language === 'EN' ? (
                                 <>
@@ -131,7 +131,7 @@ export default function Header() {
                         </span>
                     </div>
 
-                    <button className="hidden cursor-pointer md_flex items-center gap-2 px-4 py-2 bg-primary text-white text-sm font-medium rounded-full hover-bg-primary-hover hover-scale-105 transition-all">
+                    <button className="hidden cursor-pointer md_flex items-center gap-2 px-4 bg-primary text-white text-sm font-medium rounded-full hover-bg-primary-hover hover-scale-105 transition-all" style={{ height: '40px' }}>
                         <Bell size={16} />
                         Subscribe
                     </button>

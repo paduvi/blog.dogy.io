@@ -26,7 +26,7 @@ export default function PostCard({ post, compact = false }: PostCardProps) {
                 </div>
 
                 <Link href={`/post/${post.slug}`} className="static">
-                    <h3 className={`font-bold group-hover-text-primary_hover hover-text-primary_hover cursor-pointer transition-colors mb-2 ${compact ? 'text-sm line-clamp-2' : 'text-xl'}`}>
+                    <h3 className={`font-bold group-hover-text-primary cursor-pointer transition-colors mb-2 ${compact ? 'text-sm line-clamp-2' : 'text-xl'}`}>
                         {post.title}
                     </h3>
                 </Link>
