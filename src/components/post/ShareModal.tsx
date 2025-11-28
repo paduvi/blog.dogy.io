@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLinkedin, faTwitter, faFacebook, faReddit, faHackerNews } from '@fortawesome/free-brands-svg-icons';
+import { faLinkedin, faXTwitter, faFacebook, faReddit, faHackerNews } from '@fortawesome/free-brands-svg-icons';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 
 interface ShareModalProps {
@@ -27,7 +27,7 @@ export default function ShareModal({ isOpen, onClose, postTitle, postUrl }: Shar
     const shareLinks = [
         {
             name: 'Twitter',
-            icon: faTwitter,
+            icon: faXTwitter,
             url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(postTitle)}&url=${encodeURIComponent(postUrl)}`
         },
         {
