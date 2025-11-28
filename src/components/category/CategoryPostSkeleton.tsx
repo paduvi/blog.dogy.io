@@ -1,8 +1,8 @@
 export default function CategoryPostSkeleton() {
     return (
-        <div className="grid grid-cols-1 md_grid-cols-3 gap-6 pb-8 border-b">
+        <div className="grid grid-cols-1 md-grid-cols-3 gap-6 pb-8 border-b">
             {/* Left: Content - 2 columns on medium screens */}
-            <div className="md_col-span-2 flex flex-col justify-between">
+            <div className="md-col-span-2 flex flex-col justify-between">
                 <div>
                     {/* Title skeleton - 2 lines */}
                     <div className="mb-3">
@@ -33,7 +33,7 @@ export default function CategoryPostSkeleton() {
             </div>
 
             {/* Right: Image - 1 column on medium screens */}
-            <div className="relative aspect-video md_aspect-square rounded-lg overflow-hidden">
+            <div className="relative aspect-video md-aspect-square rounded-lg overflow-hidden">
                 <div className="skeleton-image shimmer"></div>
             </div>
         </div>

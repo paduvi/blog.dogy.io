@@ -22,15 +22,9 @@ export default function TocModal({ isOpen, onClose }: TocModalProps) {
 
     return (
         <>
-            {/* Backdrop */}
-            <div
-                className="fixed inset-0 bg-black-50 z-50 transition-opacity"
-                onClick={onClose}
-            />
-
             {/* Modal Panel */}
             <div
-                className="fixed top-1_2 left-1_2 transform translate-neg-1_2 w-full max-w-md bg-white z-50 shadow-2xl rounded-xl overflow-hidden"
+                className="fixed top-1-2 left-1-2 transform translate-neg-1-2 w-full max-w-md bg-white z-50 shadow-2xl rounded-xl overflow-hidden"
             >
                 <div className="flex flex-col max-h-screen-80">
                     {/* Header */}
@@ -38,7 +32,7 @@ export default function TocModal({ isOpen, onClose }: TocModalProps) {
                         <h3 className="font-bold text-lg">Table of Contents</h3>
                         <button
                             onClick={onClose}
-                            className="p-2 hover-bg-gray-200 rounded-full transition-colors"
+                            className="p-2 hover-bg-gray-200 rounded-full btn-transparent cursor-pointer"
                         >
                             <X size={20} className="text-gray-600" />
                         </button>

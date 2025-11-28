@@ -5,7 +5,6 @@ import FloatingToolbar from './FloatingToolbar';
 import CommentsModal from './CommentsModal';
 import TocModal from './TocModal';
 import SponsorModal from './SponsorModal';
-import ShareModal from './ShareModal';
 
 interface PostActionsProps {
     postSlug: string;
@@ -24,6 +23,10 @@ export default function PostActions({ postSlug, postTitle }: PostActionsProps) {
                 onTocClick={() => setActiveModal('toc')}
                 onSponsorClick={() => setActiveModal('sponsor')}
                 onShareClick={() => setActiveModal('share')}
+                shareOpen={activeModal === 'share'}
+                onShareClose={() => setActiveModal(null)}
+                postTitle={postTitle}
+                postUrl={postUrl}
             />
 
             <CommentsModal
@@ -43,12 +46,12 @@ export default function PostActions({ postSlug, postTitle }: PostActionsProps) {
                 onClose={() => setActiveModal(null)}
             />
 
-            <ShareModal
-                isOpen={activeModal === 'share'}
-                onClose={() => setActiveModal(null)}
-                postTitle={postTitle}
-                postUrl={postUrl}
-            />
+            {activeModal && (
+                <div
+                    className="fixed inset-0 bg-black-50 z-40 transition-opacity"
+                    onClick={() => setActiveModal(null)}
+                />
+            )}
         </>
     );
 }

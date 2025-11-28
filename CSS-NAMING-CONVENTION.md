@@ -8,14 +8,14 @@ This project uses a custom CSS utility class system with a strict naming convent
 ### 1. Allowed Characters
 - **Lowercase letters**: a-z
 - **Numbers**: 0-9
-- **Hyphens**: `-` (for word separation)
-- **Underscores**: `_` (for responsive prefixes)
+- **Hyphens**: `-` (for all separations)
 
 ### 2. Forbidden Characters
 - ❌ Colons `:` (no Tailwind-style pseudo-classes)
 - ❌ Slashes `/` (no Tailwind-style opacity syntax)
 - ❌ Brackets `[]` (no arbitrary values)
 - ❌ Parentheses `()`
+- ❌ Underscores `_` (replaced with hyphens)
 - ❌ Special characters
 
 ## Class Naming Patterns
@@ -31,16 +31,16 @@ Use hyphens to separate words:
 ```
 
 ### Responsive Prefixes
-Use underscores for responsive breakpoint prefixes:
+Use hyphens for responsive breakpoint prefixes:
 ```css
-.md_block          /* Medium screens and up */
-.lg_grid-cols-3    /* Large screens and up */
-.md_text-xl        /* Medium screens text size */
+.md-block          /* Medium screens and up */
+.lg-grid-cols-3    /* Large screens and up */
+.md-text-xl        /* Medium screens text size */
 ```
 
 **Breakpoints:**
-- `md_` - min-width: 768px
-- `lg_` - min-width: 1024px
+- `md-` - min-width: 768px
+- `lg-` - min-width: 1024px
 
 ### Hover States
 Use `hover-` prefix for hover states:
@@ -77,16 +77,16 @@ Use `focus-` prefix for focus states:
 ### Layout
 ```tsx
 <div className="container py-8">
-  <div className="grid grid-cols-1 lg_grid-cols-12 gap-8">
-    <div className="lg_col-span-8">Main content</div>
-    <aside className="lg_col-span-4">Sidebar</aside>
+  <div className="grid grid-cols-1 lg-grid-cols-12 gap-8">
+    <div className="lg-col-span-8">Main content</div>
+    <aside className="lg-col-span-4">Sidebar</aside>
   </div>
 </div>
 ```
 
 ### Responsive Typography
 ```tsx
-<h1 className="text-4xl md_text-5xl font-bold">
+<h1 className="text-4xl md-text-5xl font-bold">
   Responsive Heading
 </h1>
 ```
@@ -113,10 +113,10 @@ If you see Tailwind-style syntax, convert it as follows:
 ### Responsive Classes
 ```diff
 - lg:grid-cols-2
-+ lg_grid-cols-2
++ lg-grid-cols-2
 
 - md:text-5xl
-+ md_text-5xl
++ md-text-5xl
 ```
 
 ### Hover States
@@ -160,7 +160,7 @@ If you see Tailwind-style syntax, convert it as follows:
 When you need a new utility class:
 
 1. **Check if it exists** in `src/app/globals.css`
-2. **Follow the naming convention** (alphanumeric + hyphens + underscores)
+2. **Follow the naming convention** (alphanumeric + hyphens only)
 3. **Add to the appropriate section** in globals.css
 4. **Use semantic names** that describe the purpose
 
@@ -171,7 +171,7 @@ Example:
   border-color: var(--primary);
 }
 
-.lg_aspect-auto {
+.lg-aspect-auto {
   aspect-ratio: auto;
 }
 ```

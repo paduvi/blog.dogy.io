@@ -13,15 +13,9 @@ export default function SponsorModal({ isOpen, onClose }: SponsorModalProps) {
 
     return (
         <>
-            {/* Backdrop */}
-            <div
-                className="fixed inset-0 bg-black-50 z-50 transition-opacity"
-                onClick={onClose}
-            />
-
             {/* Modal Panel */}
             <div
-                className="fixed top-1_2 left-1_2 transform translate-neg-1_2 w-full max-w-md bg-white z-50 shadow-2xl rounded-xl overflow-hidden relative"
+                className="fixed top-1-2 left-1-2 transform translate-neg-1-2 w-full max-w-md bg-white z-50 shadow-2xl rounded-xl overflow-hidden relative"
             >
                 <button
                     onClick={onClose}

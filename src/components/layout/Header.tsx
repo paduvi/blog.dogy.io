@@ -34,13 +34,13 @@ export default function Header() {
     };
 
     return (
-        <header className="sticky top-0 z-50 bg-white border-b">
+        <header className="sticky top-0 z-30 bg-white border-b">
             <div className="container h-16 flex items-center justify-between">
                 <div className="flex items-center gap-8">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={toggleMobileMenu}
-                            className="md_hidden p-2 rounded-full btn-transparent"
+                            className="md-hidden p-2 rounded-full btn-transparent"
                         >
                             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>
@@ -48,11 +48,11 @@ export default function Header() {
                             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-xl">
                                 D
                             </div>
-                            <span className="font-bold text-xl hidden md_block">Dogy.io</span>
+                            <span className="font-bold text-xl hidden md-block">Dogy.io</span>
                         </Link>
                     </div>
 
-                    <nav className="hidden md_flex items-center gap-6">
+                    <nav className="hidden md-flex items-center gap-6">
                         {categoryGroups.map((group) => (
                             <div key={group.id} className="relative group h-16 flex items-center">
                                 <button className="flex items-center gap-1 font-medium text-sm text-muted hover-text-main transition-colors btn-transparent">
@@ -78,8 +78,8 @@ export default function Header() {
                     </nav>
                 </div>
 
-                <div className="flex items-center gap-2 md_gap-4">
-                    <form onSubmit={handleSearch} className="hidden md_flex items-center bg-gray-100 rounded-full px-4 w-64 h-10">
+                <div className="flex items-center gap-2 md-gap-4">
+                    <form onSubmit={handleSearch} className="hidden md-flex items-center bg-gray-100 rounded-full px-4 w-64 h-10">
                         <Search size={18} className="text-gray-500 mr-2" />
                         <input
                             type="text"
@@ -90,7 +90,7 @@ export default function Header() {
                         />
                     </form>
 
-                    <div className="relative group flex md_flex items-center">
+                    <div className="relative group flex md-flex items-center">
                         <button
                             onClick={toggleLanguage}
                             className="language-toggle-pill bg-gray-100"
@@ -126,12 +126,12 @@ export default function Header() {
 
                     <button
                         onClick={toggleMobileSearch}
-                        className="md_hidden p-2 hover-bg-gray-100 rounded-full border-none"
+                        className="md-hidden p-2 hover-bg-gray-100 rounded-full border-none"
                     >
                         {isMobileSearchOpen ? <X size={18} /> : <Search size={18} />}
                     </button>
 
-                    <button className="hidden cursor-pointer md_flex items-center gap-2 px-4 bg-primary text-white text-sm font-medium rounded-full hover-bg-primary-hover hover-scale-105 transition-all h-10">
+                    <button className="hidden cursor-pointer md-flex items-center gap-2 px-4 bg-primary text-white text-sm font-medium rounded-full hover-bg-primary-hover hover-scale-105 transition-all h-10">
                         <Bell size={16} />
                         Subscribe
                     </button>
@@ -140,7 +140,7 @@ export default function Header() {
 
             {/* Mobile Search Overlay */}
             {isMobileSearchOpen && (
-                <div className="md_hidden bg-white border-t p-4">
+                <div className="md-hidden bg-white border-t p-4">
                     <form onSubmit={handleSearch} className="flex items-center bg-gray-100 rounded-full px-4 py-2">
                         <Search size={18} className="text-gray-500 mr-2" />
                         <input
@@ -157,7 +157,7 @@ export default function Header() {
 
             {/* Mobile Menu Drawer */}
             {isMobileMenuOpen && (
-                <div className="md_hidden bg-white border-t">
+                <div className="md-hidden bg-white border-t">
                     <nav className="p-4">
                         {categoryGroups.map((group) => (
                             <div key={group.id} className="mb-4">

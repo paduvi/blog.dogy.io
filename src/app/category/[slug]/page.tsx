@@ -37,18 +37,18 @@ export default async function CategoryPage({ params }: PageProps) {
     return (
         <div className="container py-8">
             {/* Header Section - Two Column Layout */}
-            <div className="grid grid-cols-1 lg_grid-cols-2 gap-8 mb-12">
+            <div className="grid grid-cols-1 lg-grid-cols-2 gap-8 mb-12">
                 {/* Left: Category Info */}
                 <div className="flex flex-col justify-center">
                     <span className="text-xs font-bold text-muted uppercase tracking-wider mb-3">SERIES</span>
-                    <h1 className="text-4xl md_text-5xl font-bold mb-4">{category.name}</h1>
+                    <h1 className="text-4xl md-text-5xl font-bold mb-4">{category.name}</h1>
                     <p className="text-muted text-lg mb-6">
                         In this series, I will cover most of famous and useful algorithms in the real world
                     </p>
                 </div>
 
                 {/* Right: Cover Image */}
-                <div className="relative rounded-xl overflow-hidden bg-gray-900 aspect-video lg_aspect-auto lg_h-full min-h-300">
+                <div className="relative rounded-xl overflow-hidden bg-gray-900 aspect-video lg-aspect-auto lg-h-full min-h-300">
                     {category.coverImage && (
                         <img
                             src={category.coverImage}
@@ -65,14 +65,14 @@ export default async function CategoryPage({ params }: PageProps) {
             </div>
 
             {/* Posts List with Sidebar */}
-            <div className="grid grid-cols-1 lg_grid-cols-12 gap-8">
+            <div className="grid grid-cols-1 lg-grid-cols-12 gap-8">
                 {/* Main Content */}
-                <div className="lg_col-span-8">
+                <div className="lg-col-span-8">
                     <CategoryPostList posts={categoryPosts} sortOrder={category.sortOrder} />
                 </div>
 
                 {/* Sidebar */}
-                <aside className="lg_col-span-4">
+                <aside className="lg-col-span-4">
                     <div className="sticky top-24 flex flex-col gap-6">
                         <BuyMeACoffee />
                         <TagCloud tags={tags} />

@@ -39,7 +39,7 @@ export default async function PostPage({ params }: PageProps) {
                         {post.category.name}
                     </Link>
                 )}
-                <h1 className="text-4xl md_text-5xl font-bold mb-6 leading-tight">
+                <h1 className="text-4xl md-text-5xl font-bold mb-6 leading-tight">
                     {post.title}
                 </h1>
 
@@ -102,7 +102,7 @@ export default async function PostPage({ params }: PageProps) {
             )}
 
             <div className="mt-12">
-                <TagCloud tags={tags} />
+                <TagCloud tags={tags} fullHeight />
             </div>
 
             <PostActions postSlug={post.slug} postTitle={post.title} />

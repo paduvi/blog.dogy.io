@@ -20,12 +20,12 @@ export default function Home() {
     <div className="container py-8">
       <PinnedPosts posts={displayedPinnedPosts} />
 
-      <div className="grid grid-cols-1 lg_grid-cols-12 gap-8">
-        <div className="lg_col-span-8">
+      <div className="grid grid-cols-1 lg-grid-cols-12 gap-8">
+        <div className="lg-col-span-8">
           <LatestPosts posts={latestPosts} />
         </div>
 
-        <aside className="lg_col-span-4">
+        <aside className="lg-col-span-4">
           <div className="sticky top-24 flex flex-col gap-6">
             <BuyMeACoffee />
             <TagCloud tags={tags} />

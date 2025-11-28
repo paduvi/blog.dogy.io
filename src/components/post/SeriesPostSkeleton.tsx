@@ -11,11 +11,11 @@ export default function SeriesPostSkeleton() {
             {/* Content Skeleton */}
             <div className="flex-grow min-w-0">
                 {/* Title */}
-                <div className="h-6 bg-gray-200 rounded w-3_4 mb-3 shimmer"></div>
+                <div className="h-6 bg-gray-200 rounded w-3-4 mb-3 shimmer"></div>
 
                 {/* Excerpt */}
                 <div className="h-4 bg-gray-200 rounded w-full mb-2 shimmer"></div>
-                <div className="h-4 bg-gray-200 rounded w-2_3 mb-4 shimmer"></div>
+                <div className="h-4 bg-gray-200 rounded w-2-3 mb-4 shimmer"></div>
 
                 {/* Metadata */}
                 <div className="flex gap-4">

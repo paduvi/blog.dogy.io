@@ -1,7 +1,9 @@
 'use client';
 
-import { X, Twitter, Facebook, Linkedin, Link as LinkIcon } from 'lucide-react';
 import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLinkedin, faTwitter, faFacebook, faReddit, faHackerNews } from '@fortawesome/free-brands-svg-icons';
+import { faLink } from '@fortawesome/free-solid-svg-icons';
 
 interface ShareModalProps {
     isOpen: boolean;
@@ -15,7 +17,8 @@ export default function ShareModal({ isOpen, onClose, postTitle, postUrl }: Shar
 
     if (!isOpen) return null;
 
-    const handleCopyLink = () => {
+    const handleCopyLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
         navigator.clipboard.writeText(postUrl);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
@@ -24,75 +27,63 @@ export default function ShareModal({ isOpen, onClose, postTitle, postUrl }: Shar
     const shareLinks = [
         {
             name: 'Twitter',
-            icon: Twitter,
-            url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(postTitle)}&url=${encodeURIComponent(postUrl)}`,
-            color: 'bg-blue-400 hover-bg-blue-500'
+            icon: faTwitter,
+            url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(postTitle)}&url=${encodeURIComponent(postUrl)}`
         },
         {
             name: 'Facebook',
-            icon: Facebook,
-            url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`,
-            color: 'bg-blue-600 hover-bg-blue-700'
+            icon: faFacebook,
+            url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`
         },
         {
             name: 'LinkedIn',
-            icon: Linkedin,
-            url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`,
-            color: 'bg-blue-700 hover-bg-blue-800'
+            icon: faLinkedin,
+            url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`
+        },
+        {
+            name: 'Reddit',
+            icon: faReddit,
+            url: `https://www.reddit.com/submit?url=${encodeURIComponent(postUrl)}&title=${encodeURIComponent(postTitle)}`
+        },
+        {
+            name: 'Hacker News',
+            icon: faHackerNews,
+            url: `https://news.ycombinator.com/submitlink?u=${encodeURIComponent(postUrl)}&t=${encodeURIComponent(postTitle)}`
         }
     ];
 
     return (
         <>
-            {/* Backdrop */}
+            {/* Popover Panel */}
             <div
-                className="fixed inset-0 bg-black-50 z-50 transition-opacity"
-                onClick={onClose}
-            />
-
-            {/* Modal Panel */}
-            <div
-                className="fixed top-1_2 left-1_2 transform translate-neg-1_2 w-full max-w-md bg-white z-50 shadow-2xl rounded-xl overflow-hidden"
+                className="absolute bottom-16 right-0 transform translate-x-4 mb-4 w-48 bg-white z-50 shadow-xl rounded-xl overflow-hidden border border-gray-100"
             >
                 <div className="flex flex-col">
-                    {/* Header */}
-                    <div className="p-4 border-b flex items-center justify-between bg-gray-50">
-                        <h3 className="font-bold text-lg">Share This Post</h3>
-                        <button
-                            onClick={onClose}
-                            className="p-2 hover-bg-gray-200 rounded-full transition-colors"
-                        >
-                            <X size={20} className="text-gray-600" />
-                        </button>
-                    </div>
-
                     {/* Content */}
-                    <div className="p-6">
-                        <div className="space-y-3 mb-4">
+                    <div className="p-4">
+                        <div className="space-y-3">
                             {shareLinks.map((link) => (
                                 <a
                                     key={link.name}
                                     href={link.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className={`flex items-center gap-3 p-3 rounded-lg text-white transition-colors ${link.color}`}
+                                    className="flex items-center gap-2 p-2 text-gray-600 hover-bg-gray-200 transition-colors rounded-lg"
                                 >
-                                    <link.icon size={20} />
-                                    <span className="font-medium">Share on {link.name}</span>
+                                    <FontAwesomeIcon icon={link.icon} size='lg' />
+                                    <span className="font-medium">{link.name}</span>
                                 </a>
                             ))}
-                        </div>
-
-                        <div className="border-t pt-4">
-                            <button
+                            <a
+                                href={postUrl}
                                 onClick={handleCopyLink}
-                                className="w-full flex items-center gap-3 p-3 rounded-lg bg-gray-100 hover-bg-gray-200 transition-colors"
+                                className="flex items-center gap-2 p-2 text-gray-600 hover-bg-gray-200 transition-colors rounded-lg"
                             >
-                                <LinkIcon size={20} className="text-gray-600" />
-                                <span className="font-medium text-gray-700">
+                                <FontAwesomeIcon icon={faLink} size='lg' />
+                                <span className="font-medium">
                                     {copied ? 'Link Copied!' : 'Copy Link'}
                                 </span>
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>

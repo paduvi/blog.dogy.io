@@ -2,21 +2,27 @@
 
 import { useState, useEffect } from 'react';
 import { MessageSquare, List, Coffee, Share2 } from 'lucide-react';
+import ShareModal from './ShareModal';
 
 interface FloatingToolbarProps {
     onCommentClick: () => void;
     onTocClick: () => void;
     onSponsorClick: () => void;
     onShareClick: () => void;
+    shareOpen: boolean;
+    onShareClose: () => void;
+    postTitle: string;
+    postUrl: string;
 }
 
 interface ToolbarButtonProps {
     onClick: () => void;
     icon: React.ElementType;
     label: string;
+    children?: React.ReactNode;
 }
 
-function ToolbarButton({ onClick, icon: Icon, label }: ToolbarButtonProps) {
+function ToolbarButton({ onClick, icon: Icon, label, children }: ToolbarButtonProps) {
     return (
         <div className="relative group">
             <button
@@ -27,11 +33,12 @@ function ToolbarButton({ onClick, icon: Icon, label }: ToolbarButtonProps) {
                 <Icon size={20} />
             </button>
             {/* Custom Tooltip */}
-            <div className="absolute bottom-full left-1_2 transform translate-x-neg-1_2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover-opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+            <div className="absolute bottom-full left-1-2 transform translate-x-neg-1-2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover-opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
                 {label}
                 {/* Arrow */}
-                <div className="absolute top-full left-1_2 transform translate-x-neg-1_2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
+                <div className="absolute top-full left-1-2 transform translate-x-neg-1-2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
             </div>
+            {children}
         </div>
     );
 }
@@ -40,7 +47,11 @@ export default function FloatingToolbar({
     onCommentClick,
     onTocClick,
     onSponsorClick,
-    onShareClick
+    onShareClick,
+    shareOpen,
+    onShareClose,
+    postTitle,
+    postUrl
 }: FloatingToolbarProps) {
     const [isVisible, setIsVisible] = useState(false);
 
@@ -50,6 +61,7 @@ export default function FloatingToolbar({
             setIsVisible(window.scrollY > 100);
         };
 
+        handleScroll();
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
@@ -57,43 +69,52 @@ export default function FloatingToolbar({
     if (!isVisible) return null;
 
     return (
-        <div className="fixed bottom-8 left-1_2 transform translate-x-neg-1_2 z-40 flex items-center bg-white rounded-full shadow-2xl px-6 py-3 border border-gray-200">
-            {/* Comment */}
-            <ToolbarButton
-                onClick={onCommentClick}
-                icon={MessageSquare}
-                label="Comments"
-            />
+        <div className={`fixed bottom-8 left-1-2 transform translate-neg-1-2 w-full flex justify-center pointer-events-none ${shareOpen ? 'z-50' : 'z-40'}`}>
+            <div className="flex items-center gap-2 bg-white rounded-full shadow-2xl px-6 py-3 border border-gray-200 pointer-events-auto">
+                {/* Comment */}
+                <ToolbarButton
+                    onClick={onCommentClick}
+                    icon={MessageSquare}
+                    label="Comments"
+                />
 
-            {/* Divider */}
-            <div className="w-px h-5 bg-gray-200 mx-4"></div>
+                {/* Divider */}
+                <div className="w-px h-5 bg-gray-200 mx-4"></div>
 
-            {/* TOC */}
-            <ToolbarButton
-                onClick={onTocClick}
-                icon={List}
-                label="Table of Contents"
-            />
+                {/* TOC */}
+                <ToolbarButton
+                    onClick={onTocClick}
+                    icon={List}
+                    label="Table of Contents"
+                />
 
-            {/* Divider */}
-            <div className="w-px h-5 bg-gray-200 mx-4"></div>
+                {/* Divider */}
+                <div className="w-px h-5 bg-gray-200 mx-4"></div>
 
-            {/* Sponsor */}
-            <ToolbarButton
-                onClick={onSponsorClick}
-                icon={Coffee}
-                label="Sponsor"
-            />
+                {/* Sponsor */}
+                <ToolbarButton
+                    onClick={onSponsorClick}
+                    icon={Coffee}
+                    label="Sponsor"
+                />
 
-            {/* Divider */}
-            <div className="w-px h-5 bg-gray-200 mx-4"></div>
+                {/* Divider */}
+                <div className="w-px h-5 bg-gray-200 mx-4"></div>
 
-            {/* Share */}
-            <ToolbarButton
-                onClick={onShareClick}
-                icon={Share2}
-                label="Share"
-            />
+                {/* Share */}
+                <ToolbarButton
+                    onClick={shareOpen ? onShareClose : onShareClick}
+                    icon={Share2}
+                    label="Share this article"
+                >
+                    <ShareModal
+                        isOpen={shareOpen}
+                        onClose={onShareClose}
+                        postTitle={postTitle}
+                        postUrl={postUrl}
+                    />
+                </ToolbarButton>
+            </div>
         </div>
     );
 }
