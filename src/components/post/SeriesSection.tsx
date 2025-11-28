@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react';
 import { posts, categories } from '@/data/mockData';
 import Link from 'next/link';
 import { ChevronDown, Calendar, Clock } from 'lucide-react';
+import SeriesPostSkeleton from './SeriesPostSkeleton';
 import type { Post } from '@/data/mockData';
 
 interface SeriesSectionProps {
@@ -21,7 +22,11 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
     const [showPrevious, setShowPrevious] = useState(false);
+    const [isExpanding, setIsExpanding] = useState(false);
+
     const observerTarget = useRef<HTMLDivElement>(null);
+    const currentPostRef = useRef<HTMLAnchorElement>(null);
+    const previousOffsetRef = useRef<number>(0);
 
     // Initialize posts
     useEffect(() => {
@@ -53,6 +58,37 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
         // Reset showPrevious when changing posts
         setShowPrevious(false);
     }, [categorySlug, currentPostSlug]);
+
+    // Handle showing previous posts with scroll preservation
+    const handleShowPrevious = () => {
+        if (currentPostRef.current) {
+            // Store the current post's position relative to the viewport
+            const rect = currentPostRef.current.getBoundingClientRect();
+            previousOffsetRef.current = rect.top;
+            setIsExpanding(true);
+            setShowPrevious(true);
+        } else {
+            setShowPrevious(true);
+        }
+    };
+
+    // Adjust scroll position after expansion
+    useLayoutEffect(() => {
+        if (isExpanding && currentPostRef.current) {
+            const newRect = currentPostRef.current.getBoundingClientRect();
+            const newTop = newRect.top;
+            const offsetDiff = newTop - previousOffsetRef.current;
+
+            if (offsetDiff !== 0) {
+                window.scrollBy({
+                    top: offsetDiff,
+                    behavior: 'instant'
+                });
+            }
+
+            setIsExpanding(false);
+        }
+    }, [isExpanding, showPrevious, displayedPosts]);
 
     // Load more posts (downwards)
     const loadMore = useCallback(() => {
@@ -137,7 +173,7 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
                     {!showPrevious && previousPostsCount > 0 && (
                         <div className="absolute left-0 right-0 top-0 flex justify-center z-10 w-full">
                             <button
-                                onClick={() => setShowPrevious(true)}
+                                onClick={handleShowPrevious}
                                 className="flex cursor-pointer items-center gap-2 px-4 py-1_5 text-xs font-medium text-muted hover-text-primary bg-white border rounded-full shadow-sm hover-bg-gray-50 transition-all group translate-y-neg-half"
                             >
                                 <span>Show {previousPostsCount} previous posts</span>
@@ -155,6 +191,7 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
                             <Link
                                 key={post.id}
                                 href={`/post/${post.slug}`}
+                                ref={isCurrentPost ? currentPostRef : null}
                                 className={`flex items-center gap-4 p-4 transition-all hover-bg-gray-50 group ${isCurrentPost ? 'bg-blue-50' : ''
                                     }`}
                             >
@@ -210,8 +247,9 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
 
                 {/* Loading indicator */}
                 {loading && (
-                    <div className="text-center py-4 text-muted border-t">
-                        Loading more posts...
+                    <div className="divide-y border-t">
+                        <SeriesPostSkeleton />
+                        <SeriesPostSkeleton />
                     </div>
                 )}
 
