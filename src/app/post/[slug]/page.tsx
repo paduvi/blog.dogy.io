@@ -1,8 +1,10 @@
-import { posts } from '@/data/mockData';
+import { posts, tags } from '@/data/mockData';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Calendar, Clock, Tag as TagIcon } from 'lucide-react';
 import SeriesSection from '@/components/post/SeriesSection';
+import TagCloud from '@/components/common/TagCloud';
+import BuyMeACoffee from '@/components/common/BuyMeACoffee';
 
 interface PageProps {
     params: Promise<{
@@ -98,6 +100,11 @@ export default async function PostPage({ params }: PageProps) {
                     currentPostSlug={post.slug}
                 />
             )}
+
+            <div className="mt-12 grid grid-cols-1 md_grid-cols-2 gap-8">
+                <TagCloud tags={tags} />
+                <BuyMeACoffee />
+            </div>
         </article>
     );
 }

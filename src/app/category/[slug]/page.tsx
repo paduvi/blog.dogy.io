@@ -74,8 +74,8 @@ export default async function CategoryPage({ params }: PageProps) {
                 {/* Sidebar */}
                 <aside className="lg_col-span-4">
                     <div className="sticky top-24 flex flex-col gap-6">
-                        <TagCloud tags={tags} />
                         <BuyMeACoffee />
+                        <TagCloud tags={tags} />
                     </div>
                 </aside>
             </div>

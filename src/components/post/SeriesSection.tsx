@@ -176,7 +176,7 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
                                 onClick={handleShowPrevious}
                                 className="flex cursor-pointer items-center gap-2 px-4 py-1_5 text-xs font-medium text-muted hover-text-primary bg-white border rounded-full shadow-sm hover-bg-gray-50 transition-all group translate-y-neg-half"
                             >
-                                <span>Show {previousPostsCount} previous posts</span>
+                                <span>Show {previousPostsCount} previous post{previousPostsCount === 1 ? '' : 's'}</span>
                                 <ChevronDown size={14} />
                             </button>
                         </div>

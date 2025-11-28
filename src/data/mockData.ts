@@ -101,6 +101,53 @@ export const tags: Tag[] = [
     { id: '6', name: 'Web Development', slug: 'web-development' },
     { id: '7', name: 'Coding', slug: 'coding' },
     { id: '8', name: 'Tutorial', slug: 'tutorial' },
+    { id: '9', name: 'Node.js', slug: 'nodejs' },
+    { id: '10', name: 'GraphQL', slug: 'graphql' },
+    { id: '11', name: 'Docker', slug: 'docker' },
+    { id: '12', name: 'Kubernetes', slug: 'kubernetes' },
+    { id: '13', name: 'AWS', slug: 'aws' },
+    { id: '14', name: 'Cloud Computing', slug: 'cloud-computing' },
+    { id: '15', name: 'DevOps', slug: 'devops' },
+    { id: '16', name: 'Machine Learning', slug: 'machine-learning' },
+    { id: '17', name: 'Artificial Intelligence', slug: 'artificial-intelligence' },
+    { id: '18', name: 'Data Science', slug: 'data-science' },
+    { id: '19', name: 'Python', slug: 'python' },
+    { id: '20', name: 'Java', slug: 'java' },
+    { id: '21', name: 'C#', slug: 'csharp' },
+    { id: '22', name: 'Go', slug: 'go' },
+    { id: '23', name: 'Rust', slug: 'rust' },
+    { id: '24', name: 'Swift', slug: 'swift' },
+    { id: '25', name: 'Kotlin', slug: 'kotlin' },
+    { id: '26', name: 'Mobile Development', slug: 'mobile-development' },
+    { id: '27', name: 'iOS', slug: 'ios' },
+    { id: '28', name: 'Android', slug: 'android' },
+    { id: '29', name: 'Flutter', slug: 'flutter' },
+    { id: '30', name: 'React Native', slug: 'react-native' },
+    { id: '31', name: 'UI Design', slug: 'ui-design' },
+    { id: '32', name: 'UX Design', slug: 'ux-design' },
+    { id: '33', name: 'Figma', slug: 'figma' },
+    { id: '34', name: 'Adobe XD', slug: 'adobe-xd' },
+    { id: '35', name: 'Sketch', slug: 'sketch' },
+    { id: '36', name: 'Prototyping', slug: 'prototyping' },
+    { id: '37', name: 'Wireframing', slug: 'wireframing' },
+    { id: '38', name: 'User Research', slug: 'user-research' },
+    { id: '39', name: 'Accessibility', slug: 'accessibility' },
+    { id: '40', name: 'Performance', slug: 'performance' },
+    { id: '41', name: 'SEO', slug: 'seo' },
+    { id: '42', name: 'Marketing', slug: 'marketing' },
+    { id: '43', name: 'Content Creation', slug: 'content-creation' },
+    { id: '44', name: 'Blogging', slug: 'blogging' },
+    { id: '45', name: 'Writing', slug: 'writing' },
+    { id: '46', name: 'Career Advice', slug: 'career-advice' },
+    { id: '47', name: 'Interview Prep', slug: 'interview-prep' },
+    { id: '48', name: 'Remote Work', slug: 'remote-work' },
+    { id: '49', name: 'Freelancing', slug: 'freelancing' },
+    { id: '50', name: 'Entrepreneurship', slug: 'entrepreneurship' },
+    { id: '51', name: 'Startups', slug: 'startups' },
+    { id: '52', name: 'Product Management', slug: 'product-management' },
+    { id: '53', name: 'Agile', slug: 'agile' },
+    { id: '54', name: 'Scrum', slug: 'scrum' },
+    { id: '55', name: 'Kanban', slug: 'kanban' },
 ];
 
 const authors: Author[] = [
@@ -167,8 +214,8 @@ const generatePost = (id: number, isPinned: boolean = false): Post => {
     const titleIndex = id % titles.length;
     const excerptIndex = id % excerpts.length;
     const authorIndex = id % authors.length;
-    // const categoryIndex = id % categories.length;
-    const categoryIndex = 1;
+    const categoryIndex = id % categories.length;
+    // const categoryIndex = 1;
 
     const date = new Date();
     date.setDate(date.getDate() - id);

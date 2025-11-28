@@ -53,8 +53,8 @@ export default async function TagPage({ params }: PageProps) {
 
                 <aside className="lg_col-span-4">
                     <div className="sticky top-24 flex flex-col gap-6">
-                        <TagCloud tags={tags} currentTagSlug={slug} />
                         <BuyMeACoffee />
+                        <TagCloud tags={tags} currentTagSlug={slug} />
                     </div>
                 </aside>
             </div>

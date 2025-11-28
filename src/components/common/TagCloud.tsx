@@ -10,7 +10,7 @@ export default function TagCloud({ tags, currentTagSlug }: TagCloudProps) {
     return (
         <section className="bg-white rounded-xl p-6 border h-fit">
             <h3 className="font-bold text-lg mb-4">Discover more</h3>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 max-h-64 overflow-y-auto pr-2">
                 {tags.map((tag) => {
                     const isCurrentTag = tag.slug === currentTagSlug;
 
