@@ -231,7 +231,7 @@ const generatePost = (id: number, isPinned: boolean = false): Post => {
         publishedAt: date.toISOString().split('T')[0],
         readTime: `${3 + (id % 8)} min read`,
         category: categories[categoryIndex],
-        tags: [tags[id % tags.length], tags[(id + 1) % tags.length]],
+        tags: Array.from({ length: 3 + (id % 4) }, (_, i) => tags[(id + i) % tags.length]),
         isPinned,
     };
 };

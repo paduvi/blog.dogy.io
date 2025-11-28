@@ -18,7 +18,7 @@ export default function PostCard({ post, compact = false }: PostCardProps) {
                 />
             </div>
 
-            <div className="p-4 flex flex-col justify-between flex-1">
+            <div className="p-4 flex flex-col gap-4 flex-1">
                 <div>
                     <span className="text-xs text-muted">
                         {new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
@@ -37,14 +37,14 @@ export default function PostCard({ post, compact = false }: PostCardProps) {
                     </p>
                 )}
 
-                <div className="flex flex-col gap-3 mt-auto">
+                <div className="flex flex-col gap-3">
                     <div className="flex items-center gap-2">
                         <BookOpen size={14} className="text-muted" />
                         <span className="text-xs text-muted">{post.readTime}</span>
                     </div>
                     <div className="flex gap-2 flex-wrap">
                         {/* Only show first tag if compact */}
-                        {post.tags.slice(0, compact ? 1 : 2).map(tag => (
+                        {post.tags.slice(0, compact ? 1 : 6).map(tag => (
                             <Link
                                 key={tag.id}
                                 href={`/tag/${tag.slug}`}
