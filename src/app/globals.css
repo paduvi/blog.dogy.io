@@ -1181,3 +1181,17 @@ img {
   min-width: 2rem;
   text-align: center;
 }
+
+/* Transform and Transition */
+.transition-transform {
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.duration-200 {
+  transition-duration: 200ms;
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}

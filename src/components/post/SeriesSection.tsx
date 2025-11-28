@@ -23,6 +23,7 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
     const [hasMore, setHasMore] = useState(true);
     const [showPrevious, setShowPrevious] = useState(false);
     const [isExpanding, setIsExpanding] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
 
     const observerTarget = useRef<HTMLDivElement>(null);
     const currentPostRef = useRef<HTMLAnchorElement>(null);
@@ -72,6 +73,10 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
         }
     };
 
+    const toggleExpanded = () => {
+        setIsExpanded(!isExpanded);
+    };
+
     // Adjust scroll position after expansion
     useLayoutEffect(() => {
         if (isExpanding && currentPostRef.current) {
@@ -114,6 +119,8 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
 
     // Intersection Observer for infinite scroll
     useEffect(() => {
+        if (!isExpanded) return; // Don't load more if collapsed
+
         const observer = new IntersectionObserver(
             entries => {
                 if (entries[0].isIntersecting && hasMore && !loading) {
@@ -133,7 +140,7 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
                 observer.unobserve(currentTarget);
             }
         };
-    }, [loadMore, hasMore, loading]);
+    }, [loadMore, hasMore, loading, isExpanded]);
 
     if (seriesPosts.length === 0) {
         return null;
@@ -155,106 +162,122 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
         <section className="mt-12 max-w-4xl mx-auto">
             <div className="border rounded-xl overflow-hidden bg-white shadow-sm">
                 {/* Header */}
-                <div className="p-4 border-b bg-gray-50 flex items-center justify-between">
+                <div
+                    className="p-4 border-b bg-gray-50 flex items-center justify-between cursor-pointer hover-bg-gray-100 transition-colors"
+                    onClick={toggleExpanded}
+                >
                     <div>
                         <h3 className="text-xs font-bold text-muted uppercase tracking-wider mb-1">ARTICLE SERIES</h3>
-                        <Link href={`/category/${categorySlug}`} className="text-lg font-bold text-primary hover-underline">
+                        <Link
+                            href={`/category/${categorySlug}`}
+                            className="text-lg font-bold text-primary hover-underline"
+                            onClick={(e) => e.stopPropagation()}
+                        >
                             {categoryName}
                         </Link>
                     </div>
-                    <div className="text-xs font-medium text-muted bg-gray-100 px-2 py-1 rounded">
-                        {seriesPosts.length} Posts
+                    <div className="flex items-center gap-3">
+                        <div className="text-xs font-medium text-muted bg-gray-100 px-2 py-1 rounded">
+                            {seriesPosts.length} Posts
+                        </div>
+                        <button
+                            className={`p-1 rounded-full hover-bg-gray-200 transition-transform duration-200 ${isExpanded ? '' : 'rotate-180'}`}
+                        >
+                            <ChevronDown size={20} className="text-muted" />
+                        </button>
                     </div>
                 </div>
 
                 {/* Posts List */}
-                <div className="divide-y relative">
-                    {/* Previous Posts Toggle - Absolutely positioned to float on first divider */}
-                    {!showPrevious && previousPostsCount > 0 && (
-                        <div className="absolute left-0 right-0 top-0 flex justify-center z-10 w-full">
-                            <button
-                                onClick={handleShowPrevious}
-                                className="flex cursor-pointer items-center gap-2 px-4 py-1_5 text-xs font-medium text-muted hover-text-primary bg-white border rounded-full shadow-sm hover-bg-gray-50 transition-all group translate-y-neg-half"
-                            >
-                                <span>Show {previousPostsCount} previous post{previousPostsCount === 1 ? '' : 's'}</span>
-                                <ChevronDown size={14} />
-                            </button>
-                        </div>
-                    )}
+                {isExpanded && (
+                    <div className="divide-y relative">
+                        {/* Previous Posts Toggle - Absolutely positioned to float on first divider */}
+                        {!showPrevious && previousPostsCount > 0 && (
+                            <div className="absolute left-0 right-0 top-0 flex justify-center z-10 w-full">
+                                <button
+                                    onClick={handleShowPrevious}
+                                    className="flex cursor-pointer items-center gap-2 px-4 py-1_5 text-xs font-medium text-muted hover-text-primary bg-white border rounded-full shadow-sm hover-bg-gray-50 transition-all group translate-y-neg-half"
+                                >
+                                    <span>Show {previousPostsCount} previous post{previousPostsCount === 1 ? '' : 's'}</span>
+                                    <ChevronDown size={14} />
+                                </button>
+                            </div>
+                        )}
 
-                    {visiblePosts.map((post) => {
-                        const isCurrentPost = post.slug === currentPostSlug;
-                        // Find the actual index in the full series for numbering
-                        const postNumber = seriesPosts.findIndex(p => p.id === post.id) + 1;
+                        {visiblePosts.map((post) => {
+                            const isCurrentPost = post.slug === currentPostSlug;
+                            // Find the actual index in the full series for numbering
+                            const postNumber = seriesPosts.findIndex(p => p.id === post.id) + 1;
 
-                        return (
-                            <Link
-                                key={post.id}
-                                href={`/post/${post.slug}`}
-                                ref={isCurrentPost ? currentPostRef : null}
-                                className={`flex items-center gap-4 p-4 transition-all hover-bg-gray-50 group ${isCurrentPost ? 'bg-blue-50' : ''
-                                    }`}
-                            >
-                                {/* Post Number */}
-                                <div className="flex-shrink-0">
-                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${isCurrentPost
-                                        ? 'bg-primary text-white'
-                                        : 'bg-gray-200 text-gray-600 group-hover-bg-gray-300 transition-colors'
-                                        }`}>
-                                        {postNumber}
+                            return (
+                                <Link
+                                    key={post.id}
+                                    href={`/post/${post.slug}`}
+                                    ref={isCurrentPost ? currentPostRef : null}
+                                    className={`flex items-center gap-4 p-4 transition-all hover-bg-gray-50 group ${isCurrentPost ? 'bg-blue-50' : ''
+                                        }`}
+                                >
+                                    {/* Post Number */}
+                                    <div className="flex-shrink-0">
+                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${isCurrentPost
+                                            ? 'bg-primary text-white'
+                                            : 'bg-gray-200 text-gray-600 group-hover-bg-gray-300 transition-colors'
+                                            }`}>
+                                            {postNumber}
+                                        </div>
                                     </div>
-                                </div>
 
-                                {/* Post Content */}
-                                <div className="flex-grow min-w-0">
-                                    <h4 className={`font-bold mb-3 text-xl leading-tight ${isCurrentPost ? 'text-primary' : 'text-gray-900 group-hover-text-primary transition-colors'
-                                        }`}>
-                                        {post.title}
-                                    </h4>
-                                    <p className="text-base text-muted line-clamp-2 leading-relaxed mb-4">{post.excerpt}</p>
+                                    {/* Post Content */}
+                                    <div className="flex-grow min-w-0">
+                                        <h4 className={`font-bold mb-3 text-xl leading-tight ${isCurrentPost ? 'text-primary' : 'text-gray-900 group-hover-text-primary transition-colors'
+                                            }`}>
+                                            {post.title}
+                                        </h4>
+                                        <p className="text-base text-muted line-clamp-2 leading-relaxed mb-4">{post.excerpt}</p>
 
-                                    {/* Post Metadata */}
-                                    <div className="flex items-center gap-4 text-sm text-muted">
-                                        <span className="flex items-center gap-2">
-                                            <Calendar size={14} />
-                                            {new Date(post.publishedAt).toLocaleDateString('en-US', {
-                                                year: 'numeric',
-                                                month: 'short',
-                                                day: 'numeric'
-                                            })}
-                                        </span>
-                                        <span className="flex items-center gap-2">
-                                            <Clock size={14} />
-                                            {post.readTime}
-                                        </span>
+                                        {/* Post Metadata */}
+                                        <div className="flex items-center gap-4 text-sm text-muted">
+                                            <span className="flex items-center gap-2">
+                                                <Calendar size={14} />
+                                                {new Date(post.publishedAt).toLocaleDateString('en-US', {
+                                                    year: 'numeric',
+                                                    month: 'short',
+                                                    day: 'numeric'
+                                                })}
+                                            </span>
+                                            <span className="flex items-center gap-2">
+                                                <Clock size={14} />
+                                                {post.readTime}
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
 
-                                {/* Post Image */}
-                                <div className="flex-shrink-0">
-                                    <div className="w-64 h-48 rounded-lg overflow-hidden bg-gray-100 border">
-                                        <img
-                                            src={post.coverImage}
-                                            alt={post.title}
-                                            className="w-full h-full object-cover transform group-hover-scale-105 transition-transform duration-300"
-                                        />
+                                    {/* Post Image */}
+                                    <div className="flex-shrink-0">
+                                        <div className="w-64 h-48 rounded-lg overflow-hidden bg-gray-100 border">
+                                            <img
+                                                src={post.coverImage}
+                                                alt={post.title}
+                                                className="w-full h-full object-cover transform group-hover-scale-105 transition-transform duration-300"
+                                            />
+                                        </div>
                                     </div>
-                                </div>
-                            </Link>
-                        );
-                    })}
-                </div>
+                                </Link>
+                            );
+                        })}
 
-                {/* Loading indicator */}
-                {loading && (
-                    <div className="divide-y border-t">
-                        <SeriesPostSkeleton />
-                        <SeriesPostSkeleton />
+                        {/* Loading indicator */}
+                        {loading && (
+                            <div className="divide-y border-t">
+                                <SeriesPostSkeleton />
+                                <SeriesPostSkeleton />
+                            </div>
+                        )}
+
+                        {/* Intersection observer target */}
+                        <div ref={observerTarget} className="h-1" />
                     </div>
                 )}
-
-                {/* Intersection observer target */}
-                <div ref={observerTarget} className="h-1" />
             </div>
         </section>
     );
