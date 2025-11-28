@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Calendar, Clock, Tag as TagIcon } from 'lucide-react';
 import SeriesSection from '@/components/post/SeriesSection';
 import TagCloud from '@/components/common/TagCloud';
-import BuyMeACoffee from '@/components/common/BuyMeACoffee';
+import PostActions from '@/components/post/PostActions';
 
 interface PageProps {
     params: Promise<{
@@ -101,10 +101,11 @@ export default async function PostPage({ params }: PageProps) {
                 />
             )}
 
-            <div className="mt-12 grid grid-cols-1 md_grid-cols-2 gap-8">
+            <div className="mt-12">
                 <TagCloud tags={tags} />
-                <BuyMeACoffee />
             </div>
+
+            <PostActions postSlug={post.slug} postTitle={post.title} />
         </article>
     );
 }

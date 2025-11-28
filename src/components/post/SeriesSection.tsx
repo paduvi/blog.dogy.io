@@ -181,7 +181,7 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
                             {seriesPosts.length} Posts
                         </div>
                         <button
-                            className={`p-1 rounded-full hover-bg-gray-200 transition-transform duration-200 ${isExpanded ? '' : 'rotate-180'}`}
+                            className={`p-1 btn-transparent cursor-pointer transition-transform duration-200 ${isExpanded ? '' : 'rotate-180'}`}
                         >
                             <ChevronDown size={20} className="text-muted" />
                         </button>
