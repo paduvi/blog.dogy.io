@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function SeriesPostSkeleton() {
     return (
-        <div className="flex items-center gap-4 p-4 border-b last:border-0">
+        <div className="flex items-center gap-4 p-4 border-b">
             {/* Post Number Skeleton */}
             <div className="flex-shrink-0">
                 <div className="w-8 h-8 rounded-full bg-gray-200 shimmer"></div>

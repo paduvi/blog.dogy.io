@@ -28,7 +28,7 @@ export default function PinnedPosts({ posts }: PinnedPostsProps) {
                         <img
                             src={fixedPost.coverImage}
                             alt={fixedPost.title}
-                            className="w-full h-full object-cover transition-transform duration-300 group-hover-scale_115"
+                            className="w-full h-full object-cover transition-transform duration-300 group-hover-scale-115"
                         />
                         <div className="absolute inset-0 bg-black-30 bg-gradient-to-t from-black-80 via-black-30 to-transparent flex flex-col justify-end p-6 text-white">
                             <div className="flex items-center gap-2 mb-2">
