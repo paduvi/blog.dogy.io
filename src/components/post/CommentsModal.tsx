@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { X } from 'lucide-react';
 import { DiscussionEmbed } from 'disqus-react';
 
@@ -12,12 +13,13 @@ interface CommentsModalProps {
 
 export default function CommentsModal({ isOpen, onClose, postSlug, postTitle }: CommentsModalProps) {
     const postUrl = typeof window !== 'undefined' ? `${window.location.origin}/post/${postSlug}` : '';
-    const disqusConfig = {
+
+    const disqusConfig = useMemo(() => ({
         url: postUrl,
         identifier: postSlug,
         title: postTitle,
         language: 'en_US'
-    };
+    }), [postUrl, postSlug, postTitle]);
 
     const disqusShortname = "https-dogy-io";
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { MessageCircleMore, List, Coffee, Share2 } from 'lucide-react';
 import { CommentCount } from 'disqus-react';
 import ShareModal from './ShareModal';
@@ -58,11 +58,12 @@ export default function FloatingToolbar({
 }: FloatingToolbarProps) {
     const [isVisible, setIsVisible] = useState(false);
 
-    const disqusConfig = {
+    const disqusConfig = useMemo(() => ({
         url: postUrl,
         identifier: postSlug,
-        title: postTitle
-    };
+        title: postTitle,
+        language: 'en_US'
+    }), [postUrl, postSlug, postTitle]);
 
     const disqusShortname = "https-dogy-io";
 
