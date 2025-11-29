@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { MessageSquare, List, Coffee, Share2 } from 'lucide-react';
+import { MessageCircleMore, List, Coffee, Share2 } from 'lucide-react';
+import { CommentCount } from 'disqus-react';
 import ShareModal from './ShareModal';
 
 interface FloatingToolbarProps {
@@ -13,6 +14,7 @@ interface FloatingToolbarProps {
     onShareClose: () => void;
     postTitle: string;
     postUrl: string;
+    postSlug: string;
 }
 
 interface ToolbarButtonProps {
@@ -51,9 +53,18 @@ export default function FloatingToolbar({
     shareOpen,
     onShareClose,
     postTitle,
-    postUrl
+    postUrl,
+    postSlug
 }: FloatingToolbarProps) {
     const [isVisible, setIsVisible] = useState(false);
+
+    const disqusConfig = {
+        url: postUrl,
+        identifier: postSlug,
+        title: postTitle
+    };
+
+    const disqusShortname = "https-dogy-io";
 
     useEffect(() => {
         const handleScroll = () => {
@@ -72,11 +83,27 @@ export default function FloatingToolbar({
         <div className={`fixed bottom-8 left-1-2 transform translate-neg-1-2 w-full flex justify-center pointer-events-none ${shareOpen ? 'z-50' : 'z-40'}`}>
             <div className="flex items-center gap-2 bg-white rounded-full shadow-2xl px-6 py-3 border border-gray-200 pointer-events-auto">
                 {/* Comment */}
-                <ToolbarButton
-                    onClick={onCommentClick}
-                    icon={MessageSquare}
-                    label="Comments"
-                />
+                <div className="relative group">
+                    <button
+                        onClick={onCommentClick}
+                        className="hover-bg-gray-200 transition-colors btn-transparent rounded-full p-2 cursor-pointer text-gray-600 hover-text-gray-900 flex items-center gap-1"
+                        aria-label="Comments"
+                    >
+                        <MessageCircleMore size={20} />
+                        <span className="text-xs">
+                            <CommentCount
+                                shortname={disqusShortname}
+                                config={disqusConfig}
+                            />
+                        </span>
+                    </button>
+                    {/* Custom Tooltip */}
+                    <div className="absolute bottom-full left-1-2 transform translate-x-neg-1-2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover-opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
+                        Comments
+                        {/* Arrow */}
+                        <div className="absolute top-full left-1-2 transform translate-x-neg-1-2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
+                    </div>
+                </div>
 
                 {/* Divider */}
                 <div className="w-px h-5 bg-gray-200 mx-4"></div>

@@ -11,8 +11,9 @@ interface CommentsModalProps {
 }
 
 export default function CommentsModal({ isOpen, onClose, postSlug, postTitle }: CommentsModalProps) {
+    const postUrl = typeof window !== 'undefined' ? `${window.location.origin}/post/${postSlug}` : '';
     const disqusConfig = {
-        url: typeof window !== 'undefined' ? `${window.location.origin}/post/${postSlug}` : '',
+        url: postUrl,
         identifier: postSlug,
         title: postTitle,
         language: 'en_US'

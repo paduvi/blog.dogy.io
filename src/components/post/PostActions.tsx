@@ -27,6 +27,7 @@ export default function PostActions({ postSlug, postTitle }: PostActionsProps) {
                 onShareClose={() => setActiveModal(null)}
                 postTitle={postTitle}
                 postUrl={postUrl}
+                postSlug={postSlug}
             />
 
             <CommentsModal
