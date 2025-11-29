@@ -11,8 +11,6 @@ interface CommentsModalProps {
 }
 
 export default function CommentsModal({ isOpen, onClose, postSlug, postTitle }: CommentsModalProps) {
-    if (!isOpen) return null;
-
     const disqusConfig = {
         url: typeof window !== 'undefined' ? `${window.location.origin}/post/${postSlug}` : '',
         identifier: postSlug,
@@ -26,7 +24,8 @@ export default function CommentsModal({ isOpen, onClose, postSlug, postTitle }: 
         <>
             {/* Modal Panel */}
             <div
-                className="fixed top-0 right-0 h-full w-full lg-w-1-3 bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-in-out translate-x-0"
+                className={`fixed top-0 right-0 h-full w-full lg-w-1-3 bg-white z-50 shadow-2xl transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none'
+                    }`}
             >
                 <div className="flex flex-col h-full">
                     {/* Header */}

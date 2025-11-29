@@ -677,6 +677,24 @@ img {
   cursor: not-allowed;
 }
 
+/* Transform */
+.translate-x-0 {
+  transform: translateX(0);
+}
+
+.translate-x-full {
+  transform: translateX(100%);
+}
+
+/* Pointer Events */
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.pointer-events-auto {
+  pointer-events: auto;
+}
+
 /* Gradients */
 .bg-gradient-to-t {
   background-image: linear-gradient(to top, var(--tw-gradient-stops));
