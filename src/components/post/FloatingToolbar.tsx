@@ -3,19 +3,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { MessageCircleMore, List, Coffee, Share2 } from 'lucide-react';
 import { CommentCount } from 'disqus-react';
+import { usePostStore } from '@/store/usePostStore';
 import ShareModal from './ShareModal';
-
-interface FloatingToolbarProps {
-    onCommentClick: () => void;
-    onTocClick: () => void;
-    onSponsorClick: () => void;
-    onShareClick: () => void;
-    shareOpen: boolean;
-    onShareClose: () => void;
-    postTitle: string;
-    postUrl: string;
-    postSlug: string;
-}
 
 interface ToolbarButtonProps {
     onClick: () => void;
@@ -45,17 +34,8 @@ function ToolbarButton({ onClick, icon: Icon, label, children }: ToolbarButtonPr
     );
 }
 
-export default function FloatingToolbar({
-    onCommentClick,
-    onTocClick,
-    onSponsorClick,
-    onShareClick,
-    shareOpen,
-    onShareClose,
-    postTitle,
-    postUrl,
-    postSlug
-}: FloatingToolbarProps) {
+export default function FloatingToolbar() {
+    const { activeModal, setActiveModal, postSlug, postTitle, postUrl } = usePostStore();
     const [isVisible, setIsVisible] = useState(false);
 
     const disqusConfig = useMemo(() => ({
@@ -80,13 +60,15 @@ export default function FloatingToolbar({
 
     if (!isVisible) return null;
 
+    const shareOpen = activeModal === 'share';
+
     return (
         <div className={`fixed bottom-8 left-1-2 transform translate-neg-1-2 w-full flex justify-center pointer-events-none ${shareOpen ? 'z-50' : 'z-40'}`}>
             <div className="flex items-center gap-2 bg-white rounded-full shadow-2xl px-6 py-3 border border-gray-200 pointer-events-auto">
                 {/* Comment */}
                 <div className="relative group">
                     <button
-                        onClick={onCommentClick}
+                        onClick={() => setActiveModal('comments')}
                         className="hover-bg-gray-200 transition-colors btn-transparent rounded-full p-2 cursor-pointer text-gray-600 hover-text-gray-900 flex items-center gap-1"
                         aria-label="Comments"
                     >
@@ -111,7 +93,7 @@ export default function FloatingToolbar({
 
                 {/* TOC */}
                 <ToolbarButton
-                    onClick={onTocClick}
+                    onClick={() => setActiveModal('toc')}
                     icon={List}
                     label="Table of Contents"
                 />
@@ -121,7 +103,7 @@ export default function FloatingToolbar({
 
                 {/* Sponsor */}
                 <ToolbarButton
-                    onClick={onSponsorClick}
+                    onClick={() => setActiveModal('sponsor')}
                     icon={Coffee}
                     label="Sponsor"
                 />
@@ -131,16 +113,11 @@ export default function FloatingToolbar({
 
                 {/* Share */}
                 <ToolbarButton
-                    onClick={shareOpen ? onShareClose : onShareClick}
+                    onClick={() => setActiveModal(shareOpen ? null : 'share')}
                     icon={Share2}
                     label="Share this article"
                 >
-                    <ShareModal
-                        isOpen={shareOpen}
-                        onClose={onShareClose}
-                        postTitle={postTitle}
-                        postUrl={postUrl}
-                    />
+                    <ShareModal />
                 </ToolbarButton>
             </div>
         </div>

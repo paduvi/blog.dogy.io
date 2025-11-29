@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { usePostStore } from '@/store/usePostStore';
 import FloatingToolbar from './FloatingToolbar';
 import CommentsModal from './CommentsModal';
 import TocModal from './TocModal';
@@ -12,45 +13,26 @@ interface PostActionsProps {
 }
 
 export default function PostActions({ postSlug, postTitle }: PostActionsProps) {
-    const [activeModal, setActiveModal] = useState<'comments' | 'toc' | 'sponsor' | 'share' | null>(null);
+    const { activeModal, setPostData } = usePostStore();
 
     const postUrl = typeof window !== 'undefined' ? `${window.location.origin}/post/${postSlug}` : '';
 
+    // Initialize store with post data
+    useEffect(() => {
+        setPostData({ slug: postSlug, title: postTitle, url: postUrl });
+    }, [postSlug, postTitle, postUrl, setPostData]);
+
     return (
         <>
-            <FloatingToolbar
-                onCommentClick={() => setActiveModal('comments')}
-                onTocClick={() => setActiveModal('toc')}
-                onSponsorClick={() => setActiveModal('sponsor')}
-                onShareClick={() => setActiveModal('share')}
-                shareOpen={activeModal === 'share'}
-                onShareClose={() => setActiveModal(null)}
-                postTitle={postTitle}
-                postUrl={postUrl}
-                postSlug={postSlug}
-            />
-
-            <CommentsModal
-                isOpen={activeModal === 'comments'}
-                onClose={() => setActiveModal(null)}
-                postSlug={postSlug}
-                postTitle={postTitle}
-            />
-
-            <TocModal
-                isOpen={activeModal === 'toc'}
-                onClose={() => setActiveModal(null)}
-            />
-
-            <SponsorModal
-                isOpen={activeModal === 'sponsor'}
-                onClose={() => setActiveModal(null)}
-            />
+            <FloatingToolbar />
+            <CommentsModal />
+            <TocModal />
+            <SponsorModal />
 
             {activeModal && (
                 <div
                     className="fixed inset-0 bg-black-50 z-40 transition-opacity"
-                    onClick={() => setActiveModal(null)}
+                    onClick={() => usePostStore.getState().setActiveModal(null)}
                 />
             )}
         </>

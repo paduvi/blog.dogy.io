@@ -3,16 +3,11 @@
 import { useMemo } from 'react';
 import { X } from 'lucide-react';
 import { DiscussionEmbed } from 'disqus-react';
+import { usePostStore } from '@/store/usePostStore';
 
-interface CommentsModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    postSlug: string;
-    postTitle: string;
-}
-
-export default function CommentsModal({ isOpen, onClose, postSlug, postTitle }: CommentsModalProps) {
-    const postUrl = typeof window !== 'undefined' ? `${window.location.origin}/post/${postSlug}` : '';
+export default function CommentsModal() {
+    const { activeModal, setActiveModal, postSlug, postTitle, postUrl } = usePostStore();
+    const isOpen = activeModal === 'comments';
 
     const disqusConfig = useMemo(() => ({
         url: postUrl,
@@ -35,7 +30,7 @@ export default function CommentsModal({ isOpen, onClose, postSlug, postTitle }: 
                     <div className="p-4 border-b flex items-center justify-between bg-gray-50">
                         <h3 className="font-bold text-lg">Comments</h3>
                         <button
-                            onClick={onClose}
+                            onClick={() => setActiveModal(null)}
                             className="p-2 hover-bg-gray-200 rounded-full btn-transparent cursor-pointer transition-colors"
                         >
                             <X size={20} className="text-gray-600" />

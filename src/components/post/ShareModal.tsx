@@ -4,16 +4,12 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLinkedin, faXTwitter, faFacebook, faReddit, faHackerNews } from '@fortawesome/free-brands-svg-icons';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
+import { usePostStore } from '@/store/usePostStore';
 
-interface ShareModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    postTitle: string;
-    postUrl: string;
-}
-
-export default function ShareModal({ isOpen, onClose, postTitle, postUrl }: ShareModalProps) {
+export default function ShareModal() {
+    const { activeModal, postTitle, postUrl } = usePostStore();
     const [copied, setCopied] = useState(false);
+    const isOpen = activeModal === 'share';
 
     if (!isOpen) return null;
 
