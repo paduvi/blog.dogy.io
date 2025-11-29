@@ -4,6 +4,7 @@ import InfinitePostGrid from '@/components/common/InfinitePostGrid';
 import TagCloud from '@/components/common/TagCloud';
 import BuyMeACoffee from '@/components/common/BuyMeACoffee';
 import { notFound } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
 
 interface PageProps {
     params: Promise<{
@@ -25,6 +26,7 @@ export async function generateMetadata({ params }: PageProps) {
 export default async function TagPage({ params }: PageProps) {
     const { slug } = await params;
     const tag = tags.find((t) => t.slug === slug);
+    const t = await getTranslations('Tag');
 
     if (!tag) {
         notFound();
@@ -35,9 +37,9 @@ export default async function TagPage({ params }: PageProps) {
     return (
         <div className="container py-8">
             <div className="mb-8 text-center py-12 bg-gray-50 rounded-xl border">
-                <span className="text-sm font-bold text-primary uppercase tracking-wider mb-2 block">Tag</span>
+                <span className="text-sm font-bold text-primary uppercase tracking-wider mb-2 block">{t('postsTaggedWith')}</span>
                 <h1 className="text-4xl font-bold mb-4">#{tag.name}</h1>
-                <p className="text-muted">A collection of {tagPosts.length} posts</p>
+                <p className="text-muted">{t(tagPosts.length === 1 ? 'post' : 'posts', { count: tagPosts.length })}</p>
             </div>
 
             <div className="grid grid-cols-1 lg-grid-cols-12 gap-8">

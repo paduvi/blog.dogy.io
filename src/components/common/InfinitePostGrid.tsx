@@ -4,6 +4,7 @@ import { Post } from '@/data/mockData';
 import PostCard from '@/components/common/PostCard';
 import PostCardSkeleton from '@/components/common/PostCardSkeleton';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface InfinitePostGridProps {
     posts: Post[];
@@ -12,6 +13,7 @@ interface InfinitePostGridProps {
 const POSTS_PER_PAGE = 6;
 
 export default function InfinitePostGrid({ posts }: InfinitePostGridProps) {
+    const t = useTranslations('Common');
     const [displayedPosts, setDisplayedPosts] = useState<Post[]>(posts.slice(0, POSTS_PER_PAGE));
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
@@ -96,7 +98,7 @@ export default function InfinitePostGrid({ posts }: InfinitePostGridProps) {
 
             {!hasMore && displayedPosts.length > 0 && (
                 <div className="text-center py-8 text-muted">
-                    <p>You've reached the end of the list. 🎉</p>
+                    <p>{t('endOfPosts')} 🎉</p>
                 </div>
             )}
         </>

@@ -4,10 +4,11 @@ import { useMemo } from 'react';
 import { X } from 'lucide-react';
 import { DiscussionEmbed } from 'disqus-react';
 import { usePostStore } from '@/store/usePostStore';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 export default function CommentsModal() {
     const t = useTranslations('Comments');
+    const locale = useLocale();
     const { activeModal, setActiveModal, postSlug, postTitle, postUrl } = usePostStore();
     const isOpen = activeModal === 'comments';
 
@@ -15,8 +16,8 @@ export default function CommentsModal() {
         url: postUrl,
         identifier: postSlug,
         title: postTitle,
-        language: 'en_US'
-    }), [postUrl, postSlug, postTitle]);
+        language: locale === 'vi' ? 'vi' : 'en'
+    }), [postUrl, postSlug, postTitle, locale]);
 
     const disqusShortname = "https-dogy-io";
 

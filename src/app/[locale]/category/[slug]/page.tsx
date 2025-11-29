@@ -3,6 +3,7 @@ import CategoryPostList from '@/components/category/CategoryPostList';
 import TagCloud from '@/components/common/TagCloud';
 import BuyMeACoffee from '@/components/common/BuyMeACoffee';
 import { notFound } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
 
 interface PageProps {
     params: Promise<{
@@ -27,6 +28,7 @@ export async function generateMetadata({ params }: PageProps) {
 export default async function CategoryPage({ params }: PageProps) {
     const { slug } = await params;
     const category = categories.find((c) => c.slug === slug);
+    const t = await getTranslations('Post');
 
     if (!category) {
         notFound();
@@ -40,7 +42,7 @@ export default async function CategoryPage({ params }: PageProps) {
             <div className="grid grid-cols-1 lg-grid-cols-2 gap-8 mb-12">
                 {/* Left: Category Info */}
                 <div className="flex flex-col justify-center">
-                    <span className="text-xs font-bold text-muted uppercase tracking-wider mb-3">SERIES</span>
+                    <span className="text-xs font-bold text-muted uppercase tracking-wider mb-3">{t('seriesTitle')}</span>
                     <h1 className="text-4xl md-text-5xl font-bold mb-4">{category.name}</h1>
                     <p className="text-muted text-lg mb-6">
                         In this series, I will cover most of famous and useful algorithms in the real world
@@ -61,7 +63,7 @@ export default async function CategoryPage({ params }: PageProps) {
 
             {/* Articles Section */}
             <div className="mb-8 pb-4 border-b">
-                <h2 className="text-xl font-semibold text-center">Articles in this series</h2>
+                <h2 className="text-xl font-semibold text-center">{t('series')}</h2>
             </div>
 
             {/* Posts List with Sidebar */}

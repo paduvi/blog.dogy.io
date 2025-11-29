@@ -2,8 +2,10 @@
 
 import { X } from 'lucide-react';
 import { usePostStore } from '@/store/usePostStore';
+import { useTranslations } from 'next-intl';
 
 export default function TocModal() {
+    const t = useTranslations('Post');
     const { activeModal, setActiveModal } = usePostStore();
     const isOpen = activeModal === 'toc';
 
@@ -28,7 +30,7 @@ export default function TocModal() {
                 <div className="flex flex-col max-h-screen-80">
                     {/* Header */}
                     <div className="p-4 border-b flex items-center justify-between bg-gray-50">
-                        <h3 className="font-bold text-lg">Table of Contents</h3>
+                        <h3 className="font-bold text-lg">{t('tableOfContents')}</h3>
                         <button
                             onClick={() => setActiveModal(null)}
                             className="p-2 hover-bg-gray-200 rounded-full btn-transparent cursor-pointer"

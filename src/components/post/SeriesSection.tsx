@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react';
 import { posts, categories } from '@/data/mockData';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { ChevronDown, Calendar, Clock } from 'lucide-react';
 import SeriesPostSkeleton from './SeriesPostSkeleton';
 import type { Post } from '@/data/mockData';
+import { useTranslations } from 'next-intl';
 
 interface SeriesSectionProps {
     categorySlug: string;
@@ -16,6 +17,7 @@ interface SeriesSectionProps {
 const POSTS_PER_PAGE = 5;
 
 export default function SeriesSection({ categorySlug, categoryName, currentPostSlug }: SeriesSectionProps) {
+    const t = useTranslations('Post');
     const [seriesPosts, setSeriesPosts] = useState<Post[]>([]);
     const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
     const [page, setPage] = useState(1);
@@ -167,7 +169,7 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
                     onClick={toggleExpanded}
                 >
                     <div>
-                        <h3 className="text-xs font-bold text-muted uppercase tracking-wider mb-1">ARTICLE SERIES</h3>
+                        <h3 className="text-xs font-bold text-muted uppercase tracking-wider mb-1">{t('series')}</h3>
                         <Link
                             href={`/category/${categorySlug}`}
                             className="text-lg font-bold text-primary hover-underline"
@@ -178,7 +180,7 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
                     </div>
                     <div className="flex items-center gap-3">
                         <div className="text-xs font-medium text-muted bg-gray-100 px-2 py-1 rounded">
-                            {seriesPosts.length} Posts
+                            {t(seriesPosts.length === 1 ? 'post' : 'posts', { count: seriesPosts.length })}
                         </div>
                         <button
                             className={`p-1 btn-transparent cursor-pointer transition-transform duration-200 ${isExpanded ? '' : 'rotate-180'}`}
@@ -198,7 +200,7 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
                                     onClick={handleShowPrevious}
                                     className="flex cursor-pointer items-center gap-2 px-4 py-1-5 text-xs font-medium text-muted hover-text-primary bg-white border rounded-full shadow-sm hover-bg-gray-50 transition-all group translate-y-neg-half"
                                 >
-                                    <span>Show {previousPostsCount} previous post{previousPostsCount === 1 ? '' : 's'}</span>
+                                    <span>{t(previousPostsCount === 1 ? 'showPreviousPost' : 'showPreviousPosts', { count: previousPostsCount })}</span>
                                     <ChevronDown size={14} />
                                 </button>
                             </div>

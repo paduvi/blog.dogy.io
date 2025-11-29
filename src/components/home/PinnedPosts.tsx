@@ -44,7 +44,7 @@ export default function PinnedPosts({ posts }: PinnedPostsProps) {
                             </h2>
                             <div className="flex items-center gap-2 text-sm">
                                 <BookOpen size={14} />
-                                <span>{fixedPost.readTime}</span>
+                                <span>{t('readTime', { minutes: fixedPost.readTime })}</span>
                             </div>
                         </div>
                     </div>
@@ -76,7 +76,7 @@ export default function PinnedPosts({ posts }: PinnedPostsProps) {
                                         </h3>
                                         <div className="flex items-center gap-2 text-xs">
                                             <BookOpen size={12} />
-                                            <span>{post.readTime}</span>
+                                            <span>{t('readTime', { minutes: post.readTime })}</span>
                                         </div>
                                     </div>
                                 </div>

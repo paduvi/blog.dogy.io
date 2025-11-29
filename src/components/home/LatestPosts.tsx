@@ -104,7 +104,7 @@ export default function LatestPosts({ posts }: LatestPostsProps) {
             {/* End of posts message */}
             {!hasMore && displayedPosts.length > 0 && (
                 <div className="text-center py-8 text-muted">
-                    <p>{t('endOfPosts')}</p>
+                    <p>{t('endOfPosts')} 🎉</p>
                 </div>
             )}
         </section>

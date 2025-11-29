@@ -12,18 +12,26 @@
     "Home": {
         "latestPosts": "Latest Posts",
         "pinnedLabel": "Pinned",
-        "endOfPosts": "You've reached the end! 🎉"
+        "readTime": "{minutes} min read",
+        "minRead": "min read",
+        "endOfPosts": "You've reached the end!"
     },
     "Post": {
         "readTime": "{minutes} min read",
+        "minRead": "min read",
         "comments": "Comments",
         "tableOfContents": "Table of Contents",
         "sponsor": "Sponsor",
         "shareArticle": "Share this article",
-        "series": "Series",
-        "showPreviousPosts": "Show previous posts",
+        "series": "Article Series",
+        "seriesTitle": "Series",
+        "tags": "Tags",
+        "showPreviousPosts": "Show {count} previous posts",
+        "showPreviousPost": "Show {count} previous post",
         "hidePreviousPosts": "Hide previous posts",
-        "currentPost": "Current post"
+        "currentPost": "Current post",
+        "posts": "{count} Posts",
+        "post": "{count} Post"
     },
     "Common": {
         "loading": "Loading...",
@@ -31,7 +39,8 @@
         "supportMe": "Support Me",
         "supportDescription": "If you find my content helpful, you can support me by buying me a coffee!",
         "buyMeACoffee": "Buy me a coffee",
-        "readMore": "Read more"
+        "readMore": "Read more",
+        "endOfPosts": "You've reached the end of the list!"
     },
     "Share": {
         "title": "Share this article",
@@ -49,10 +58,21 @@
         "loading": "Loading comments..."
     },
     "Category": {
-        "posts": "Posts",
-        "description": "Description"
+        "posts": "{count} Posts",
+        "post": "{count} Post",
+        "description": "Description",
+        "allPosts": "All posts in"
     },
     "Tag": {
-        "posts": "Posts tagged with"
+        "posts": "{count} Posts",
+        "post": "{count} Post",
+        "postsTaggedWith": "Posts tagged with"
+    },
+    "Search": {
+        "results": "Search Results",
+        "resultsFor": "Results for",
+        "noResults": "No results found",
+        "foundPosts": "Found {count} posts",
+        "foundPost": "Found {count} post"
     }
 }

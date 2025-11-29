@@ -1,6 +1,9 @@
+'use client';
+
 import { Link } from '@/i18n/routing';
 import { Post } from '@/data/mockData';
 import { BookOpen } from 'lucide-react';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface PostCardProps {
     post: Post;
@@ -8,6 +11,9 @@ interface PostCardProps {
 }
 
 export default function PostCard({ post, compact = false }: PostCardProps) {
+    const t = useTranslations('Post');
+    const locale = useLocale();
+
     return (
         <div className={`card group flex ${compact ? 'flex-row h-32' : 'flex-col'}`}>
             <div className={`relative ${compact ? 'w-1-3 overflow-hidden' : 'w-full h-48 overflow-hidden'}`}>
@@ -21,7 +27,7 @@ export default function PostCard({ post, compact = false }: PostCardProps) {
             <div className="p-4 flex flex-col gap-4 flex-1">
                 <div>
                     <span className="text-xs text-muted">
-                        {new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                        {new Date(post.publishedAt).toLocaleDateString(locale === 'vi' ? 'vi-VN' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                     </span>
                 </div>
 
@@ -40,7 +46,7 @@ export default function PostCard({ post, compact = false }: PostCardProps) {
                 <div className="flex flex-col gap-3">
                     <div className="flex items-center gap-2">
                         <BookOpen size={14} className="text-muted" />
-                        <span className="text-xs text-muted">{post.readTime}</span>
+                        <span className="text-xs text-muted">{t('readTime', { minutes: post.readTime })}</span>
                     </div>
                     <div className="flex gap-2 flex-wrap">
                         {/* Only show first tag if compact */}

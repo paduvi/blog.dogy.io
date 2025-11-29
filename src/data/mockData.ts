@@ -34,7 +34,7 @@ export interface Post {
     coverImage: string;
     author: Author;
     publishedAt: string;
-    readTime: string;
+    readTime: number;
     category: Category;
     tags: Tag[];
     isPinned?: boolean;
@@ -229,7 +229,7 @@ const generatePost = (id: number, isPinned: boolean = false): Post => {
         coverImage: `https://picsum.photos/seed/post${id}/800/400`,
         author: authors[authorIndex],
         publishedAt: date.toISOString().split('T')[0],
-        readTime: `${3 + (id % 8)} min read`,
+        readTime: 3 + (id % 8),
         category: categories[categoryIndex],
         tags: Array.from({ length: 3 + (id % 4) }, (_, i) => tags[(id + i) % tags.length]),
         isPinned,

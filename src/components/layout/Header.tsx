@@ -1,9 +1,8 @@
 "use client";
 
 import React from 'react';
-import Link from 'next/link';
 import { Search, Menu, ChevronDown, Bell, X } from 'lucide-react';
-import { useRouter, usePathname } from '@/i18n/routing';
+import { Link, useRouter, usePathname } from '@/i18n/routing';
 import { useState } from 'react';
 import { categoryGroups } from '@/data/mockData';
 import { useLocale, useTranslations } from 'next-intl';

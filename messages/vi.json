@@ -12,26 +12,35 @@
     "Home": {
         "latestPosts": "Bài viết mới nhất",
         "pinnedLabel": "Ghim",
-        "endOfPosts": "Bạn đã xem hết! 🎉"
+        "readTime": "{minutes} phút đọc",
+        "minRead": "phút đọc",
+        "endOfPosts": "Bạn đã lướt tới cuối rồi nè!"
     },
     "Post": {
         "readTime": "{minutes} phút đọc",
+        "minRead": "phút đọc",
         "comments": "Bình luận",
         "tableOfContents": "Mục lục",
         "sponsor": "Ủng hộ",
         "shareArticle": "Chia sẻ bài viết",
-        "series": "Chuỗi bài",
-        "showPreviousPosts": "Hiện bài viết trước",
+        "series": "Chuỗi bài viết",
+        "seriesTitle": "Chuỗi bài",
+        "tags": "Thẻ",
+        "showPreviousPosts": "Hiển thị {count} bài trước",
+        "showPreviousPost": "Hiển thị {count} bài trước",
         "hidePreviousPosts": "Ẩn bài viết trước",
-        "currentPost": "Bài hiện tại"
+        "currentPost": "Bài hiện tại",
+        "posts": "{count} Bài viết",
+        "post": "{count} Bài viết"
     },
     "Common": {
         "loading": "Đang tải...",
         "discoverMore": "Khám phá thêm",
         "supportMe": "Ủng hộ tôi",
-        "supportDescription": "Nếu bạn thấy nội dung của tôi hữu ích, hãy ủng hộ tôi bằng cách mua cho tôi một ly cà phê nhé!",
+        "supportDescription": "Nếu bạn thấy nội dung của tôi hữu ích, hãy ủng hộ tôi bằng cách mua cho tôi một ly cà phê!",
         "buyMeACoffee": "Mua cà phê cho tôi",
-        "readMore": "Đọc thêm"
+        "readMore": "Đọc thêm",
+        "endOfPosts": "Bạn đã xem hết danh sách rồi nè!"
     },
     "Share": {
         "title": "Chia sẻ bài viết",
@@ -49,10 +58,21 @@
         "loading": "Đang tải bình luận..."
     },
     "Category": {
-        "posts": "Bài viết",
-        "description": "Mô tả"
+        "posts": "{count} Bài viết",
+        "post": "{count} Bài viết",
+        "description": "Mô tả",
+        "allPosts": "Tất cả bài viết trong"
     },
     "Tag": {
-        "posts": "Bài viết với thẻ"
+        "posts": "{count} Bài viết",
+        "post": "{count} Bài viết",
+        "postsTaggedWith": "Bài viết với thẻ"
+    },
+    "Search": {
+        "results": "Kết quả tìm kiếm",
+        "resultsFor": "Kết quả cho",
+        "noResults": "Không tìm thấy kết quả",
+        "foundPosts": "Tìm thấy {count} bài viết",
+        "foundPost": "Tìm thấy {count} bài viết"
     }
 }

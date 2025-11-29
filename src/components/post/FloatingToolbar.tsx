@@ -5,7 +5,7 @@ import { MessageCircleMore, List, Coffee, Share2 } from 'lucide-react';
 import { CommentCount } from 'disqus-react';
 import { usePostStore } from '@/store/usePostStore';
 import ShareModal from './ShareModal';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface ToolbarButtonProps {
     onClick: () => void;
@@ -37,6 +37,7 @@ function ToolbarButton({ onClick, icon: Icon, label, children }: ToolbarButtonPr
 
 export default function FloatingToolbar() {
     const t = useTranslations('Post');
+    const locale = useLocale();
     const { activeModal, setActiveModal, postSlug, postTitle, postUrl } = usePostStore();
     const [isVisible, setIsVisible] = useState(false);
 
@@ -44,8 +45,8 @@ export default function FloatingToolbar() {
         url: postUrl,
         identifier: postSlug,
         title: postTitle,
-        language: 'en_US'
-    }), [postUrl, postSlug, postTitle]);
+        language: locale === 'vi' ? 'vi' : 'en'
+    }), [postUrl, postSlug, postTitle, locale]);
 
     const disqusShortname = "https-dogy-io";
 

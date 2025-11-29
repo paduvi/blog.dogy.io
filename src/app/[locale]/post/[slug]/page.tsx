@@ -1,14 +1,16 @@
 import { posts, tags } from '@/data/mockData';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { Calendar, Clock, Tag as TagIcon } from 'lucide-react';
 import SeriesSection from '@/components/post/SeriesSection';
 import TagCloud from '@/components/common/TagCloud';
 import PostActions from '@/components/post/PostActions';
+import { getTranslations } from 'next-intl/server';
 
 interface PageProps {
     params: Promise<{
         slug: string;
+        locale: string;
     }>;
 }
 
@@ -24,8 +26,9 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function PostPage({ params }: PageProps) {
-    const { slug } = await params;
+    const { slug, locale } = await params;
     const post = posts.find((p) => p.slug === slug);
+    const t = await getTranslations('Post');
 
     if (!post) {
         notFound();
@@ -48,12 +51,12 @@ export default async function PostPage({ params }: PageProps) {
 
                     <div className="flex items-center gap-2">
                         <Calendar size={16} />
-                        <span>{new Date(post.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                        <span>{new Date(post.publishedAt).toLocaleDateString(locale === 'vi' ? 'vi-VN' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                     </div>
 
                     <div className="flex items-center gap-2">
                         <Clock size={16} />
-                        <span>{post.readTime}</span>
+                        <span>{t('readTime', { minutes: post.readTime })}</span>
                     </div>
                 </div>
             </div>
@@ -78,7 +81,7 @@ export default async function PostPage({ params }: PageProps) {
             <div className="border-t pt-8">
                 <h3 className="font-bold mb-4 flex items-center gap-2">
                     <TagIcon size={20} />
-                    Tags
+                    {t('tags')}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                     {post.tags.map((tag) => (
