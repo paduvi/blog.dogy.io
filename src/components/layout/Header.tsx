@@ -3,14 +3,16 @@
 import React from 'react';
 import Link from 'next/link';
 import { Search, Menu, ChevronDown, Bell, X } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from '@/i18n/routing';
 import { useState } from 'react';
 import { categoryGroups } from '@/data/mockData';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLocale, useTranslations } from 'next-intl';
 
 export default function Header() {
     const router = useRouter();
-    const { language, toggleLanguage } = useLanguage();
+    const pathname = usePathname();
+    const locale = useLocale();
+    const t = useTranslations('Header');
     const [searchQuery, setSearchQuery] = useState('');
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
@@ -31,6 +33,11 @@ export default function Header() {
     const toggleMobileSearch = () => {
         setIsMobileSearchOpen(!isMobileSearchOpen);
         setIsMobileMenuOpen(false);
+    };
+
+    const switchLanguage = () => {
+        const nextLocale = locale === 'en' ? 'vi' : 'en';
+        router.replace(pathname, { locale: nextLocale });
     };
 
     return (
@@ -83,7 +90,7 @@ export default function Header() {
                         <Search size={18} className="text-gray-500 mr-2" />
                         <input
                             type="text"
-                            placeholder="Search..."
+                            placeholder={t('searchPlaceholder')}
                             className="bg-transparent border-none outline-none text-sm w-full"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -92,10 +99,10 @@ export default function Header() {
 
                     <div className="relative group flex md-flex items-center">
                         <button
-                            onClick={toggleLanguage}
+                            onClick={switchLanguage}
                             className="language-toggle-pill bg-gray-100"
                         >
-                            {language === 'EN' ? (
+                            {locale === 'en' ? (
                                 <>
                                     <div className="flag-circle">
                                         <img
@@ -120,7 +127,7 @@ export default function Header() {
                             )}
                         </button>
                         <span className="absolute top-full mt-2 left-half translate-x-neg-half px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 invisible group-hover-opacity-100 group-hover-visible transition-opacity duration-200 whitespace-nowrap z-50">
-                            {language === 'VI' ? 'Switch to English' : 'Switch to Vietnamese'}
+                            {locale === 'vi' ? t('switchToEnglish') : t('switchToVietnamese')}
                         </span>
                     </div>
 
@@ -133,7 +140,7 @@ export default function Header() {
 
                     <button className="hidden cursor-pointer md-flex items-center gap-2 px-4 bg-primary text-white text-sm font-medium rounded-full hover-bg-primary-hover hover-scale-105 transition-all h-10">
                         <Bell size={16} />
-                        Subscribe
+                        {t('subscribe')}
                     </button>
                 </div>
             </div>

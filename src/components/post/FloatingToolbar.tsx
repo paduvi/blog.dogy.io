@@ -5,6 +5,7 @@ import { MessageCircleMore, List, Coffee, Share2 } from 'lucide-react';
 import { CommentCount } from 'disqus-react';
 import { usePostStore } from '@/store/usePostStore';
 import ShareModal from './ShareModal';
+import { useTranslations } from 'next-intl';
 
 interface ToolbarButtonProps {
     onClick: () => void;
@@ -35,6 +36,7 @@ function ToolbarButton({ onClick, icon: Icon, label, children }: ToolbarButtonPr
 }
 
 export default function FloatingToolbar() {
+    const t = useTranslations('Post');
     const { activeModal, setActiveModal, postSlug, postTitle, postUrl } = usePostStore();
     const [isVisible, setIsVisible] = useState(false);
 
@@ -70,7 +72,7 @@ export default function FloatingToolbar() {
                     <button
                         onClick={() => setActiveModal('comments')}
                         className="hover-bg-gray-200 transition-colors btn-transparent rounded-full p-2 cursor-pointer text-gray-600 hover-text-gray-900 flex items-center gap-1"
-                        aria-label="Comments"
+                        aria-label={t('comments')}
                     >
                         <MessageCircleMore size={20} />
                         <span className="text-xs">
@@ -82,7 +84,7 @@ export default function FloatingToolbar() {
                     </button>
                     {/* Custom Tooltip */}
                     <div className="absolute bottom-full left-1-2 transform translate-x-neg-1-2 mb-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover-opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap">
-                        Comments
+                        {t('comments')}
                         {/* Arrow */}
                         <div className="absolute top-full left-1-2 transform translate-x-neg-1-2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
                     </div>
@@ -95,7 +97,7 @@ export default function FloatingToolbar() {
                 <ToolbarButton
                     onClick={() => setActiveModal('toc')}
                     icon={List}
-                    label="Table of Contents"
+                    label={t('tableOfContents')}
                 />
 
                 {/* Divider */}
@@ -105,7 +107,7 @@ export default function FloatingToolbar() {
                 <ToolbarButton
                     onClick={() => setActiveModal('sponsor')}
                     icon={Coffee}
-                    label="Sponsor"
+                    label={t('sponsor')}
                 />
 
                 {/* Divider */}
@@ -115,7 +117,7 @@ export default function FloatingToolbar() {
                 <ToolbarButton
                     onClick={() => setActiveModal(shareOpen ? null : 'share')}
                     icon={Share2}
-                    label="Share this article"
+                    label={t('shareArticle')}
                 >
                     <ShareModal />
                 </ToolbarButton>

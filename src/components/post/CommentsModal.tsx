@@ -4,8 +4,10 @@ import { useMemo } from 'react';
 import { X } from 'lucide-react';
 import { DiscussionEmbed } from 'disqus-react';
 import { usePostStore } from '@/store/usePostStore';
+import { useTranslations } from 'next-intl';
 
 export default function CommentsModal() {
+    const t = useTranslations('Comments');
     const { activeModal, setActiveModal, postSlug, postTitle, postUrl } = usePostStore();
     const isOpen = activeModal === 'comments';
 
@@ -28,7 +30,7 @@ export default function CommentsModal() {
                 <div className="flex flex-col h-full">
                     {/* Header */}
                     <div className="p-4 border-b flex items-center justify-between bg-gray-50">
-                        <h3 className="font-bold text-lg">Comments</h3>
+                        <h3 className="font-bold text-lg">{t('title')}</h3>
                         <button
                             onClick={() => setActiveModal(null)}
                             className="p-2 hover-bg-gray-200 rounded-full btn-transparent cursor-pointer transition-colors"

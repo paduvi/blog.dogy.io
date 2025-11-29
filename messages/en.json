@@ -1,0 +1,58 @@
+{
+    "Header": {
+        "searchPlaceholder": "Search...",
+        "subscribe": "Subscribe",
+        "switchToVietnamese": "Switch to Vietnamese",
+        "switchToEnglish": "Switch to English"
+    },
+    "Footer": {
+        "privacyPolicy": "Privacy Policy",
+        "terms": "Terms"
+    },
+    "Home": {
+        "latestPosts": "Latest Posts",
+        "pinnedLabel": "Pinned",
+        "endOfPosts": "You've reached the end! 🎉"
+    },
+    "Post": {
+        "readTime": "{minutes} min read",
+        "comments": "Comments",
+        "tableOfContents": "Table of Contents",
+        "sponsor": "Sponsor",
+        "shareArticle": "Share this article",
+        "series": "Series",
+        "showPreviousPosts": "Show previous posts",
+        "hidePreviousPosts": "Hide previous posts",
+        "currentPost": "Current post"
+    },
+    "Common": {
+        "loading": "Loading...",
+        "discoverMore": "Discover more",
+        "supportMe": "Support Me",
+        "supportDescription": "If you find my content helpful, you can support me by buying me a coffee!",
+        "buyMeACoffee": "Buy me a coffee",
+        "readMore": "Read more"
+    },
+    "Share": {
+        "title": "Share this article",
+        "copyLink": "Copy link",
+        "linkCopied": "Link copied!",
+        "shareVia": "Share via"
+    },
+    "Sponsor": {
+        "title": "Support My Work",
+        "description": "If you find this content valuable, consider supporting me!",
+        "buyMeACoffee": "Buy me a coffee"
+    },
+    "Comments": {
+        "title": "Comments",
+        "loading": "Loading comments..."
+    },
+    "Category": {
+        "posts": "Posts",
+        "description": "Description"
+    },
+    "Tag": {
+        "posts": "Posts tagged with"
+    }
+}

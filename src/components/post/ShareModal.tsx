@@ -5,8 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLinkedin, faXTwitter, faFacebook, faReddit, faHackerNews } from '@fortawesome/free-brands-svg-icons';
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { usePostStore } from '@/store/usePostStore';
+import { useTranslations } from 'next-intl';
 
 export default function ShareModal() {
+    const t = useTranslations('Share');
     const { activeModal, postTitle, postUrl } = usePostStore();
     const [copied, setCopied] = useState(false);
     const isOpen = activeModal === 'share';
@@ -77,7 +79,7 @@ export default function ShareModal() {
                             >
                                 <FontAwesomeIcon icon={faLink} size='lg' />
                                 <span className="font-medium">
-                                    {copied ? 'Link Copied!' : 'Copy Link'}
+                                    {copied ? t('linkCopied') : t('copyLink')}
                                 </span>
                             </a>
                         </div>

@@ -1,0 +1,58 @@
+{
+    "Header": {
+        "searchPlaceholder": "Tìm kiếm...",
+        "subscribe": "Đăng ký",
+        "switchToVietnamese": "Chuyển sang Tiếng Việt",
+        "switchToEnglish": "Chuyển sang Tiếng Anh"
+    },
+    "Footer": {
+        "privacyPolicy": "Chính sách bảo mật",
+        "terms": "Điều khoản"
+    },
+    "Home": {
+        "latestPosts": "Bài viết mới nhất",
+        "pinnedLabel": "Ghim",
+        "endOfPosts": "Bạn đã xem hết! 🎉"
+    },
+    "Post": {
+        "readTime": "{minutes} phút đọc",
+        "comments": "Bình luận",
+        "tableOfContents": "Mục lục",
+        "sponsor": "Ủng hộ",
+        "shareArticle": "Chia sẻ bài viết",
+        "series": "Chuỗi bài",
+        "showPreviousPosts": "Hiện bài viết trước",
+        "hidePreviousPosts": "Ẩn bài viết trước",
+        "currentPost": "Bài hiện tại"
+    },
+    "Common": {
+        "loading": "Đang tải...",
+        "discoverMore": "Khám phá thêm",
+        "supportMe": "Ủng hộ tôi",
+        "supportDescription": "Nếu bạn thấy nội dung của tôi hữu ích, hãy ủng hộ tôi bằng cách mua cho tôi một ly cà phê nhé!",
+        "buyMeACoffee": "Mua cà phê cho tôi",
+        "readMore": "Đọc thêm"
+    },
+    "Share": {
+        "title": "Chia sẻ bài viết",
+        "copyLink": "Sao chép liên kết",
+        "linkCopied": "Đã sao chép!",
+        "shareVia": "Chia sẻ qua"
+    },
+    "Sponsor": {
+        "title": "Ủng hộ công việc của tôi",
+        "description": "Nếu bạn thấy nội dung này có giá trị, hãy cân nhắc ủng hộ tôi!",
+        "buyMeACoffee": "Mua cà phê cho tôi"
+    },
+    "Comments": {
+        "title": "Bình luận",
+        "loading": "Đang tải bình luận..."
+    },
+    "Category": {
+        "posts": "Bài viết",
+        "description": "Mô tả"
+    },
+    "Tag": {
+        "posts": "Bài viết với thẻ"
+    }
+}

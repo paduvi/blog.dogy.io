@@ -4,6 +4,7 @@ import { Post } from '@/data/mockData';
 import PostCard from '@/components/common/PostCard';
 import PostCardSkeleton from '@/components/common/PostCardSkeleton';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface LatestPostsProps {
     posts: Post[];
@@ -12,6 +13,7 @@ interface LatestPostsProps {
 const POSTS_PER_PAGE = 9;
 
 export default function LatestPosts({ posts }: LatestPostsProps) {
+    const t = useTranslations('Home');
     const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
@@ -77,7 +79,7 @@ export default function LatestPosts({ posts }: LatestPostsProps) {
             <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold flex items-center gap-2">
                     <span className="w-2 h-8 bg-primary rounded-full"></span>
-                    Latest Posts
+                    {t('latestPosts')}
                 </h2>
             </div>
 
@@ -102,7 +104,7 @@ export default function LatestPosts({ posts }: LatestPostsProps) {
             {/* End of posts message */}
             {!hasMore && displayedPosts.length > 0 && (
                 <div className="text-center py-8 text-muted">
-                    <p>You've reached the end! 🎉</p>
+                    <p>{t('endOfPosts')}</p>
                 </div>
             )}
         </section>

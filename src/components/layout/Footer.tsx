@@ -1,6 +1,11 @@
+'use client';
+
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 export default function Footer() {
+    const t = useTranslations('Footer');
+
     return (
         <footer className="bg-white border-t mt-12 py-8">
             <div className="container">
@@ -15,9 +20,9 @@ export default function Footer() {
 
                     <div className="flex gap-6 text-sm text-muted">
                         <Link href="https://hashnode.com/privacy?source=blog-footer" target="_blank"
-                            rel="noopener noreferrer" className="hover-text-main">Privacy Policy</Link>
+                            rel="noopener noreferrer" className="hover-text-main">{t('privacyPolicy')}</Link>
                         <Link href="https://hashnode.com/terms?source=blog-footer" target="_blank"
-                            rel="noopener noreferrer" className="hover-text-main">Terms</Link>
+                            rel="noopener noreferrer" className="hover-text-main">{t('terms')}</Link>
                     </div>
                 </div>
             </div>

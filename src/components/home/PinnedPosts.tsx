@@ -1,14 +1,17 @@
 "use client";
 
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { Post } from '@/data/mockData';
 import { BookOpen, Pin } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 interface PinnedPostsProps {
     posts: Post[];
 }
 
 export default function PinnedPosts({ posts }: PinnedPostsProps) {
+    const t = useTranslations('Home');
+
     if (posts.length === 0) return null;
 
     // Only show first 3 pinned posts
@@ -33,7 +36,7 @@ export default function PinnedPosts({ posts }: PinnedPostsProps) {
                         <div className="absolute inset-0 bg-black-30 bg-gradient-to-t from-black-80 via-black-30 to-transparent flex flex-col justify-end p-6 text-white">
                             <div className="flex items-center gap-2 mb-2">
                                 <Pin size={14} className="text-primary" fill="currentColor" />
-                                <span className="text-gray-300 text-xs font-semibold">Pinned</span>
+                                <span className="text-gray-300 text-xs font-semibold">{t('pinnedLabel')}</span>
                             </div>
                             <p className="text-gray-300 text-sm mb-3 line-clamp-2">{fixedPost.excerpt}</p>
                             <h2 className="text-2xl md-text-3xl font-bold mb-4 group-hover-underline decoration-2 underline-offset-4 line-clamp-2">
@@ -65,7 +68,7 @@ export default function PinnedPosts({ posts }: PinnedPostsProps) {
                                     <div className="absolute inset-0 bg-black-30 bg-gradient-to-t from-black-80 via-black-30 to-transparent flex flex-col justify-end p-5 text-white">
                                         <div className="flex items-center gap-2 mb-2">
                                             <Pin size={12} className="text-primary" fill="currentColor" />
-                                            <span className="text-gray-300 text-xs font-semibold">Pinned</span>
+                                            <span className="text-gray-300 text-xs font-semibold">{t('pinnedLabel')}</span>
                                         </div>
                                         <p className="text-gray-300 text-xs mb-2 line-clamp-2">{post.excerpt}</p>
                                         <h3 className="text-lg md-text-xl font-bold mb-3 card-group-hover-underline decoration-2 underline-offset-4 line-clamp-2">

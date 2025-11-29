@@ -1,5 +1,8 @@
-import Link from 'next/link';
+'use client';
+
+import { Link } from '@/i18n/routing';
 import { Tag } from '@/data/mockData';
+import { useTranslations } from 'next-intl';
 
 interface TagCloudProps {
     tags: Tag[];
@@ -8,9 +11,11 @@ interface TagCloudProps {
 }
 
 export default function TagCloud({ tags, currentTagSlug, fullHeight = false }: TagCloudProps) {
+    const t = useTranslations('Common');
+
     return (
         <section className="bg-white rounded-xl p-6 border h-fit">
-            <h3 className="font-bold text-lg mb-4">Discover more</h3>
+            <h3 className="font-bold text-lg mb-4">{t('discoverMore')}</h3>
             <div className={`flex flex-wrap gap-2 ${fullHeight ? '' : 'md-max-h-64 md-overflow-y-auto md-pr-2'}`}>
                 {tags.map((tag) => {
                     const isCurrentTag = tag.slug === currentTagSlug;
