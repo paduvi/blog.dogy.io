@@ -1,4 +1,3 @@
-import { posts, tags } from '@/data/mockData';
 import { notFound } from 'next/navigation';
 import { Link } from '@/i18n/routing';
 import { Calendar, Clock, Tag as TagIcon } from 'lucide-react';
@@ -6,6 +5,7 @@ import SeriesSection from '@/components/post/SeriesSection';
 import TagCloud from '@/components/common/TagCloud';
 import PostActions from '@/components/post/PostActions';
 import { getTranslations } from 'next-intl/server';
+import { getHashnodeHost, hashnodeApi, mapHashnodePostToPost } from '@/lib/hashnode';
 
 interface PageProps {
     params: Promise<{
@@ -15,8 +15,11 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps) {
-    const { slug } = await params;
-    const post = posts.find((p) => p.slug === slug);
+    const { slug, locale } = await params;
+    const host = getHashnodeHost(locale);
+    const data = await hashnodeApi.getPostBySlug(host, slug);
+    const post = data.post ? mapHashnodePostToPost(data.post) : null;
+
     if (!post) return { title: 'Post Not Found' };
 
     return {
@@ -27,17 +30,34 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function PostPage({ params }: PageProps) {
     const { slug, locale } = await params;
-    const post = posts.find((p) => p.slug === slug);
+    const host = getHashnodeHost(locale);
+    const data = await hashnodeApi.getPostBySlug(host, slug);
+    const post = data.post ? mapHashnodePostToPost(data.post) : null;
     const t = await getTranslations('Post');
 
     if (!post) {
         notFound();
     }
 
+    // Fetch tags for cloud (can be optimized to fetch once or use static/cached)
+    // For now, we can use tags from the current post or fetch latest posts to get tags
+    // Let's fetch latest posts to populate tag cloud
+    const postsData = await hashnodeApi.getPosts(host);
+    const allPosts = postsData.posts.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
+    const tagsMap = new Map();
+    allPosts.forEach((p: any) => {
+        p.tags.forEach((tag: any) => {
+            if (!tagsMap.has(tag.slug)) {
+                tagsMap.set(tag.slug, tag);
+            }
+        });
+    });
+    const tags = Array.from(tagsMap.values());
+
     return (
         <article className="container py-8 max-w-4xl mx-auto">
             <div className="mb-8">
-                {post.category && (
+                {post.category && post.category.id !== 'uncategorized' && (
                     <Link href={`/category/${post.category.slug}`} className="text-primary font-medium mb-4 inline-block hover-underline">
                         {post.category.name}
                     </Link>
@@ -69,14 +89,7 @@ export default async function PostPage({ params }: PageProps) {
                 />
             </div>
 
-            <div className="prose prose-lg max-w-none mb-12">
-                {/* In a real app, this would be rendered markdown or HTML */}
-                <p className="text-xl leading-relaxed mb-6">{post.excerpt}</p>
-                <p className="mb-4">{post.content}</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                <h2 className="text-2xl font-bold mt-8 mb-4">Subheading</h2>
-                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            </div>
+            <div className="prose prose-lg max-w-none mb-12" dangerouslySetInnerHTML={{ __html: post.content }} />
 
             <div className="border-t pt-8">
                 <h3 className="font-bold mb-4 flex items-center gap-2">
@@ -84,7 +97,7 @@ export default async function PostPage({ params }: PageProps) {
                     {t('tags')}
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                    {post.tags.map((tag) => (
+                    {post.tags.map((tag: any) => (
                         <Link
                             key={tag.id}
                             href={`/tag/${tag.slug}`}
@@ -96,7 +109,7 @@ export default async function PostPage({ params }: PageProps) {
                 </div>
             </div>
 
-            {post.category && (
+            {post.category && post.category.id !== 'uncategorized' && (
                 <SeriesSection
                     categorySlug={post.category.slug}
                     categoryName={post.category.name}

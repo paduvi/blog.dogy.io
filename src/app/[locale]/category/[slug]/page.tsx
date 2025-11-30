@@ -1,13 +1,14 @@
-import { posts, categories, tags } from '@/data/mockData';
 import CategoryPostList from '@/components/category/CategoryPostList';
 import TagCloud from '@/components/common/TagCloud';
 import BuyMeACoffee from '@/components/common/BuyMeACoffee';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
+import { getHashnodeHost, hashnodeApi, mapHashnodePostToPost } from '@/lib/hashnode';
 
 interface PageProps {
     params: Promise<{
         slug: string;
+        locale: string;
     }>;
     searchParams: Promise<{
         sort?: string;
@@ -15,8 +16,11 @@ interface PageProps {
 }
 
 export async function generateMetadata({ params }: PageProps) {
-    const { slug } = await params;
-    const category = categories.find((c) => c.slug === slug);
+    const { slug, locale } = await params;
+    const host = getHashnodeHost(locale);
+    const data = await hashnodeApi.getPostsBySeries(host, slug, 1);
+    const category = data.series;
+
     if (!category) return { title: 'Category Not Found' };
 
     return {
@@ -26,15 +30,31 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function CategoryPage({ params }: PageProps) {
-    const { slug } = await params;
-    const category = categories.find((c) => c.slug === slug);
+    const { slug, locale } = await params;
+    const host = getHashnodeHost(locale);
     const t = await getTranslations('Post');
+
+    const data = await hashnodeApi.getPostsBySeries(host, slug, 20);
+    const category = data.series;
 
     if (!category) {
         notFound();
     }
 
-    let categoryPosts = posts.filter((post) => post.category.slug === slug);
+    const categoryPosts = category.posts.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
+
+    // Fetch tags for cloud
+    const postsData = await hashnodeApi.getPosts(host);
+    const allPosts = postsData.posts.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
+    const tagsMap = new Map();
+    allPosts.forEach((p: any) => {
+        p.tags.forEach((tag: any) => {
+            if (!tagsMap.has(tag.slug)) {
+                tagsMap.set(tag.slug, tag);
+            }
+        });
+    });
+    const tags = Array.from(tagsMap.values());
 
     return (
         <div className="container py-8">
@@ -44,9 +64,7 @@ export default async function CategoryPage({ params }: PageProps) {
                 <div className="flex flex-col justify-center">
                     <span className="text-xs font-bold text-muted uppercase tracking-wider mb-3">{t('seriesTitle')}</span>
                     <h1 className="text-4xl md-text-5xl font-bold mb-4">{category.name}</h1>
-                    <p className="text-muted text-lg mb-6">
-                        In this series, I will cover most of famous and useful algorithms in the real world
-                    </p>
+                    <div className="text-muted text-lg mb-6" dangerouslySetInnerHTML={{ __html: category.description?.html || '' }} />
                 </div>
 
                 {/* Right: Cover Image */}
@@ -70,7 +88,7 @@ export default async function CategoryPage({ params }: PageProps) {
             <div className="grid grid-cols-1 lg-grid-cols-12 gap-8">
                 {/* Main Content */}
                 <div className="lg-col-span-8">
-                    <CategoryPostList posts={categoryPosts} sortOrder={category.sortOrder} />
+                    <CategoryPostList posts={categoryPosts} sortOrder="newest" />
                 </div>
 
                 {/* Sidebar */}

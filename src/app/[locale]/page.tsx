@@ -2,19 +2,58 @@ import PinnedPosts from '@/components/home/PinnedPosts';
 import LatestPosts from '@/components/home/LatestPosts';
 import TagCloud from '@/components/common/TagCloud';
 import BuyMeACoffee from '@/components/common/BuyMeACoffee';
-import { posts, tags } from '@/data/mockData';
+import { getHashnodeHost, hashnodeApi, mapHashnodePostToPost } from '@/lib/hashnode';
 
-export default function Home() {
-  const pinnedPosts = posts.filter(post => post.isPinned);
+export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  const host = getHashnodeHost(locale);
+  const data = await hashnodeApi.getPosts(host);
+
+  const pinnedPost = data.pinnedPost ? mapHashnodePostToPost(data.pinnedPost) : null;
+  const posts = data.posts.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
+
+  // Create list of pinned posts
+  // If there's a pinned post from API, use it as the first pinned post
+  // Then take the first 2 regular posts to fill up to 3 pinned posts total
+  let pinnedPosts: any[] = [];
+  let regularPosts: any[] = [];
+
+  if (pinnedPost) {
+    pinnedPosts.push({ ...pinnedPost, isPinned: true });
+    // Filter out the pinned post from regular posts if it exists there
+    regularPosts = posts.filter((p: any) => p.id !== pinnedPost.id);
+  } else {
+    regularPosts = posts;
+  }
+
+  // Take first 2 posts from regular posts to fill pinned section (up to 3 total)
+  const additionalPinnedCount = Math.min(3 - pinnedPosts.length, regularPosts.length);
+  if (additionalPinnedCount > 0) {
+    const additionalPinned = regularPosts.slice(0, additionalPinnedCount).map((p: any) => ({ ...p, isPinned: true }));
+    pinnedPosts = [...pinnedPosts, ...additionalPinned];
+    regularPosts = regularPosts.slice(additionalPinnedCount);
+  }
+
+  const allPosts = [...pinnedPosts, ...regularPosts];
+
+  // Extract tags from posts
+  const tagsMap = new Map();
+  allPosts.forEach((post: any) => {
+    post.tags.forEach((tag: any) => {
+      if (!tagsMap.has(tag.slug)) {
+        tagsMap.set(tag.slug, tag);
+      }
+    });
+  });
+  const tags = Array.from(tagsMap.values());
 
   // Show first 3 pinned posts in pinned section
   const displayedPinnedPosts = pinnedPosts.slice(0, 3);
-  // Remaining pinned posts (after 3rd) go to latest posts
+  // Remaining pinned posts (after 3rd) go to latest posts (shouldn't happen with current logic)
   const remainingPinnedPosts = pinnedPosts.slice(3);
 
-  const regularLatestPosts = posts.filter(post => !post.isPinned);
   // Combine remaining pinned posts with regular latest posts
-  const latestPosts = [...remainingPinnedPosts, ...regularLatestPosts];
+  const latestPosts = [...remainingPinnedPosts, ...regularPosts];
 
   return (
     <div className="container py-8">

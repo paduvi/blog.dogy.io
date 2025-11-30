@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react';
-import { posts, categories } from '@/data/mockData';
 import { Link } from '@/i18n/routing';
 import { ChevronDown, Calendar, Clock } from 'lucide-react';
 import SeriesPostSkeleton from './SeriesPostSkeleton';
 import type { Post } from '@/data/mockData';
 import { useTranslations, useLocale } from 'next-intl';
+import { getHashnodeHost, hashnodeApi, mapHashnodePostToPost } from '@/lib/hashnode';
 
 interface SeriesSectionProps {
     categorySlug: string;
@@ -34,34 +34,37 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
 
     // Initialize posts
     useEffect(() => {
-        // Get category to find sortOrder
-        const category = categories.find(c => c.slug === categorySlug);
-        const sortOrder = category?.sortOrder || 'newest';
+        const fetchSeriesPosts = async () => {
+            try {
+                const host = getHashnodeHost(locale);
+                // Fetch up to 20 posts for the series
+                const data = await hashnodeApi.getPostsBySeries(host, categorySlug, 20);
 
-        // Filter posts by category
-        const categoryPosts = posts.filter(p => p.category?.slug === categorySlug);
+                if (!data.series) return;
 
-        // Sort posts according to sortOrder
-        const sortedPosts = [...categoryPosts].sort((a, b) => {
-            const dateA = new Date(a.publishedAt).getTime();
-            const dateB = new Date(b.publishedAt).getTime();
-            return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
-        });
+                const posts = data.series.posts.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
 
-        setSeriesPosts(sortedPosts);
+                // Hashnode returns newest first by default
+                setSeriesPosts(posts);
 
-        // Find current post index
-        const currentIndex = sortedPosts.findIndex(p => p.slug === currentPostSlug);
+                // Find current post index
+                const currentIndex = posts.findIndex((p: any) => p.slug === currentPostSlug);
 
-        // Load enough posts to cover up to currentIndex + initial batch
-        const endIndex = currentIndex + POSTS_PER_PAGE;
-        setDisplayedPosts(sortedPosts.slice(0, endIndex));
-        setHasMore(endIndex < sortedPosts.length);
-        setPage(Math.ceil(endIndex / POSTS_PER_PAGE));
+                // Load enough posts to cover up to currentIndex + initial batch
+                const endIndex = currentIndex + POSTS_PER_PAGE;
+                setDisplayedPosts(posts.slice(0, endIndex));
+                setHasMore(endIndex < posts.length);
+                setPage(Math.ceil(endIndex / POSTS_PER_PAGE));
 
-        // Reset showPrevious when changing posts
-        setShowPrevious(false);
-    }, [categorySlug, currentPostSlug]);
+                // Reset showPrevious when changing posts
+                setShowPrevious(false);
+            } catch (error) {
+                console.error("Failed to fetch series posts:", error);
+            }
+        };
+
+        fetchSeriesPosts();
+    }, [categorySlug, currentPostSlug, locale]);
 
     // Handle showing previous posts with scroll preservation
     const handleShowPrevious = () => {

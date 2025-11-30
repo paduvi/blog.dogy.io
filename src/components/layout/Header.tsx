@@ -1,13 +1,20 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Search, Menu, ChevronDown, Bell, X } from 'lucide-react';
 import { Link, useRouter, usePathname } from '@/i18n/routing';
 import { useState } from 'react';
-import { categories } from '@/data/mockData';
 import { useLocale, useTranslations } from 'next-intl';
 
-export default function Header() {
+interface HeaderProps {
+    categories: {
+        id: string;
+        name: string;
+        slug: string;
+    }[];
+}
+
+export default function Header({ categories }: HeaderProps) {
     const router = useRouter();
     const pathname = usePathname();
     const locale = useLocale();
@@ -15,6 +22,13 @@ export default function Header() {
     const [searchQuery, setSearchQuery] = useState('');
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+
+    // Clear search query when navigating away from search page
+    useEffect(() => {
+        if (!pathname.startsWith('/search')) {
+            setSearchQuery('');
+        }
+    }, [pathname]);
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
@@ -36,7 +50,8 @@ export default function Header() {
 
     const switchLanguage = () => {
         const nextLocale = locale === 'en' ? 'vi' : 'en';
-        router.replace(pathname, { locale: nextLocale });
+        // Redirect to home page of the new locale
+        router.replace('/', { locale: nextLocale });
     };
 
     return (

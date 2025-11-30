@@ -38,10 +38,10 @@ export default function PinnedPosts({ posts }: PinnedPostsProps) {
                                 <Pin size={14} className="text-primary" fill="currentColor" />
                                 <span className="text-gray-300 text-xs font-semibold">{t('pinnedLabel')}</span>
                             </div>
-                            <p className="text-gray-300 text-sm mb-3 line-clamp-2">{fixedPost.excerpt}</p>
                             <h2 className="text-2xl md-text-3xl font-bold mb-4 group-hover-underline decoration-2 underline-offset-4 line-clamp-2">
                                 {fixedPost.title}
                             </h2>
+                            <p className="text-gray-300 text-sm mb-3 line-clamp-2">{fixedPost.excerpt}</p>
                             <div className="flex items-center gap-2 text-sm">
                                 <BookOpen size={14} />
                                 <span>{t('readTime', { minutes: fixedPost.readTime })}</span>
@@ -66,14 +66,10 @@ export default function PinnedPosts({ posts }: PinnedPostsProps) {
                                         className="w-full h-full object-cover transition-transform duration-300"
                                     />
                                     <div className="absolute inset-0 bg-black-30 bg-gradient-to-t from-black-80 via-black-30 to-transparent flex flex-col justify-end p-5 text-white">
-                                        <div className="flex items-center gap-2 mb-2">
-                                            <Pin size={12} className="text-primary" fill="currentColor" />
-                                            <span className="text-gray-300 text-xs font-semibold">{t('pinnedLabel')}</span>
-                                        </div>
-                                        <p className="text-gray-300 text-xs mb-2 line-clamp-2">{post.excerpt}</p>
                                         <h3 className="text-lg md-text-xl font-bold mb-3 card-group-hover-underline decoration-2 underline-offset-4 line-clamp-2">
                                             {post.title}
                                         </h3>
+                                        <p className="text-gray-300 text-xs mb-2 line-clamp-2">{post.excerpt}</p>
                                         <div className="flex items-center gap-2 text-xs">
                                             <BookOpen size={12} />
                                             <span>{t('readTime', { minutes: post.readTime })}</span>

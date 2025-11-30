@@ -1,27 +1,83 @@
 "use client";
 
 import { useSearchParams } from 'next/navigation';
-import { posts, tags } from '@/data/mockData';
 import InfinitePostGrid from '@/components/common/InfinitePostGrid';
 import TagCloud from '@/components/common/TagCloud';
 import BuyMeACoffee from '@/components/common/BuyMeACoffee';
 import { Search } from 'lucide-react';
-import { Suspense } from 'react';
-import { useTranslations } from 'next-intl';
+import { Suspense, useEffect, useState } from 'react';
+import { useTranslations, useLocale } from 'next-intl';
+import { getHashnodeHost, hashnodeApi, mapHashnodePostToPost } from '@/lib/hashnode';
 
 function SearchResults() {
     const searchParams = useSearchParams();
     const query = searchParams.get('q') || '';
+    const locale = useLocale();
     const t = useTranslations('Search');
+    const [searchResults, setSearchResults] = useState<any[]>([]);
+    const [tags, setTags] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    const searchResults = posts.filter((post) => {
-        const searchTerm = query.toLowerCase();
+    useEffect(() => {
+        const fetchSearchResults = async () => {
+            if (!query) {
+                setSearchResults([]);
+                setLoading(false);
+                return;
+            }
+
+            try {
+                setLoading(true);
+                const host = getHashnodeHost(locale);
+
+                // Get publication ID (from cache or fetch)
+                const { getPublicationId: getCachedId, setPublicationId } = await import('@/store/publicationStore').then(m => m.usePublicationStore.getState());
+                let publicationId: string | undefined = getCachedId(host);
+
+                if (!publicationId) {
+                    // Fetch and cache publication ID
+                    const fetchedId = await hashnodeApi.getPublicationId(host);
+                    setPublicationId(host, fetchedId);
+                    publicationId = fetchedId;
+                }
+
+                // Search for posts using publication ID
+                const data = await hashnodeApi.searchPosts(publicationId!, query, 20);
+                const posts = data.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
+                setSearchResults(posts);
+
+                // Fetch tags for cloud
+                const postsData = await hashnodeApi.getPosts(host);
+                const allPosts = postsData.posts.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
+                const tagsMap = new Map();
+                allPosts.forEach((p: any) => {
+                    p.tags.forEach((tag: any) => {
+                        if (!tagsMap.has(tag.slug)) {
+                            tagsMap.set(tag.slug, tag);
+                        }
+                    });
+                });
+                setTags(Array.from(tagsMap.values()));
+            } catch (error) {
+                console.error("Failed to fetch search results:", error);
+                setSearchResults([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchSearchResults();
+    }, [query, locale]);
+
+    if (loading) {
         return (
-            post.title.toLowerCase().includes(searchTerm) ||
-            post.excerpt.toLowerCase().includes(searchTerm) ||
-            post.content.toLowerCase().includes(searchTerm)
+            <div className="container py-8">
+                <div className="text-center py-12">
+                    <p className="text-muted">Loading...</p>
+                </div>
+            </div>
         );
-    });
+    }
 
     return (
         <div className="container py-8">

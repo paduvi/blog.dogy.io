@@ -19,6 +19,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
+import { getHashnodeHost, hashnodeApi } from '@/lib/hashnode';
 
 export default async function LocaleLayout({
   children,
@@ -38,11 +39,20 @@ export default async function LocaleLayout({
   // side is the easiest way to get started
   const messages = await getMessages();
 
+  // Fetch categories (series) for the header
+  const host = getHashnodeHost(locale);
+  const data = await hashnodeApi.getSeries(host);
+  const categories = data.seriesList.edges.map((edge: any) => ({
+    id: edge.node.id,
+    name: edge.node.name,
+    slug: edge.node.slug,
+  }));
+
   return (
     <html lang={locale}>
       <body className={inter.className}>
         <NextIntlClientProvider messages={messages}>
-          <Header />
+          <Header categories={categories} />
           <main className="min-h-screen">
             {children}
           </main>
