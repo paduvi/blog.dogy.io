@@ -97,7 +97,16 @@ export default function CategoryPostList({ posts, sortOrder = 'newest' }: Catego
                         href={`/post/${post.slug}`}
                         className="group grid grid-cols-1 md-grid-cols-3 gap-6 pb-8 border-b transition-colors"
                     >
-                        {/* Left: Content */}
+                        {/* Left: Image */}
+                        <div className="relative aspect-video md-aspect-square rounded-lg overflow-hidden bg-gray-100">
+                            <img
+                                src={post.coverImage}
+                                alt={post.title}
+                                className="absolute inset-0 w-full h-full object-cover group-hover-scale-105 transition-transform duration-300"
+                            />
+                        </div>
+
+                        {/* Right: Content */}
                         <div className="md-col-span-2 flex flex-col justify-between">
                             <div>
                                 <h3 className="text-2xl font-bold mb-3 group-hover-text-primary transition-colors">
@@ -117,15 +126,6 @@ export default function CategoryPostList({ posts, sortOrder = 'newest' }: Catego
                                     <span>{t('readTime', { minutes: post.readTime })}</span>
                                 </div>
                             </div>
-                        </div>
-
-                        {/* Right: Image */}
-                        <div className="relative aspect-video md-aspect-square rounded-lg overflow-hidden bg-gray-100">
-                            <img
-                                src={post.coverImage}
-                                alt={post.title}
-                                className="absolute inset-0 w-full h-full object-cover group-hover-scale-105 transition-transform duration-300"
-                            />
                         </div>
                     </Link>
                 ))}

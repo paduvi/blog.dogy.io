@@ -4,7 +4,7 @@
         "subscribe": "Đăng ký",
         "switchToVietnamese": "Chuyển sang Tiếng Việt",
         "switchToEnglish": "Chuyển sang Tiếng Anh",
-        "categories": "Danh sách"
+        "categories": "Series"
     },
     "Footer": {
         "privacyPolicy": "Chính sách bảo mật",
@@ -24,8 +24,8 @@
         "tableOfContents": "Mục lục",
         "sponsor": "Ủng hộ",
         "shareArticle": "Chia sẻ bài viết",
-        "series": "Chuỗi bài viết",
-        "seriesTitle": "Chuỗi bài",
+        "series": "Danh sách bài viết",
+        "seriesTitle": "Series",
         "tags": "Thẻ",
         "showPreviousPosts": "Hiển thị {count} bài trước",
         "showPreviousPost": "Hiển thị {count} bài trước",

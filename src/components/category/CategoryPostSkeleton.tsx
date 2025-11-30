@@ -1,7 +1,12 @@
 export default function CategoryPostSkeleton() {
     return (
         <div className="grid grid-cols-1 md-grid-cols-3 gap-6 pb-8 border-b">
-            {/* Left: Content - 2 columns on medium screens */}
+            {/* Left: Image - 1 column on medium screens */}
+            <div className="relative aspect-video md-aspect-square rounded-lg overflow-hidden">
+                <div className="skeleton-image shimmer"></div>
+            </div>
+
+            {/* Right: Content - 2 columns on medium screens */}
             <div className="md-col-span-2 flex flex-col justify-between">
                 <div>
                     {/* Title skeleton - 2 lines */}
@@ -30,11 +35,6 @@ export default function CategoryPostSkeleton() {
                         <div className="skeleton-text shimmer w-16 h-4"></div>
                     </div>
                 </div>
-            </div>
-
-            {/* Right: Image - 1 column on medium screens */}
-            <div className="relative aspect-video md-aspect-square rounded-lg overflow-hidden">
-                <div className="skeleton-image shimmer"></div>
             </div>
         </div>
     );
