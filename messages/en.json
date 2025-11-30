@@ -3,7 +3,8 @@
         "searchPlaceholder": "Search...",
         "subscribe": "Subscribe",
         "switchToVietnamese": "Switch to Vietnamese",
-        "switchToEnglish": "Switch to English"
+        "switchToEnglish": "Switch to English",
+        "categories": "Series"
     },
     "Footer": {
         "privacyPolicy": "Privacy Policy",

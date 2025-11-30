@@ -71,26 +71,7 @@ export const categories: Category[] = [
     },
 ];
 
-export const categoryGroups: CategoryGroup[] = [
-    {
-        id: '1',
-        name: 'Engineering',
-        slug: 'engineering',
-        categories: [
-            { id: '1', name: 'Development', slug: 'development' },
-            { id: '4', name: 'AI', slug: 'ai' },
-        ]
-    },
-    {
-        id: '2',
-        name: 'Lifestyle',
-        slug: 'lifestyle',
-        categories: [
-            { id: '2', name: 'Design', slug: 'design' },
-            { id: '3', name: 'Productivity', slug: 'productivity' },
-        ]
-    }
-];
+
 
 export const tags: Tag[] = [
     { id: '1', name: 'React', slug: 'react' },

@@ -4,7 +4,7 @@ import React from 'react';
 import { Search, Menu, ChevronDown, Bell, X } from 'lucide-react';
 import { Link, useRouter, usePathname } from '@/i18n/routing';
 import { useState } from 'react';
-import { categoryGroups } from '@/data/mockData';
+import { categories } from '@/data/mockData';
 import { useLocale, useTranslations } from 'next-intl';
 
 export default function Header() {
@@ -59,28 +59,26 @@ export default function Header() {
                     </div>
 
                     <nav className="hidden md-flex items-center gap-6">
-                        {categoryGroups.map((group) => (
-                            <div key={group.id} className="relative group h-16 flex items-center">
-                                <button className="flex items-center gap-1 font-medium text-sm text-muted hover-text-main transition-colors btn-transparent">
-                                    {group.name}
-                                    <ChevronDown size={14} />
-                                </button>
+                        <div className="relative group h-16 flex items-center">
+                            <button className="flex items-center gap-1 font-medium text-sm text-muted hover-text-main transition-colors btn-transparent">
+                                {t('categories')}
+                                <ChevronDown size={14} />
+                            </button>
 
-                                <div className="absolute top-full left-0 w-48 pt-2 opacity-0 invisible group-hover-opacity-100 group-hover-visible transition-all duration-200 transform translate-y-2 group-hover-translate-y-0 z-50">
-                                    <div className="bg-white border rounded-lg shadow-lg p-2">
-                                        {group.categories.map((category) => (
-                                            <Link
-                                                key={category.id}
-                                                href={`/category/${category.slug}`}
-                                                className="block px-4 py-2 text-sm text-muted hover-text-primary hover-bg-gray-50 rounded-md transition-colors"
-                                            >
-                                                {category.name}
-                                            </Link>
-                                        ))}
-                                    </div>
+                            <div className="absolute top-full left-0 w-48 pt-2 opacity-0 invisible group-hover-opacity-100 group-hover-visible transition-all duration-200 transform translate-y-2 group-hover-translate-y-0 z-50">
+                                <div className="bg-white border rounded-lg shadow-lg p-2">
+                                    {categories.map((category) => (
+                                        <Link
+                                            key={category.id}
+                                            href={`/category/${category.slug}`}
+                                            className="block px-4 py-2 text-sm text-muted hover-text-primary hover-bg-gray-50 rounded-md transition-colors"
+                                        >
+                                            {category.name}
+                                        </Link>
+                                    ))}
                                 </div>
                             </div>
-                        ))}
+                        </div>
                     </nav>
                 </div>
 
@@ -165,23 +163,21 @@ export default function Header() {
             {isMobileMenuOpen && (
                 <div className="md-hidden bg-white border-t">
                     <nav className="p-4">
-                        {categoryGroups.map((group) => (
-                            <div key={group.id} className="mb-4">
-                                <h3 className="font-semibold text-sm text-gray-700 mb-2">{group.name}</h3>
-                                <div className="flex flex-col gap-1">
-                                    {group.categories.map((category) => (
-                                        <Link
-                                            key={category.id}
-                                            href={`/category/${category.slug}`}
-                                            className="block px-4 py-2 text-sm text-muted hover-text-primary hover-bg-gray-50 rounded-md transition-colors"
-                                            onClick={() => setIsMobileMenuOpen(false)}
-                                        >
-                                            {category.name}
-                                        </Link>
-                                    ))}
-                                </div>
+                        <div className="mb-4">
+                            <h3 className="font-semibold text-sm text-gray-700 mb-2">{t('categories')}</h3>
+                            <div className="flex flex-col gap-1">
+                                {categories.map((category) => (
+                                    <Link
+                                        key={category.id}
+                                        href={`/category/${category.slug}`}
+                                        className="block px-4 py-2 text-sm text-muted hover-text-primary hover-bg-gray-50 rounded-md transition-colors"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        {category.name}
+                                    </Link>
+                                ))}
                             </div>
-                        ))}
+                        </div>
                     </nav>
                 </div>
             )}
