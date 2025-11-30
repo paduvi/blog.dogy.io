@@ -6,7 +6,7 @@ import { Link } from '@/i18n/routing';
 import { ChevronDown, Calendar, Clock } from 'lucide-react';
 import SeriesPostSkeleton from './SeriesPostSkeleton';
 import type { Post } from '@/data/mockData';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface SeriesSectionProps {
     categorySlug: string;
@@ -18,6 +18,7 @@ const POSTS_PER_PAGE = 5;
 
 export default function SeriesSection({ categorySlug, categoryName, currentPostSlug }: SeriesSectionProps) {
     const t = useTranslations('Post');
+    const locale = useLocale();
     const [seriesPosts, setSeriesPosts] = useState<Post[]>([]);
     const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
     const [page, setPage] = useState(1);
@@ -241,7 +242,7 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
                                         <div className="flex items-center gap-4 text-sm text-muted">
                                             <span className="flex items-center gap-2">
                                                 <Calendar size={14} />
-                                                {new Date(post.publishedAt).toLocaleDateString('en-US', {
+                                                {new Date(post.publishedAt).toLocaleDateString(locale === 'vi' ? 'vi-VN' : 'en-US', {
                                                     year: 'numeric',
                                                     month: 'short',
                                                     day: 'numeric'
@@ -249,7 +250,7 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
                                             </span>
                                             <span className="flex items-center gap-2">
                                                 <Clock size={14} />
-                                                {post.readTime}
+                                                {t('readTime', { minutes: post.readTime })}
                                             </span>
                                         </div>
                                     </div>

@@ -3,8 +3,9 @@
 import { Post } from '@/data/mockData';
 import CategoryPostSkeleton from '@/components/category/CategoryPostSkeleton';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import { Calendar, Clock } from 'lucide-react';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface CategoryPostListProps {
     posts: Post[];
@@ -14,6 +15,9 @@ interface CategoryPostListProps {
 const POSTS_PER_PAGE = 6;
 
 export default function CategoryPostList({ posts, sortOrder = 'newest' }: CategoryPostListProps) {
+    const t = useTranslations('Post');
+    const tCommon = useTranslations('Common');
+    const locale = useLocale();
     const [sortedPosts, setSortedPosts] = useState<Post[]>([]);
     const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
     const [page, setPage] = useState(1);
@@ -106,11 +110,11 @@ export default function CategoryPostList({ posts, sortOrder = 'newest' }: Catego
                             <div className="flex items-center gap-4 text-sm text-muted">
                                 <div className="flex items-center gap-2">
                                     <Calendar size={14} />
-                                    <span>{new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                                    <span>{new Date(post.publishedAt).toLocaleDateString(locale === 'vi' ? 'vi-VN' : 'en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <Clock size={14} />
-                                    <span>{post.readTime}</span>
+                                    <span>{t('readTime', { minutes: post.readTime })}</span>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +145,7 @@ export default function CategoryPostList({ posts, sortOrder = 'newest' }: Catego
             {/* End of posts message */}
             {!hasMore && displayedPosts.length > 0 && (
                 <div className="text-center py-8 text-muted">
-                    <p>You've reached the end of the list. 🎉</p>
+                    <p>{tCommon('endOfPosts')} 🎉</p>
                 </div>
             )}
 
