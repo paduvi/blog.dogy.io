@@ -379,7 +379,7 @@ export const mapHashnodePostToPost = (node: HashnodePost): any => {
         title: node.title,
         slug: node.slug,
         excerpt: node.brief,
-        content: node.content?.html || node.content?.markdown || '',
+        content: node.content?.markdown || node.content?.html || '',
         coverImage: node.coverImage?.url || '',
         author: {
             name: node.author.name,

@@ -4,6 +4,7 @@ import { Calendar, Clock, Tag as TagIcon } from 'lucide-react';
 import SeriesSection from '@/components/post/SeriesSection';
 import TagCloud from '@/components/common/TagCloud';
 import PostActions from '@/components/post/PostActions';
+import MarkdownContent from '@/components/post/MarkdownContent';
 import { getTranslations } from 'next-intl/server';
 import { getHashnodeHost, hashnodeApi, mapHashnodePostToPost } from '@/lib/hashnode';
 
@@ -81,7 +82,7 @@ export default async function PostPage({ params }: PageProps) {
                 </div>
             </div>
 
-            <div className="relative w-full h-400 mb-10 rounded-xl overflow-hidden">
+            <div className="relative w-full mb-10 rounded-xl overflow-hidden">
                 <img
                     src={post.coverImage}
                     alt={post.title}
@@ -89,7 +90,7 @@ export default async function PostPage({ params }: PageProps) {
                 />
             </div>
 
-            <div className="prose prose-lg max-w-none mb-12" dangerouslySetInnerHTML={{ __html: post.content }} />
+            <MarkdownContent content={post.content} className="prose prose-lg max-w-none mb-12" />
 
             <div className="border-t pt-8">
                 <h3 className="font-bold mb-4 flex items-center gap-2">
