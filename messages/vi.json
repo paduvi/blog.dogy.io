@@ -32,7 +32,8 @@
         "hidePreviousPosts": "Ẩn bài viết trước",
         "currentPost": "Bài hiện tại",
         "posts": "{count} Bài viết",
-        "post": "{count} Bài viết"
+        "post": "{count} Bài viết",
+        "noTableOfContents": "Không có mục lục"
     },
     "Common": {
         "loading": "Đang tải...",

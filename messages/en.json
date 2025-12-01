@@ -32,7 +32,8 @@
         "hidePreviousPosts": "Hide previous posts",
         "currentPost": "Current post",
         "posts": "{count} Posts",
-        "post": "{count} Post"
+        "post": "{count} Post",
+        "noTableOfContents": "No table of contents"
     },
     "Common": {
         "loading": "Loading...",

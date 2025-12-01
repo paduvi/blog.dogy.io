@@ -21,12 +21,46 @@
   line-height: 1.3;
 }
 
+.hashnode-content-style h1,
+.hashnode-content-style h2,
+.hashnode-content-style h3,
+.hashnode-content-style h4,
+.hashnode-content-style h5,
+.hashnode-content-style h6 {
+  scroll-margin-top: 100px; /* Adjust as needed, maybe 20vh */
+}
+
 .hashnode-content-style h1 { font-size: 2.25rem; }
-.hashnode-content-style h2 { font-size: 1.875rem; padding-bottom: 0.3em; border-bottom: 1px solid #e5e7eb; }
+.hashnode-content-style h2 { font-size: 1.875rem; padding-bottom: 0.3em; }
 .hashnode-content-style h3 { font-size: 1.5rem; }
 .hashnode-content-style h4 { font-size: 1.25rem; }
 .hashnode-content-style h5 { font-size: 1.125rem; }
 .hashnode-content-style h6 { font-size: 1rem; }
+
+/* Heading Anchors */
+.hashnode-content-style .heading-anchor {
+  opacity: 0;
+  margin-left: 0.5rem;
+  color: #9ca3af;
+  text-decoration: none;
+  font-weight: normal;
+  transition: opacity 0.2s;
+  font-size: 0.8em;
+}
+
+.hashnode-content-style h1:hover .heading-anchor,
+.hashnode-content-style h2:hover .heading-anchor,
+.hashnode-content-style h3:hover .heading-anchor,
+.hashnode-content-style h4:hover .heading-anchor,
+.hashnode-content-style h5:hover .heading-anchor,
+.hashnode-content-style h6:hover .heading-anchor {
+  opacity: 1;
+}
+
+.hashnode-content-style .heading-anchor:hover {
+    color: #4b5563;
+    text-decoration: none;
+}
 
 /* Paragraphs */
 .hashnode-content-style p {

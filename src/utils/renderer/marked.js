@@ -904,7 +904,19 @@ const { default: isURL } = require('validator/lib/isURL');
 
 	Renderer.prototype.heading = function (text, level, raw, slugger) {
 		const id = this.options.headerPrefix + slugger.getSlug(raw);
-		return '<h' + level + ' id="' + id + '">' + text + '</h' + level + '>\n';
+		return (
+			'<h' +
+			level +
+			' id="' +
+			id +
+			'">' +
+			text +
+			'<a href="#' +
+			id +
+			'" class="heading-anchor">#</a></h' +
+			level +
+			'>\n'
+		);
 	};
 
 	Renderer.prototype.hr = function () {
