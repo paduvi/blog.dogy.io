@@ -109,8 +109,8 @@ export const GET_POST_BY_SLUG = `
                 brief
                 content {
                     markdown
-                    html
                 }
+                hasLatexInPost
                 coverImage {
                     url
                 }
@@ -309,6 +309,7 @@ export interface HashnodePost {
         name: string;
         slug: string;
     }[];
+    hasLatexInPost?: boolean;
 }
 
 export interface HashnodeSeries {
@@ -379,7 +380,7 @@ export const mapHashnodePostToPost = (node: HashnodePost): any => {
         title: node.title,
         slug: node.slug,
         excerpt: node.brief,
-        content: node.content?.markdown || node.content?.html || '',
+        content: node.content,
         coverImage: node.coverImage?.url || '',
         author: {
             name: node.author.name,
@@ -402,6 +403,7 @@ export const mapHashnodePostToPost = (node: HashnodePost): any => {
             name: tag.name,
             slug: tag.slug,
         })) || [],
-        isPinned: false, // Hashnode doesn't have a direct pinned flag in this query, logic might be needed
+        isPinned: false,
+        hasLatexInPost: node.hasLatexInPost,
     };
 };
