@@ -8,6 +8,7 @@ import { Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { getHashnodeHost, hashnodeApi, mapHashnodePostToPost } from '@/lib/hashnode';
+import { fetchMoreSearchPosts } from '@/actions/postActions';
 
 export default function SearchResults() {
     const searchParams = useSearchParams();
@@ -15,6 +16,7 @@ export default function SearchResults() {
     const locale = useLocale();
     const t = useTranslations('Search');
     const [searchResults, setSearchResults] = useState<any[]>([]);
+    const [pageInfo, setPageInfo] = useState<any>({ hasNextPage: false, endCursor: null });
     const [tags, setTags] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -22,6 +24,7 @@ export default function SearchResults() {
         const fetchSearchResults = async () => {
             if (!query) {
                 setSearchResults([]);
+                setPageInfo({ hasNextPage: false, endCursor: null });
                 setLoading(false);
                 return;
             }
@@ -42,9 +45,10 @@ export default function SearchResults() {
                 }
 
                 // Search for posts using publication ID
-                const data = await hashnodeApi.searchPosts(publicationId!, query, 20);
+                const data = await hashnodeApi.searchPosts(publicationId!, query, 6); // Fetch 6 initially
                 const posts = data.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
                 setSearchResults(posts);
+                setPageInfo(data.pageInfo);
 
                 // Fetch tags for cloud
                 const postsData = await hashnodeApi.getPosts(host);
@@ -61,6 +65,7 @@ export default function SearchResults() {
             } catch (error) {
                 console.error("Failed to fetch search results:", error);
                 setSearchResults([]);
+                setPageInfo({ hasNextPage: false, endCursor: null });
             } finally {
                 setLoading(false);
             }
@@ -93,7 +98,11 @@ export default function SearchResults() {
 
             <div className="grid grid-cols-1 lg-grid-cols-12 gap-8">
                 <div className="lg-col-span-8">
-                    <InfinitePostGrid posts={searchResults} />
+                    <InfinitePostGrid 
+                        initialPosts={searchResults} 
+                        initialPageInfo={pageInfo}
+                        fetchMoreAction={fetchMoreSearchPosts.bind(null, locale, query)}
+                    />
 
                     {searchResults.length === 0 && (
                         <div className="text-center py-20 bg-gray-50 rounded-xl border border-dashed border-gray-300">

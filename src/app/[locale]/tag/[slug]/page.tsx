@@ -4,6 +4,7 @@ import BuyMeACoffee from '@/components/common/BuyMeACoffee';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { getHashnodeHost, hashnodeApi, mapHashnodePostToPost } from '@/lib/hashnode';
+import { fetchMoreTagPosts } from '@/actions/postActions';
 
 interface PageProps {
     params: Promise<{
@@ -67,8 +68,9 @@ export default async function TagPage({ params }: PageProps) {
     const host = getHashnodeHost(locale);
     const t = await getTranslations('Tag');
 
-    const data = await hashnodeApi.getPostsByTag(host, slug, 20);
+    const data = await hashnodeApi.getPostsByTag(host, slug, 6);
     const tagPosts = data.posts.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
+    const pageInfo = data.posts.pageInfo;
 
     // Fetch tags for cloud
     const postsData = await hashnodeApi.getPosts(host);
@@ -101,7 +103,11 @@ export default async function TagPage({ params }: PageProps) {
 
             <div className="grid grid-cols-1 lg-grid-cols-12 gap-8">
                 <div className="lg-col-span-8">
-                    <InfinitePostGrid posts={tagPosts} />
+                    <InfinitePostGrid 
+                        initialPosts={tagPosts} 
+                        initialPageInfo={pageInfo}
+                        fetchMoreAction={fetchMoreTagPosts.bind(null, locale, slug)}
+                    />
 
                     {tagPosts.length === 0 && (
                         <div className="text-center py-12">

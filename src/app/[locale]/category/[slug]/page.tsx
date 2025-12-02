@@ -4,6 +4,7 @@ import BuyMeACoffee from '@/components/common/BuyMeACoffee';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { getHashnodeHost, hashnodeApi, mapHashnodePostToPost } from '@/lib/hashnode';
+import { fetchMoreCategoryPosts } from '@/actions/postActions';
 
 interface PageProps {
     params: Promise<{
@@ -68,7 +69,7 @@ export default async function CategoryPage({ params }: PageProps) {
     const host = getHashnodeHost(locale);
     const t = await getTranslations('Post');
 
-    const data = await hashnodeApi.getPostsBySeries(host, slug, 20);
+    const data = await hashnodeApi.getPostsBySeries(host, slug, 6); // Fetch 6 initially to match POSTS_PER_PAGE
     const category = data.series;
 
     if (!category) {
@@ -76,6 +77,7 @@ export default async function CategoryPage({ params }: PageProps) {
     }
 
     const categoryPosts = category.posts.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
+    const pageInfo = category.posts.pageInfo;
 
     // Fetch tags for cloud
     const postsData = await hashnodeApi.getPosts(host);
@@ -122,7 +124,11 @@ export default async function CategoryPage({ params }: PageProps) {
             <div className="grid grid-cols-1 lg-grid-cols-12 gap-8">
                 {/* Main Content */}
                 <div className="lg-col-span-8">
-                    <CategoryPostList posts={categoryPosts} sortOrder="newest" />
+                    <CategoryPostList 
+                        initialPosts={categoryPosts} 
+                        initialPageInfo={pageInfo}
+                        fetchMoreAction={fetchMoreCategoryPosts.bind(null, locale, slug)}
+                    />
                 </div>
 
                 {/* Sidebar */}

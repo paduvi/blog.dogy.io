@@ -6,56 +6,52 @@ import PostCardSkeleton from '@/components/common/PostCardSkeleton';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 
-interface InfinitePostGridProps {
-    posts: Post[];
+interface PageInfo {
+    hasNextPage: boolean;
+    endCursor: string | null;
 }
 
-const POSTS_PER_PAGE = 6;
+interface InfinitePostGridProps {
+    initialPosts: Post[];
+    initialPageInfo: PageInfo;
+    fetchMoreAction: (cursor: string) => Promise<{ posts: Post[], pageInfo: PageInfo }>;
+}
 
-export default function InfinitePostGrid({ posts }: InfinitePostGridProps) {
+export default function InfinitePostGrid({ initialPosts, initialPageInfo, fetchMoreAction }: InfinitePostGridProps) {
     const t = useTranslations('Common');
-    const [displayedPosts, setDisplayedPosts] = useState<Post[]>(posts.slice(0, POSTS_PER_PAGE));
-    const [page, setPage] = useState(1);
+    const [posts, setPosts] = useState<Post[]>(initialPosts);
+    const [pageInfo, setPageInfo] = useState<PageInfo>(initialPageInfo);
     const [loading, setLoading] = useState(false);
-    const [hasMore, setHasMore] = useState(posts.length > POSTS_PER_PAGE);
     const observerTarget = useRef<HTMLDivElement>(null);
 
-    // Reset when posts prop changes (e.g. search query changes)
+    // Reset when initialPosts changes (e.g. search query changes)
     useEffect(() => {
-        setDisplayedPosts(posts.slice(0, POSTS_PER_PAGE));
-        setHasMore(posts.length > POSTS_PER_PAGE);
-        setPage(1);
+        setPosts(initialPosts);
+        setPageInfo(initialPageInfo);
         setLoading(false);
-    }, [posts]);
+    }, [initialPosts, initialPageInfo]);
 
-    const loadMore = useCallback(() => {
-        if (loading || !hasMore) return;
+    const loadMore = useCallback(async () => {
+        if (loading || !pageInfo.hasNextPage || !pageInfo.endCursor) return;
 
         setLoading(true);
 
-        // Simulate network delay
-        setTimeout(() => {
-            const nextPage = page + 1;
-            const startIndex = page * POSTS_PER_PAGE;
-            const endIndex = startIndex + POSTS_PER_PAGE;
-            const newPosts = posts.slice(startIndex, endIndex);
-
-            if (newPosts.length > 0) {
-                setDisplayedPosts(prev => [...prev, ...newPosts]);
-                setPage(nextPage);
-                setHasMore(endIndex < posts.length);
-            } else {
-                setHasMore(false);
-            }
-
+        try {
+            const { posts: newPosts, pageInfo: newPageInfo } = await fetchMoreAction(pageInfo.endCursor);
+            
+            setPosts(prev => [...prev, ...newPosts]);
+            setPageInfo(newPageInfo);
+        } catch (error) {
+            console.error("Failed to load more posts:", error);
+        } finally {
             setLoading(false);
-        }, 800);
-    }, [page, posts, loading, hasMore]);
+        }
+    }, [loading, pageInfo, fetchMoreAction]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
             entries => {
-                if (entries[0].isIntersecting && hasMore && !loading) {
+                if (entries[0].isIntersecting && pageInfo.hasNextPage && !loading) {
                     loadMore();
                 }
             },
@@ -72,7 +68,7 @@ export default function InfinitePostGrid({ posts }: InfinitePostGridProps) {
                 observer.unobserve(currentTarget);
             }
         };
-    }, [loadMore, hasMore, loading]);
+    }, [loadMore, pageInfo.hasNextPage, loading]);
 
     if (posts.length === 0) {
         return null;
@@ -81,7 +77,7 @@ export default function InfinitePostGrid({ posts }: InfinitePostGridProps) {
     return (
         <>
             <div className="grid grid-cols-1 md-grid-cols-2 lg-grid-cols-3 gap-6">
-                {displayedPosts.map((post) => (
+                {posts.map((post) => (
                     <PostCard key={post.id} post={post} />
                 ))}
 
@@ -96,7 +92,7 @@ export default function InfinitePostGrid({ posts }: InfinitePostGridProps) {
 
             <div ref={observerTarget} className="h-10 mt-8" />
 
-            {!hasMore && displayedPosts.length > 0 && (
+            {!pageInfo.hasNextPage && posts.length > 0 && (
                 <div className="text-center py-8 text-muted">
                     <p>{t('endOfPosts')} 🎉</p>
                 </div>

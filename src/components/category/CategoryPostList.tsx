@@ -1,76 +1,55 @@
 'use client';
 
 import { Post } from '@/types';
-import PostCard from '@/components/common/PostCard';
 import CategoryPostSkeleton from '@/components/category/CategoryPostSkeleton';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from '@/i18n/routing';
 import { Calendar, Clock } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
 
-interface CategoryPostListProps {
-    posts: Post[];
-    sortOrder?: 'newest' | 'oldest';
+interface PageInfo {
+    hasNextPage: boolean;
+    endCursor: string | null;
 }
 
-const POSTS_PER_PAGE = 6;
+interface CategoryPostListProps {
+    initialPosts: Post[];
+    initialPageInfo: PageInfo;
+    fetchMoreAction: (cursor: string) => Promise<{ posts: Post[], pageInfo: PageInfo }>;
+}
 
-export default function CategoryPostList({ posts, sortOrder = 'newest' }: CategoryPostListProps) {
+export default function CategoryPostList({ initialPosts, initialPageInfo, fetchMoreAction }: CategoryPostListProps) {
     const t = useTranslations('Post');
     const tCommon = useTranslations('Common');
     const locale = useLocale();
-    const [sortedPosts, setSortedPosts] = useState<Post[]>([]);
-    const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
-    const [page, setPage] = useState(1);
+    const [posts, setPosts] = useState<Post[]>(initialPosts);
+    const [pageInfo, setPageInfo] = useState<PageInfo>(initialPageInfo);
     const [loading, setLoading] = useState(false);
-    const [hasMore, setHasMore] = useState(true);
     const observerTarget = useRef<HTMLDivElement>(null);
 
-    // Initialize and sort posts
-    useEffect(() => {
-        // Sort posts according to sortOrder
-        const sorted = [...posts].sort((a, b) => {
-            const dateA = new Date(a.publishedAt).getTime();
-            const dateB = new Date(b.publishedAt).getTime();
-            return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
-        });
-
-        setSortedPosts(sorted);
-        setDisplayedPosts(sorted.slice(0, POSTS_PER_PAGE));
-        setHasMore(sorted.length > POSTS_PER_PAGE);
-        setPage(1);
-    }, [posts, sortOrder]);
-
     // Load more posts
-    const loadMore = useCallback(() => {
-        if (loading || !hasMore) return;
+    const loadMore = useCallback(async () => {
+        if (loading || !pageInfo.hasNextPage || !pageInfo.endCursor) return;
 
         setLoading(true);
 
-        // Simulate network delay for realistic loading
-        setTimeout(() => {
-            const nextPage = page + 1;
-            const startIndex = page * POSTS_PER_PAGE;
-            const endIndex = startIndex + POSTS_PER_PAGE;
-            const newPosts = sortedPosts.slice(startIndex, endIndex);
-
-            if (newPosts.length > 0) {
-                setDisplayedPosts(prev => [...prev, ...newPosts]);
-                setPage(nextPage);
-                setHasMore(endIndex < sortedPosts.length);
-            } else {
-                setHasMore(false);
-            }
-
+        try {
+            const { posts: newPosts, pageInfo: newPageInfo } = await fetchMoreAction(pageInfo.endCursor);
+            
+            setPosts(prev => [...prev, ...newPosts]);
+            setPageInfo(newPageInfo);
+        } catch (error) {
+            console.error("Failed to load more posts:", error);
+        } finally {
             setLoading(false);
-        }, 800); // 800ms delay to show shimmer animation
-    }, [page, sortedPosts, loading, hasMore]);
+        }
+    }, [loading, pageInfo, fetchMoreAction]);
 
     // Intersection Observer for infinite scroll
     useEffect(() => {
         const observer = new IntersectionObserver(
             entries => {
-                if (entries[0].isIntersecting && hasMore && !loading) {
+                if (entries[0].isIntersecting && pageInfo.hasNextPage && !loading) {
                     loadMore();
                 }
             },
@@ -87,12 +66,12 @@ export default function CategoryPostList({ posts, sortOrder = 'newest' }: Catego
                 observer.unobserve(currentTarget);
             }
         };
-    }, [loadMore, hasMore, loading]);
+    }, [loadMore, pageInfo.hasNextPage, loading]);
 
     return (
         <section>
             <div className="flex flex-col gap-8">
-                {displayedPosts.map((post) => (
+                {posts.map((post) => (
                     <Link
                         key={post.id}
                         href={`/post/${post.slug}`}
@@ -144,13 +123,13 @@ export default function CategoryPostList({ posts, sortOrder = 'newest' }: Catego
             <div ref={observerTarget} className="h-10 mt-8" />
 
             {/* End of posts message */}
-            {!hasMore && displayedPosts.length > 0 && (
+            {!pageInfo.hasNextPage && posts.length > 0 && (
                 <div className="text-center py-8 text-muted">
                     <p>{tCommon('endOfPosts')} 🎉</p>
                 </div>
             )}
 
-            {displayedPosts.length === 0 && !loading && (
+            {posts.length === 0 && !loading && (
                 <div className="text-center py-12 bg-gray-50 rounded-xl border">
                     <p className="text-muted">No posts found in this category.</p>
                 </div>

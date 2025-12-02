@@ -8,6 +8,7 @@ import type { Post } from '@/types';
 import { useTranslations, useLocale } from 'next-intl';
 import { getHashnodeHost, hashnodeApi, mapHashnodePostToPost } from '@/lib/hashnode';
 import { usePostStore } from '@/store/postStore';
+import { fetchMoreCategoryPosts } from '@/actions/postActions';
 
 const POSTS_PER_PAGE = 5;
 
@@ -16,10 +17,8 @@ function SeriesSectionContent() {
     const locale = useLocale();
     const post = usePostStore((state) => state.post);
     const [seriesPosts, setSeriesPosts] = useState<Post[]>([]);
-    const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
-    const [page, setPage] = useState(1);
+    const [pageInfo, setPageInfo] = useState<{ hasNextPage: boolean; endCursor: string | null }>({ hasNextPage: false, endCursor: null });
     const [loading, setLoading] = useState(false);
-    const [hasMore, setHasMore] = useState(true);
     const [showPrevious, setShowPrevious] = useState(false);
     const [isExpanding, setIsExpanding] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -39,35 +38,59 @@ function SeriesSectionContent() {
     useEffect(() => {
         const fetchSeriesPosts = async () => {
             try {
+                setLoading(true);
                 const host = getHashnodeHost(locale);
-                // Fetch up to 20 posts for the series
-                const data = await hashnodeApi.getPostsBySeries(host, categorySlug, 20);
+                let allFetchedPosts: Post[] = [];
+                let found = false;
+                let lastPageInfo = { hasNextPage: false, endCursor: null as string | null };
 
-                if (!data.series) return;
+                // First fetch
+                const data = await hashnodeApi.getPostsBySeries(host, categorySlug, POSTS_PER_PAGE);
 
-                const posts = data.series.posts.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
+                if (!data.series) {
+                    setLoading(false);
+                    return;
+                }
 
-                // Hashnode returns newest first by default
-                setSeriesPosts(posts);
+                let newPosts = data.series.posts.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
+                lastPageInfo = data.series.posts.pageInfo;
+                allFetchedPosts = [...newPosts];
+                
+                if (newPosts.some((p: any) => p.slug === currentPostSlug)) {
+                    found = true;
+                }
 
-                // Find current post index
-                const currentIndex = posts.findIndex((p: any) => p.slug === currentPostSlug);
+                // Subsequent fetches if current post not found
+                // Limit to 20 iterations (100 posts) to prevent infinite loops/excessive API usage
+                let iterations = 0;
+                while (!found && lastPageInfo.hasNextPage && lastPageInfo.endCursor && iterations < 20) {
+                    const result = await fetchMoreCategoryPosts(locale, categorySlug, lastPageInfo.endCursor);
+                    newPosts = result.posts;
+                    lastPageInfo = result.pageInfo;
+                    allFetchedPosts = [...allFetchedPosts, ...newPosts];
 
-                // Load enough posts to cover up to currentIndex + initial batch
-                const endIndex = currentIndex + POSTS_PER_PAGE;
-                setDisplayedPosts(posts.slice(0, endIndex));
-                setHasMore(endIndex < posts.length);
-                setPage(Math.ceil(endIndex / POSTS_PER_PAGE));
+                    if (newPosts.some((p: any) => p.slug === currentPostSlug)) {
+                        found = true;
+                    }
+                    iterations++;
+                }
+                
+                setSeriesPosts(allFetchedPosts);
+                setPageInfo(lastPageInfo);
 
                 // Reset showPrevious when changing posts
                 setShowPrevious(false);
             } catch (error) {
                 console.error("Failed to fetch series posts:", error);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchSeriesPosts();
     }, [categorySlug, currentPostSlug, locale]);
+
+    // ... (rest of the code)
 
     // Handle showing previous posts with scroll preservation
     const handleShowPrevious = () => {
@@ -102,56 +125,29 @@ function SeriesSectionContent() {
 
             setIsExpanding(false);
         }
-    }, [isExpanding, showPrevious, displayedPosts]);
+    }, [isExpanding, showPrevious, seriesPosts]);
 
     // Load more posts (downwards)
-    const loadMore = useCallback(() => {
-        if (loading || !hasMore) return;
+    const loadMore = useCallback(async () => {
+        if (loading || !pageInfo.hasNextPage || !pageInfo.endCursor) return;
 
         setLoading(true);
 
-        setTimeout(() => {
-            const currentLength = displayedPosts.length;
-            const nextLength = currentLength + POSTS_PER_PAGE;
-            const newPosts = seriesPosts.slice(currentLength, nextLength);
-
-            if (newPosts.length > 0) {
-                setDisplayedPosts(prev => [...prev, ...newPosts]);
-                setHasMore(nextLength < seriesPosts.length);
-            } else {
-                setHasMore(false);
-            }
-
+        try {
+            const { posts: newPosts, pageInfo: newPageInfo } = await fetchMoreCategoryPosts(locale, categorySlug, pageInfo.endCursor);
+            
+            setSeriesPosts(prev => [...prev, ...newPosts]);
+            setPageInfo(newPageInfo);
+        } catch (error) {
+            console.error("Failed to load more series posts:", error);
+        } finally {
             setLoading(false);
-        }, 300);
-    }, [displayedPosts.length, seriesPosts, loading, hasMore]);
-
-    // Intersection Observer for infinite scroll
-    useEffect(() => {
-        if (!isExpanded) return; // Don't load more if collapsed
-
-        const observer = new IntersectionObserver(
-            entries => {
-                if (entries[0].isIntersecting && hasMore && !loading) {
-                    loadMore();
-                }
-            },
-            { threshold: 0.1 }
-        );
-
-        const currentTarget = observerTarget.current;
-        if (currentTarget) {
-            observer.observe(currentTarget);
         }
+    }, [loading, pageInfo, locale, categorySlug]);
 
-        return () => {
-            if (currentTarget) {
-                observer.unobserve(currentTarget);
-            }
-        };
-    }, [loadMore, hasMore, loading, isExpanded]);
+    // ... (rest of the code)
 
-    if (seriesPosts.length === 0) {
+    if (seriesPosts.length === 0 && !loading) {
         return null;
     }
 
@@ -159,13 +155,17 @@ function SeriesSectionContent() {
     const currentIndex = seriesPosts.findIndex(p => p.slug === currentPostSlug);
 
     // Determine which posts to render
-    // If showPrevious is true, show all displayedPosts
-    // If showPrevious is false, show only displayedPosts starting from currentIndex
-    const visiblePosts = showPrevious
-        ? displayedPosts
-        : displayedPosts.filter((_, index) => index >= currentIndex);
+    // If showPrevious is true, show all seriesPosts
+    // If showPrevious is false, show only seriesPosts starting from currentIndex
+    // Note: If currentIndex is -1 (not found yet), we show everything? Or nothing?
+    // If not found, it means the current post is likely further down (or up?) 
+    // Since we fetch newest first, if the current post is old, it might not be in the list yet.
+    // If it's not in the list, we probably should show what we have.
+    const visiblePosts = showPrevious || currentIndex === -1
+        ? seriesPosts
+        : seriesPosts.filter((_, index) => index >= currentIndex);
 
-    const previousPostsCount = currentIndex;
+    const previousPostsCount = currentIndex !== -1 ? currentIndex : 0;
 
     return (
         <section className="mt-12 max-w-4xl mx-auto">
