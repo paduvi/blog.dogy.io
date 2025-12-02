@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import { X } from 'lucide-react';
 import { DiscussionEmbed } from 'disqus-react';
-import { useModalStore } from '@/store/useModalStore';
+import { useModalStore } from '@/store/modalStore';
 import { useTranslations, useLocale } from 'next-intl';
 
 interface CommentsModalProps {

@@ -81,7 +81,7 @@
         "title": "Subscribe to Newsletter",
         "subtitle": "Read articles from {siteName} directly inside your inbox.",
         "description": "Subscribe to our newsletter and never miss any upcoming articles!",
-        "placeholder": "email@example.com",
+        "placeholder": "Enter your email address",
         "button": "Subscribe",
         "success": "Thank you for subscribing!",
         "error": "Please enter a valid email address",

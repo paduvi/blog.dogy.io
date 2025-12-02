@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { MessageCircleMore, List, Coffee, Share2 } from 'lucide-react';
 import { CommentCount } from 'disqus-react';
-import { useModalStore } from '@/store/useModalStore';
+import { useModalStore } from '@/store/modalStore';
 import ShareModal from './ShareModal';
 import { useTranslations, useLocale } from 'next-intl';
 

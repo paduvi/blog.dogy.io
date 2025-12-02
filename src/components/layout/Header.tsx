@@ -5,7 +5,7 @@ import { Search, Menu, ChevronDown, Bell, X } from 'lucide-react';
 import { Link, useRouter, usePathname } from '@/i18n/routing';
 import { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
-import { useModalStore } from '@/store/useModalStore';
+import { useModalStore } from '@/store/modalStore';
 
 interface HeaderProps {
     categories: {

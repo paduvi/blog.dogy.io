@@ -1,8 +1,7 @@
-'use client';
-
 import { useState } from 'react';
 import { X } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import { hashnodeApi, getHashnodeHost } from '@/lib/hashnode';
 import './NewsletterSubscribe.css';
 
 interface NewsletterSubscribeProps {
@@ -12,19 +11,38 @@ interface NewsletterSubscribeProps {
 
 export default function NewsletterSubscribe({ onClose, variant = 'inline' }: NewsletterSubscribeProps) {
     const t = useTranslations('Newsletter');
+    const locale = useLocale();
     const [email, setEmail] = useState('');
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        const host = getHashnodeHost(locale);
+
+        // Get publication ID (from cache or fetch)
+        const { getPublicationId: getCachedId, setPublicationId } = await import('@/store/publicationStore').then(m => m.usePublicationStore.getState());
+        let publicationId: string | undefined = getCachedId(host);
+
+        if (!publicationId) {
+            // Fetch and cache publication ID
+            const fetchedId = await hashnodeApi.getPublicationId(host);
+            setPublicationId(host, fetchedId);
+            publicationId = fetchedId;
+        }
+
+        if (!publicationId) {
+            console.error('Publication ID not found');
+            setStatus('error');
+            return;
+        }
+
         setStatus('loading');
         
-        // Mock API call - replace with actual newsletter subscription logic
         try {
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            console.log('Subscribing:', email);
+            await hashnodeApi.subscribeToNewsletter(publicationId, email);
             setStatus('success');
-            setEmail('');
+            // setEmail('');
             
             // Reset success message after 3 seconds
             setTimeout(() => {

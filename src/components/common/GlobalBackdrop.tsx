@@ -1,6 +1,6 @@
 'use client';
 
-import { useModalStore } from '@/store/useModalStore';
+import { useModalStore } from '@/store/modalStore';
 
 export default function GlobalBackdrop() {
     const { activeModal, setActiveModal } = useModalStore();

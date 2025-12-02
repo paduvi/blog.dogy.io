@@ -102,7 +102,7 @@ export default function LatestPosts({ posts }: LatestPostsProps) {
             <div ref={observerTarget} className="h-10 mt-8" />
 
             {/* End of posts message */}
-            {!hasMore && displayedPosts.length > 0 && (
+            {!hasMore && (
                 <div className="text-center py-8 text-muted">
                     <p>{t('endOfPosts')} 🎉</p>
                 </div>

@@ -378,8 +378,20 @@ export const hashnodeApi = {
     searchPosts: async (publicationId: string, query: string, first: number = 20, after?: string) => {
         const data = await fetchGraphQL(GET_POSTS_BY_SEARCH, { publicationId, query, first, after });
         return data.searchPostsOfPublication;
+    },
+    subscribeToNewsletter: async (publicationId: string, email: string) => {
+        const data = await fetchGraphQL(SUBSCRIBE_TO_NEWSLETTER, { input: { publicationId, email } });
+        return data.subscribeToNewsletter;
     }
 };
+
+export const SUBSCRIBE_TO_NEWSLETTER = `
+    mutation SubscribeToNewsletter($input: SubscribeToNewsletterInput!) {
+        subscribeToNewsletter(input: $input) {
+            status
+        }
+    }
+`;
 
 export const mapHashnodePostToPost = (node: HashnodePost): any => {
     return {

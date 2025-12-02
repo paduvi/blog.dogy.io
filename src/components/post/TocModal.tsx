@@ -1,7 +1,7 @@
 'use client';
 
 import { X } from 'lucide-react';
-import { useModalStore } from '@/store/useModalStore';
+import { useModalStore } from '@/store/modalStore';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
