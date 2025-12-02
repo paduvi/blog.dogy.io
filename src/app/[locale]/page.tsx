@@ -91,7 +91,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <aside className="lg-col-span-4">
           <div className="sticky top-24 flex flex-col gap-6">
             <BuyMeACoffee />
-            <TagCloud tags={tags} />
+            <TagCloud />
           </div>
         </aside>
       </div>

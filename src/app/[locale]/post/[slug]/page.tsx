@@ -69,23 +69,9 @@ export default async function PostPage({params}: PageProps) {
         notFound();
     }
 
-    // Fetch tags for cloud
-    const postsData = await hashnodeApi.getPosts(host);
-    const allPosts = postsData.posts.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
-    const tagsMap = new Map();
-    allPosts.forEach((p: any) => {
-        p.tags.forEach((tag: any) => {
-            if (!tagsMap.has(tag.slug)) {
-                tagsMap.set(tag.slug, tag);
-            }
-        });
-    });
-    const tags = Array.from(tagsMap.values());
-
     return (
         <PostContent
             post={post}
-            tags={tags}
             locale={locale}
             translations={{
                 tags: t('tags'),

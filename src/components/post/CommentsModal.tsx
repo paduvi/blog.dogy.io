@@ -6,6 +6,7 @@ import { DiscussionEmbed } from 'disqus-react';
 import { useModalStore } from '@/store/modalStore';
 import { usePostStore } from '@/store/postStore';
 import { useTranslations, useLocale } from 'next-intl';
+import BuyMeACoffee from '../common/BuyMeACoffee';
 
 export default function CommentsModal() {
     const t = useTranslations('Comments');
@@ -47,6 +48,10 @@ export default function CommentsModal() {
                     </div>
 
                     {/* Content */}
+                    <div className="p-4">
+                        <BuyMeACoffee isModal/>
+                    </div>
+
                     <div className="flex-1 overflow-y-auto p-4">
                         <DiscussionEmbed
                             shortname={disqusShortname}

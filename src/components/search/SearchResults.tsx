@@ -116,7 +116,7 @@ export default function SearchResults() {
                 <aside className="lg-col-span-4">
                     <div className="sticky top-24 flex flex-col gap-6">
                         <BuyMeACoffee />
-                        <TagCloud tags={tags} />
+                        <TagCloud />
                     </div>
                 </aside>
             </div>

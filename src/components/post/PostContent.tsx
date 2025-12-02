@@ -19,11 +19,6 @@ import '@/styles/hashnode.css';
 
 interface PostContentProps {
     post: Post;
-    tags: Array<{
-        id: string;
-        name: string;
-        slug: string;
-    }>;
     locale: string;
     translations: {
         tags: string;
@@ -31,7 +26,7 @@ interface PostContentProps {
     };
 }
 
-export default function PostContent({ post, tags, locale, translations }: PostContentProps) {
+export default function PostContent({ post, locale, translations }: PostContentProps) {
     const [, setMobMount] = useState(false);
     const [canLoadEmbeds, setCanLoadEmbeds] = useState(false);
     const { setPost, clearPost } = usePostStore();
@@ -131,7 +126,7 @@ export default function PostContent({ post, tags, locale, translations }: PostCo
             )}
 
             <div className="mt-12">
-                <TagCloud tags={tags} fullHeight />
+                <TagCloud fullHeight />
             </div>
 
             <PostActions />

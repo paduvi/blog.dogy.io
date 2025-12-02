@@ -72,26 +72,12 @@ export default async function TagPage({ params }: PageProps) {
     const tagPosts = data.posts.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
     const pageInfo = data.posts.pageInfo;
 
-    // Fetch tags for cloud
-    const postsData = await hashnodeApi.getPosts(host);
-    const allPosts = postsData.posts.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
-    const tagsMap = new Map();
-    allPosts.forEach((p: any) => {
-        p.tags.forEach((tag: any) => {
-            if (!tagsMap.has(tag.slug)) {
-                tagsMap.set(tag.slug, tag);
-            }
-        });
-    });
-    const tags = Array.from(tagsMap.values());
-
-    const currentTag = tags.find((t: any) => t.slug === slug);
-
-    if (!currentTag && tagPosts.length === 0) {
+    if (tagPosts.length === 0) {
         notFound();
     }
 
-    const tagName = currentTag ? currentTag.name : slug;
+    const tag = tagPosts[0].tags.find((t: any) => t.slug === slug);
+    const tagName = tag ? tag.name : slug;
 
     return (
         <div className="container py-8">
@@ -119,7 +105,7 @@ export default async function TagPage({ params }: PageProps) {
                 <aside className="lg-col-span-4">
                     <div className="sticky top-24 flex flex-col gap-6">
                         <BuyMeACoffee />
-                        <TagCloud tags={tags} currentTagSlug={slug} />
+                        <TagCloud currentTagSlug={slug} />
                     </div>
                 </aside>
             </div>

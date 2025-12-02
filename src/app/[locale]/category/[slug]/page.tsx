@@ -79,19 +79,6 @@ export default async function CategoryPage({ params }: PageProps) {
     const categoryPosts = category.posts.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
     const pageInfo = category.posts.pageInfo;
 
-    // Fetch tags for cloud
-    const postsData = await hashnodeApi.getPosts(host);
-    const allPosts = postsData.posts.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
-    const tagsMap = new Map();
-    allPosts.forEach((p: any) => {
-        p.tags.forEach((tag: any) => {
-            if (!tagsMap.has(tag.slug)) {
-                tagsMap.set(tag.slug, tag);
-            }
-        });
-    });
-    const tags = Array.from(tagsMap.values());
-
     return (
         <div className="container py-8">
             {/* Header Section - Two Column Layout */}
@@ -135,7 +122,7 @@ export default async function CategoryPage({ params }: PageProps) {
                 <aside className="lg-col-span-4">
                     <div className="sticky top-24 flex flex-col gap-6">
                         <BuyMeACoffee />
-                        <TagCloud tags={tags} />
+                        <TagCloud />
                     </div>
                 </aside>
             </div>
