@@ -24,7 +24,7 @@ export default function SponsorModal() {
                 </button>
 
                 <div className="w-full h-full">
-                    <BuyMeACoffee />
+                    <BuyMeACoffee isModal />
                 </div>
             </div>
         </>

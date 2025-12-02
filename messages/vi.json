@@ -38,9 +38,9 @@
     "Common": {
         "loading": "Đang tải...",
         "discoverMore": "Khám phá thêm",
-        "supportMe": "Ủng hộ tôi",
-        "supportDescription": "Nếu bạn thấy nội dung của tôi hữu ích, hãy ủng hộ tôi bằng cách mua cho tôi một ly cà phê!",
-        "buyMeACoffee": "Mua cà phê cho tôi",
+        "supportMe": "Bạn thấy blog này hữu ích chứ?",
+        "supportDescription": "Nếu được, bạn có thể ủng hộ bằng cách khao tặng tôi một ly cà phê nhé!",
+        "buyMeACoffee": "Ủng hộ tôi ly cà phê",
         "readMore": "Đọc thêm",
         "endOfPosts": "Bạn đã xem hết danh sách rồi nè!"
     },
@@ -51,9 +51,9 @@
         "shareVia": "Chia sẻ qua"
     },
     "Sponsor": {
-        "title": "Ủng hộ công việc của tôi",
-        "description": "Nếu bạn thấy nội dung này có giá trị, hãy cân nhắc ủng hộ tôi!",
-        "buyMeACoffee": "Mua cà phê cho tôi"
+        "title": "Bạn thấy nội dung này hữu ích chứ?",        
+        "description": "Nếu được, bạn có thể để lại lời nhắn trong phần bình luận của bài viết hoặc ủng hộ blog bằng cách khao tặng tôi một ly cà phê nhé!",
+        "buyMeACoffee": "Ủng hộ tôi ly cà phê"
     },
     "Comments": {
         "title": "Bình luận",
