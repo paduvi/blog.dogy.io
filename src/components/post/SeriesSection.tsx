@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react
 import { Link } from '@/i18n/routing';
 import { ChevronDown, Calendar, Clock } from 'lucide-react';
 import SeriesPostSkeleton from './SeriesPostSkeleton';
-import type { Post } from '@/data/mockData';
+import type { Post } from '@/types';
 import { useTranslations, useLocale } from 'next-intl';
 import { getHashnodeHost, hashnodeApi, mapHashnodePostToPost } from '@/lib/hashnode';
 

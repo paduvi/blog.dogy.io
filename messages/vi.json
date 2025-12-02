@@ -76,5 +76,15 @@
         "noResults": "Không tìm thấy kết quả",
         "foundPosts": "Tìm thấy {count} bài viết",
         "foundPost": "Tìm thấy {count} bài viết"
+    },
+    "Newsletter": {
+        "title": "Đăng ký nhận bản tin",
+        "subtitle": "Đọc bài viết từ {siteName} trực tiếp trong hòm thư của bạn.",
+        "description": "Đăng ký nhận bản tin của chúng tôi và không bỏ lỡ bất kỳ bài viết nào sắp tới!",
+        "placeholder": "email@example.com",
+        "button": "Đăng ký",
+        "success": "Cảm ơn bạn đã đăng ký!",
+        "error": "Vui lòng nhập địa chỉ email hợp lệ",
+        "loading": "Đang đăng ký..."
     }
 }

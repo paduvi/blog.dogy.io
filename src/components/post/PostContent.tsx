@@ -7,6 +7,7 @@ import { MarkdownToHtml } from '@/components/post/markdown-to-html';
 import SeriesSection from '@/components/post/SeriesSection';
 import TagCloud from '@/components/common/TagCloud';
 import PostActions from '@/components/post/PostActions';
+import NewsletterSubscribe from '@/components/common/NewsletterSubscribe';
 import handleMathJax from '@/utils/handle-math-jax';
 import { useEmbeds } from '@/utils/renderer/hooks/useEmbeds';
 import { loadIframeResizer } from '@/utils/renderer/services/embed';
@@ -120,11 +121,14 @@ export default function PostContent({ post, tags, locale, translations }: PostCo
 
             <MarkdownToHtml contentMarkdown={post.content.markdown} />
 
-            <div className="border-t pt-8">
-                <h3 className="font-bold mb-4 flex items-center gap-2">
-                    <TagIcon size={20} />
-                    {translations.tags}
-                </h3>
+            {/* Newsletter Subscribe Section */}
+            <div className="mt-12">
+                <NewsletterSubscribe variant="inline" />
+            </div>
+
+            {/* Tags Section */}
+            <div className="mt-12">
+                <h3 className="text-xl font-bold mb-4">{translations.tags}</h3>
                 <div className="flex flex-wrap gap-2">
                     {post.tags.map((tag: any) => (
                         <Link

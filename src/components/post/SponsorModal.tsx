@@ -1,11 +1,11 @@
 'use client';
 
 import { X } from 'lucide-react';
-import { usePostStore } from '@/store/usePostStore';
+import { useModalStore } from '@/store/useModalStore';
 import BuyMeACoffee from '../common/BuyMeACoffee';
 
 export default function SponsorModal() {
-    const { activeModal, setActiveModal } = usePostStore();
+    const { activeModal, setActiveModal } = useModalStore();
     const isOpen = activeModal === 'sponsor';
 
     if (!isOpen) return null;

@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { MessageCircleMore, List, Coffee, Share2 } from 'lucide-react';
 import { CommentCount } from 'disqus-react';
-import { usePostStore } from '@/store/usePostStore';
+import { useModalStore } from '@/store/useModalStore';
 import ShareModal from './ShareModal';
 import { useTranslations, useLocale } from 'next-intl';
 
@@ -12,6 +12,12 @@ interface ToolbarButtonProps {
     icon: React.ElementType;
     label: string;
     children?: React.ReactNode;
+}
+
+interface FloatingToolbarProps {
+    postSlug: string;
+    postTitle: string;
+    postUrl: string;
 }
 
 function ToolbarButton({ onClick, icon: Icon, label, children }: ToolbarButtonProps) {
@@ -35,10 +41,10 @@ function ToolbarButton({ onClick, icon: Icon, label, children }: ToolbarButtonPr
     );
 }
 
-export default function FloatingToolbar() {
+export default function FloatingToolbar({ postSlug, postTitle, postUrl }: FloatingToolbarProps) {
     const t = useTranslations('Post');
     const locale = useLocale();
-    const { activeModal, setActiveModal, postSlug, postTitle, postUrl } = usePostStore();
+    const { activeModal, setActiveModal } = useModalStore();
     const [isVisible, setIsVisible] = useState(false);
 
     const disqusConfig = useMemo(() => ({
@@ -120,7 +126,7 @@ export default function FloatingToolbar() {
                     icon={Share2}
                     label={t('shareArticle')}
                 >
-                    <ShareModal />
+                    <ShareModal postTitle={postTitle} postUrl={postUrl} />
                 </ToolbarButton>
             </div>
         </div>

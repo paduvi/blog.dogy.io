@@ -1,6 +1,7 @@
-"use client";
+'use client';
 
-import { Post } from '@/data/mockData';
+import { Post } from '@/types';
+import PostCard from '@/components/common/PostCard';
 import CategoryPostSkeleton from '@/components/category/CategoryPostSkeleton';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from '@/i18n/routing';

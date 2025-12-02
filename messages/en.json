@@ -76,5 +76,15 @@
         "noResults": "No results found",
         "foundPosts": "Found {count} posts",
         "foundPost": "Found {count} post"
+    },
+    "Newsletter": {
+        "title": "Subscribe to Newsletter",
+        "subtitle": "Read articles from {siteName} directly inside your inbox.",
+        "description": "Subscribe to our newsletter and never miss any upcoming articles!",
+        "placeholder": "email@example.com",
+        "button": "Subscribe",
+        "success": "Thank you for subscribing!",
+        "error": "Please enter a valid email address",
+        "loading": "Subscribing..."
     }
 }

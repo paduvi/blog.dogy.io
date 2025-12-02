@@ -3,13 +3,19 @@
 import { useMemo } from 'react';
 import { X } from 'lucide-react';
 import { DiscussionEmbed } from 'disqus-react';
-import { usePostStore } from '@/store/usePostStore';
+import { useModalStore } from '@/store/useModalStore';
 import { useTranslations, useLocale } from 'next-intl';
 
-export default function CommentsModal() {
+interface CommentsModalProps {
+    postSlug: string;
+    postTitle: string;
+    postUrl: string;
+}
+
+export default function CommentsModal({ postSlug, postTitle, postUrl }: CommentsModalProps) {
     const t = useTranslations('Comments');
     const locale = useLocale();
-    const { activeModal, setActiveModal, postSlug, postTitle, postUrl } = usePostStore();
+    const { activeModal, setActiveModal } = useModalStore();
     const isOpen = activeModal === 'comments';
 
     const disqusConfig = useMemo(() => ({

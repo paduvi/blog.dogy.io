@@ -1,7 +1,7 @@
 'use client';
 
+import { Tag } from '@/types';
 import { Link } from '@/i18n/routing';
-import { Tag } from '@/data/mockData';
 import { useTranslations } from 'next-intl';
 
 interface TagCloudProps {

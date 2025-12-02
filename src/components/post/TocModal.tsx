@@ -1,13 +1,13 @@
 'use client';
 
 import { X } from 'lucide-react';
-import { usePostStore } from '@/store/usePostStore';
+import { useModalStore } from '@/store/useModalStore';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 
 export default function TocModal() {
     const t = useTranslations('Post');
-    const { activeModal, setActiveModal } = usePostStore();
+    const { activeModal, setActiveModal } = useModalStore();
     const isOpen = activeModal === 'toc';
     const [tocItems, setTocItems] = useState<{ id: string; title: string; level: number }[]>([]);
 

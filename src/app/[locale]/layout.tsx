@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google';
 import '../globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import GlobalBackdrop from '@/components/common/GlobalBackdrop';
+import SubscribeModal from '@/components/post/SubscribeModal';
 
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
@@ -57,6 +59,8 @@ export default async function LocaleLayout({
             {children}
           </main>
           <Footer />
+          <GlobalBackdrop />
+          <SubscribeModal />
         </NextIntlClientProvider>
       </body>
     </html>

@@ -33,6 +33,7 @@ export const GET_POSTS = `
             pinnedPost {
                 id
                 title
+                subtitle
                 slug
                 brief
                 coverImage {
@@ -59,6 +60,7 @@ export const GET_POSTS = `
                     node {
                         id
                         title
+                        subtitle
                         slug
                         brief
                         coverImage {
@@ -105,6 +107,7 @@ export const GET_POST_BY_SLUG = `
             post(slug: $slug) {
                 id
                 title
+                subtitle
                 slug
                 brief
                 content {
@@ -169,6 +172,7 @@ export const GET_POSTS_BY_SERIES = `
                         node {
                             id
                             title
+                            subtitle
                             slug
                             brief
                             coverImage {
@@ -211,6 +215,7 @@ export const GET_POSTS_BY_SEARCH = `
                 node {
                     id
                     title
+                    subtitle
                     slug
                     brief
                     coverImage {
@@ -250,6 +255,7 @@ export const GET_POSTS_BY_TAG = `
                     node {
                         id
                         title
+                        subtitle
                         slug
                         brief
                         coverImage {
@@ -285,6 +291,7 @@ export const GET_POSTS_BY_TAG = `
 export interface HashnodePost {
     id: string;
     title: string;
+    subtitle: string;
     slug: string;
     brief: string;
     content?: {
@@ -379,7 +386,7 @@ export const mapHashnodePostToPost = (node: HashnodePost): any => {
         id: node.id,
         title: node.title,
         slug: node.slug,
-        excerpt: node.brief,
+        excerpt: node.subtitle || node.brief,
         content: node.content,
         coverImage: node.coverImage?.url || '',
         author: {

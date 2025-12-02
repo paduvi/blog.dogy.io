@@ -1,9 +1,9 @@
 "use client";
 
 import { Link } from '@/i18n/routing';
-import { Post } from '@/data/mockData';
+import { Post } from '@/types';
 import { BookOpen, Pin } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface PinnedPostsProps {
     posts: Post[];

@@ -1,6 +1,6 @@
 "use client";
 
-import { Post } from '@/data/mockData';
+import { Post } from '@/types';
 import PostCard from '@/components/common/PostCard';
 import PostCardSkeleton from '@/components/common/PostCardSkeleton';
 import { useState, useEffect, useRef, useCallback } from 'react';

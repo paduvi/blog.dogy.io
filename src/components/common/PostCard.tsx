@@ -1,7 +1,7 @@
 'use client';
 
 import { Link } from '@/i18n/routing';
-import { Post } from '@/data/mockData';
+import { Post } from '@/types';
 import { BookOpen } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
 

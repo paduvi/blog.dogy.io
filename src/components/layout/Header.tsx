@@ -5,6 +5,7 @@ import { Search, Menu, ChevronDown, Bell, X } from 'lucide-react';
 import { Link, useRouter, usePathname } from '@/i18n/routing';
 import { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
+import { useModalStore } from '@/store/useModalStore';
 
 interface HeaderProps {
     categories: {
@@ -19,6 +20,7 @@ export default function Header({ categories }: HeaderProps) {
     const pathname = usePathname();
     const locale = useLocale();
     const t = useTranslations('Header');
+    const { setActiveModal } = useModalStore();
     const [searchQuery, setSearchQuery] = useState('');
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
@@ -150,7 +152,10 @@ export default function Header({ categories }: HeaderProps) {
                         {isMobileSearchOpen ? <X size={18} /> : <Search size={18} />}
                     </button>
 
-                    <button className="hidden cursor-pointer md-flex items-center gap-2 px-4 bg-primary text-white text-sm font-medium rounded-full hover-bg-primary-hover hover-scale-105 transition-all h-10">
+                    <button 
+                        onClick={() => setActiveModal('subscribe')}
+                        className="hidden cursor-pointer md-flex items-center gap-2 px-4 bg-primary text-white text-sm font-medium rounded-full hover-bg-primary-hover hover-scale-105 transition-all h-10"
+                    >
                         <Bell size={16} />
                         {t('subscribe')}
                     </button>
