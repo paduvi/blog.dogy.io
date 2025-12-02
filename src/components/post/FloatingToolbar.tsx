@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { MessageCircleMore, List, Coffee, Share2 } from 'lucide-react';
 import { CommentCount } from 'disqus-react';
 import { useModalStore } from '@/store/modalStore';
+import { usePostStore } from '@/store/postStore';
 import ShareModal from './ShareModal';
 import { useTranslations, useLocale } from 'next-intl';
 
@@ -12,12 +13,6 @@ interface ToolbarButtonProps {
     icon: React.ElementType;
     label: string;
     children?: React.ReactNode;
-}
-
-interface FloatingToolbarProps {
-    postSlug: string;
-    postTitle: string;
-    postUrl: string;
 }
 
 function ToolbarButton({ onClick, icon: Icon, label, children }: ToolbarButtonProps) {
@@ -41,18 +36,23 @@ function ToolbarButton({ onClick, icon: Icon, label, children }: ToolbarButtonPr
     );
 }
 
-export default function FloatingToolbar({ postSlug, postTitle, postUrl }: FloatingToolbarProps) {
+export default function FloatingToolbar() {
     const t = useTranslations('Post');
     const locale = useLocale();
     const { activeModal, setActiveModal } = useModalStore();
+    const post = usePostStore((state) => state.post);
     const [isVisible, setIsVisible] = useState(false);
 
+    if (!post) return null;
+
+    const postSlug = post.slug;
+    const postTitle = post.title;
+
     const disqusConfig = useMemo(() => ({
-        url: postUrl,
-        identifier: postSlug,
+        identifier: locale + "/" + postSlug,
         title: postTitle,
-        language: locale === 'vi' ? 'vi' : 'en'
-    }), [postUrl, postSlug, postTitle, locale]);
+        language: locale
+    }), [postSlug, postTitle, locale]);
 
     const disqusShortname = "https-dogy-io";
 
@@ -126,7 +126,7 @@ export default function FloatingToolbar({ postSlug, postTitle, postUrl }: Floati
                     icon={Share2}
                     label={t('shareArticle')}
                 >
-                    <ShareModal postTitle={postTitle} postUrl={postUrl} />
+                    <ShareModal />
                 </ToolbarButton>
             </div>
         </div>

@@ -901,6 +901,10 @@ img {
   width: 12rem;
 }
 
+.w-56 {
+  width: 14rem;
+}
+
 .top-full {
   top: 100%;
 }

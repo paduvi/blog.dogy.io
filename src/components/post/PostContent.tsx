@@ -12,35 +12,10 @@ import handleMathJax from '@/utils/handle-math-jax';
 import { useEmbeds } from '@/utils/renderer/hooks/useEmbeds';
 import { loadIframeResizer } from '@/utils/renderer/services/embed';
 import { triggerCustomWidgetEmbed } from '@/utils/trigger-custom-widget-embed';
+import { usePostStore, type Post } from '@/store/postStore';
 import '@/styles/hljs.css';
 import '@/styles/hashnode.css';
 
-interface Post {
-    id: string;
-    title: string;
-    slug: string;
-    excerpt: string;
-    content: {
-        markdown: string;
-    };
-    coverImage: string;
-    publishedAt: string;
-    readTime: number;
-    tags: Array<{
-        id: string;
-        name: string;
-        slug: string;
-    }>;
-    category?: {
-        id: string;
-        name: string;
-        slug: string;
-    } | null;
-    publication?: {
-        id: string;
-    };
-    hasLatexInPost?: boolean;
-}
 
 interface PostContentProps {
     post: Post;
@@ -59,9 +34,13 @@ interface PostContentProps {
 export default function PostContent({ post, tags, locale, translations }: PostContentProps) {
     const [, setMobMount] = useState(false);
     const [canLoadEmbeds, setCanLoadEmbeds] = useState(false);
+    const { setPost, clearPost } = usePostStore();
     useEmbeds({ enabled: canLoadEmbeds });
 
     useEffect(() => {
+        // Initialize post store
+        setPost(post);
+
         if (typeof window !== 'undefined' && window.screen.width <= 425) {
             setMobMount(true);
         }
@@ -84,7 +63,12 @@ export default function PostContent({ post, tags, locale, translations }: PostCo
             triggerCustomWidgetEmbed(post.publication?.id.toString());
             setCanLoadEmbeds(true);
         })();
-    }, [post]);
+
+        // Cleanup on unmount
+        return () => {
+            clearPost();
+        };
+    }, [post, setPost, clearPost]);
 
     return (
         <article className="container py-8 max-w-4xl mx-auto">
@@ -143,18 +127,14 @@ export default function PostContent({ post, tags, locale, translations }: PostCo
             </div>
 
             {post.category && post.category.id !== 'uncategorized' && (
-                <SeriesSection
-                    categorySlug={post.category.slug}
-                    categoryName={post.category.name}
-                    currentPostSlug={post.slug}
-                />
+                <SeriesSection />
             )}
 
             <div className="mt-12">
                 <TagCloud tags={tags} fullHeight />
             </div>
 
-            <PostActions postSlug={post.slug} postTitle={post.title} />
+            <PostActions />
         </article>
     );
 }

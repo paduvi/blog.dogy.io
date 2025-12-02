@@ -1,22 +1,19 @@
 'use client';
 
+import { usePostStore } from '@/store/postStore';
 import FloatingToolbar from './FloatingToolbar';
 import CommentsModal from './CommentsModal';
 import TocModal from './TocModal';
 import SponsorModal from './SponsorModal';
 
-interface PostActionsProps {
-    postSlug: string;
-    postTitle: string;
-}
-
-export default function PostActions({ postSlug, postTitle }: PostActionsProps) {
-    const postUrl = typeof window !== 'undefined' ? `${window.location.origin}/post/${postSlug}` : '';
-
+export default function PostActions() {
+    const post = usePostStore((state) => state.post);
+    
+    if (!post) return null;
     return (
         <>
-            <FloatingToolbar postSlug={postSlug} postTitle={postTitle} postUrl={postUrl} />
-            <CommentsModal postSlug={postSlug} postTitle={postTitle} postUrl={postUrl} />
+            <FloatingToolbar />
+            <CommentsModal />
             <TocModal />
             <SponsorModal />
         </>

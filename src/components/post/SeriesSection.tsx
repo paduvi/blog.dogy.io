@@ -7,18 +7,14 @@ import SeriesPostSkeleton from './SeriesPostSkeleton';
 import type { Post } from '@/types';
 import { useTranslations, useLocale } from 'next-intl';
 import { getHashnodeHost, hashnodeApi, mapHashnodePostToPost } from '@/lib/hashnode';
-
-interface SeriesSectionProps {
-    categorySlug: string;
-    categoryName: string;
-    currentPostSlug: string;
-}
+import { usePostStore } from '@/store/postStore';
 
 const POSTS_PER_PAGE = 5;
 
-export default function SeriesSection({ categorySlug, categoryName, currentPostSlug }: SeriesSectionProps) {
+function SeriesSectionContent() {
     const t = useTranslations('Post');
     const locale = useLocale();
+    const post = usePostStore((state) => state.post);
     const [seriesPosts, setSeriesPosts] = useState<Post[]>([]);
     const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
     const [page, setPage] = useState(1);
@@ -31,6 +27,13 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
     const observerTarget = useRef<HTMLDivElement>(null);
     const currentPostRef = useRef<HTMLAnchorElement>(null);
     const previousOffsetRef = useRef<number>(0);
+
+    // We know post is valid here because of the wrapper check
+    if (!post || !post.category) return null;
+
+    const categorySlug = post.category.slug;
+    const categoryName = post.category.name;
+    const currentPostSlug = post.slug;
 
     // Initialize posts
     useEffect(() => {
@@ -287,4 +290,12 @@ export default function SeriesSection({ categorySlug, categoryName, currentPostS
             </div>
         </section>
     );
+}
+
+export default function SeriesSection() {
+    const post = usePostStore((state) => state.post);
+
+    if (!post || !post.category || post.category.id === 'uncategorized') return null;
+
+    return <SeriesSectionContent />;
 }
