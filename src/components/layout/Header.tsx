@@ -68,9 +68,7 @@ export default function Header({ categories }: HeaderProps) {
                             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>
                         <Link href="/" className="flex items-center gap-2">
-                            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-xl">
-                                D
-                            </div>
+                            <img className='w-8 h-8 rounded-lg' src="/favicon/favicon-32x32.png" alt="Dogy.io Logo" />
                             <span className="font-bold text-xl hidden md-block">Dogy.io</span>
                         </Link>
                     </div>

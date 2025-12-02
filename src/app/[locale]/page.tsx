@@ -4,6 +4,30 @@ import TagCloud from '@/components/common/TagCloud';
 import BuyMeACoffee from '@/components/common/BuyMeACoffee';
 import { getHashnodeHost, hashnodeApi, mapHashnodePostToPost } from '@/lib/hashnode';
 
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+  
+  return {
+    title: 'Dogy.io - Personal Blog',
+    description: 'A personal blog sharing insights on technology, coding, and more.',
+    openGraph: {
+      title: 'Dogy.io - Personal Blog',
+      description: 'A personal blog sharing insights on technology, coding, and more.',
+      url: 'https://dogy.io',
+      siteName: 'Dogy.io',
+      locale: locale === 'vi' ? 'vi_VN' : 'en_US',
+      type: 'website',
+    },
+    alternates: {
+      canonical: 'https://dogy.io',
+      languages: {
+        'en': 'https://dogy.io/en',
+        'vi': 'https://dogy.io/vi',
+      },
+    },
+  };
+}
+
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const host = getHashnodeHost(locale);

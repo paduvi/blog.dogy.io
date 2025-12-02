@@ -11,9 +11,8 @@ export default function Footer() {
             <div className="container">
                 <div className="flex flex-row md-flex-row justify-between items-center gap-4">
                     <div className="flex items-center gap-2">
-                        <div className="w-6 h-6 bg-primary rounded flex items-center justify-center text-white font-bold text-sm">
-                            D
-                        </div>
+                        
+                        <img className='w-6 h-6 rounded' src="/favicon/favicon-32x32.png" alt="Dogy.io Logo" />
                         <span className="font-bold text-lg">Dogy.io</span>
                         <span className="text-muted text-sm ml-2">© {new Date().getFullYear()}</span>
                     </div>

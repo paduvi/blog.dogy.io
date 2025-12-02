@@ -23,9 +23,43 @@ export async function generateMetadata({ params }: PageProps) {
 
     if (!category) return { title: 'Category Not Found' };
 
+    const url = `https://dogy.io/${locale}/category/${slug}`;
+    const ogImage = category.coverImage || '/favicon/dog_logo.png';
+    const title = `${category.name} Posts`;
+    const description = `Browse all posts in ${category.name} on Dogy.io`;
+
     return {
-        title: `${category.name} Posts | Dogy.io`,
-        description: `Browse all posts in ${category.name}`,
+        title: title,
+        description: description,
+        openGraph: {
+            title: title,
+            description: description,
+            url: url,
+            siteName: 'Dogy.io',
+            locale: locale === 'vi' ? 'vi_VN' : 'en_US',
+            type: 'website',
+            images: [
+                {
+                    url: ogImage,
+                    width: 1200,
+                    height: 630,
+                    alt: category.name,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: title,
+            description: description,
+            images: [ogImage],
+        },
+        alternates: {
+            canonical: url,
+            languages: {
+                'en': `https://dogy.io/en/category/${slug}`,
+                'vi': `https://dogy.io/vi/category/${slug}`,
+            },
+        },
     };
 }
 

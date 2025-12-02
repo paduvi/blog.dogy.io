@@ -13,8 +13,45 @@ config.autoAddCss = false;
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Dogy.io - Personal Blog',
-  description: 'A personal blog built with Next.js',
+  metadataBase: new URL('https://dogy.io'),
+  title: {
+    default: 'Dogy.io - Personal Blog',
+    template: '%s | Dogy.io'
+  },
+  description: 'A personal blog sharing insights on technology, coding, and more.',
+  openGraph: {
+    title: 'Dogy.io - Personal Blog',
+    description: 'A personal blog sharing insights on technology, coding, and more.',
+    url: 'https://dogy.io',
+    siteName: 'Dogy.io',
+    locale: 'en_US',
+    type: 'website',
+    images: [
+      {
+        url: '/favicon/dog_logo.png', // Using the existing logo as OG image for now
+        width: 800,
+        height: 600,
+        alt: 'Dogy.io Logo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Dogy.io - Personal Blog',
+    description: 'A personal blog sharing insights on technology, coding, and more.',
+    images: ['/favicon/dog_logo.png']
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   icons: {
     icon: [
       { url: '/favicon/favicon-32x32.png', sizes: '32x32', type: 'image/png' },

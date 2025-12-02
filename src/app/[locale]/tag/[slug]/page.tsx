@@ -22,10 +22,43 @@ export async function generateMetadata({ params }: PageProps) {
 
     const tag = posts[0].tags.find((t: any) => t.slug === slug);
     const tagName = tag ? tag.name : slug;
+    const title = `#${tagName} Posts`;
+    const description = `Browse all posts tagged with #${tagName} on Dogy.io`;
+    const url = `https://dogy.io/${locale}/tag/${slug}`;
 
     return {
-        title: `#${tagName} Posts | Dogy.io`,
-        description: `Browse all posts tagged with #${tagName}`,
+        title: title,
+        description: description,
+        openGraph: {
+            title: title,
+            description: description,
+            url: url,
+            siteName: 'Dogy.io',
+            locale: locale === 'vi' ? 'vi_VN' : 'en_US',
+            type: 'website',
+            images: [
+                {
+                    url: '/favicon/dog_logo.png',
+                    width: 800,
+                    height: 600,
+                    alt: `Posts tagged with ${tagName}`,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: title,
+            description: description,
+            images: ['/favicon/dog_logo.png'],
+            creator: '@dogyio',
+        },
+        alternates: {
+            canonical: url,
+            languages: {
+                'en': `https://dogy.io/en/tag/${slug}`,
+                'vi': `https://dogy.io/vi/tag/${slug}`,
+            },
+        },
     };
 }
 

@@ -18,9 +18,43 @@ export async function generateMetadata({params}: PageProps) {
 
     if (!post) return {title: 'Post Not Found'};
 
+    const url = `https://dogy.io/${locale}/post/${slug}`;
+    const ogImage = post.coverImage || '/favicon/dog_logo.png';
+
     return {
-        title: `${post.title} | Dogy.io`,
+        title: post.title,
         description: post.excerpt,
+        openGraph: {
+            title: post.title,
+            description: post.excerpt,
+            url: url,
+            siteName: 'Dogy.io',
+            locale: locale === 'vi' ? 'vi_VN' : 'en_US',
+            type: 'article',
+            publishedTime: post.publishedAt,
+            authors: [post.author.name],
+            images: [
+                {
+                    url: ogImage,
+                    width: 1200,
+                    height: 630,
+                    alt: post.title,
+                },
+            ],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: post.title,
+            description: post.excerpt,
+            images: [ogImage],
+        },
+        alternates: {
+            canonical: url,
+            languages: {
+                'en': `https://dogy.io/en/post/${slug}`,
+                'vi': `https://dogy.io/vi/post/${slug}`,
+            },
+        },
     };
 }
 
