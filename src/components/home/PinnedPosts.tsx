@@ -51,12 +51,12 @@ export default function PinnedPosts({ posts }: PinnedPostsProps) {
                 </Link>
 
                 {/* Right Side - 2 Posts Stacked */}
-                <div className="lg-col-span-3 flex flex-col gap-4 h-600">
+                <div className="lg-col-span-3 grid grid-rows-2 gap-4 h-600">
                     {rightSidePosts.map((post) => (
                         <Link
                             key={post.id}
                             href={`/post/${post.slug}`}
-                            className="card-group flex-1"
+                            className="card-group h-full"
                         >
                             <div className="relative h-full rounded-xl overflow-hidden bg-white shadow-sm border">
                                 <div className="relative h-full rounded-lg overflow-hidden card-img-scale">
@@ -82,7 +82,7 @@ export default function PinnedPosts({ posts }: PinnedPostsProps) {
 
                     {/* Empty Placeholders */}
                     {Array.from({ length: placeholdersNeeded }).map((_, idx) => (
-                        <div key={`placeholder-${idx}`} className="flex-1">
+                        <div key={`placeholder-${idx}`} className="h-full">
                             <div className="relative h-full rounded-xl overflow-hidden bg-gray-200 shadow-sm border">
                                 <div className="relative h-full rounded-lg overflow-hidden bg-gray-200">
                                 </div>
