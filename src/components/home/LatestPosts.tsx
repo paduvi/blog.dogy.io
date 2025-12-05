@@ -5,57 +5,58 @@ import PostCard from '@/components/common/PostCard';
 import PostCardSkeleton from '@/components/common/PostCardSkeleton';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
+import { fetchMoreLatestPosts } from '@/actions/postActions';
+
+interface PageInfo {
+    hasNextPage: boolean;
+    endCursor: string | null;
+}
 
 interface LatestPostsProps {
     posts: Post[];
+    initialPageInfo: PageInfo;
+    locale: string;
+    pinnedPostIds: string[];
 }
 
-const POSTS_PER_PAGE = 9;
-
-export default function LatestPosts({ posts }: LatestPostsProps) {
+export default function LatestPosts({ posts, initialPageInfo, locale, pinnedPostIds }: LatestPostsProps) {
     const t = useTranslations('Home');
-    const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
-    const [page, setPage] = useState(1);
+    const [displayedPosts, setDisplayedPosts] = useState<Post[]>(posts);
+    const [pageInfo, setPageInfo] = useState<PageInfo>(initialPageInfo);
     const [loading, setLoading] = useState(false);
-    const [hasMore, setHasMore] = useState(true);
     const observerTarget = useRef<HTMLDivElement>(null);
 
-    // Initialize with first page
-    useEffect(() => {
-        setDisplayedPosts(posts.slice(0, POSTS_PER_PAGE));
-        setHasMore(posts.length > POSTS_PER_PAGE);
-    }, [posts]);
-
-    // Load more posts
-    const loadMore = useCallback(() => {
-        if (loading || !hasMore) return;
+    // Load more posts from server
+    const loadMore = useCallback(async () => {
+        if (loading || !pageInfo.hasNextPage || !pageInfo.endCursor) return;
 
         setLoading(true);
 
-        // Simulate network delay for realistic loading
-        setTimeout(() => {
-            const nextPage = page + 1;
-            const startIndex = page * POSTS_PER_PAGE;
-            const endIndex = startIndex + POSTS_PER_PAGE;
-            const newPosts = posts.slice(startIndex, endIndex);
-
-            if (newPosts.length > 0) {
-                setDisplayedPosts(prev => [...prev, ...newPosts]);
-                setPage(nextPage);
-                setHasMore(endIndex < posts.length);
+        try {
+            const result = await fetchMoreLatestPosts(locale, pageInfo.endCursor);
+            
+            if (result.posts.length > 0) {
+                // Filter out any posts that are in the pinned section
+                const filteredPosts = result.posts.filter(
+                    (post: Post) => !pinnedPostIds.includes(post.id)
+                );
+                setDisplayedPosts(prev => [...prev, ...filteredPosts]);
+                setPageInfo(result.pageInfo);
             } else {
-                setHasMore(false);
+                setPageInfo(prev => ({ ...prev, hasNextPage: false }));
             }
-
+        } catch (error) {
+            console.error('Failed to load more posts:', error);
+        } finally {
             setLoading(false);
-        }, 800); // 800ms delay to show shimmer animation
-    }, [page, posts, loading, hasMore]);
+        }
+    }, [locale, pageInfo, loading, pinnedPostIds]);
 
     // Intersection Observer for infinite scroll
     useEffect(() => {
         const observer = new IntersectionObserver(
             entries => {
-                if (entries[0].isIntersecting && hasMore && !loading) {
+                if (entries[0].isIntersecting && pageInfo.hasNextPage && !loading) {
                     loadMore();
                 }
             },
@@ -72,7 +73,7 @@ export default function LatestPosts({ posts }: LatestPostsProps) {
                 observer.unobserve(currentTarget);
             }
         };
-    }, [loadMore, hasMore, loading]);
+    }, [loadMore, pageInfo.hasNextPage, loading]);
 
     return (
         <section>
@@ -102,7 +103,7 @@ export default function LatestPosts({ posts }: LatestPostsProps) {
             <div ref={observerTarget} className="h-10 mt-8" />
 
             {/* End of posts message */}
-            {!hasMore && (
+            {!pageInfo.hasNextPage && (
                 <div className="text-center py-8 text-muted">
                     <p>{t('endOfPosts')} 🎉</p>
                 </div>

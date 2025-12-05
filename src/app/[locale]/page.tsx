@@ -31,10 +31,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const host = getHashnodeHost(locale);
-  const data = await hashnodeApi.getPosts(host);
+  const data = await hashnodeApi.getPosts(host, 13); // Fetch 13 posts: 3 for pinned + 10 for initial latest posts
 
   const pinnedPost = data.pinnedPost ? mapHashnodePostToPost(data.pinnedPost) : null;
   const posts = data.posts.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
+  const pageInfo = data.posts.pageInfo;
 
   // Create list of pinned posts
   // If there's a pinned post from API, use it as the first pinned post
@@ -79,13 +80,21 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
   // Combine remaining pinned posts with regular latest posts
   const latestPosts = [...remainingPinnedPosts, ...regularPosts];
 
+  // Collect IDs of all posts shown in pinned section
+  const pinnedPostIds = displayedPinnedPosts.map((p: any) => p.id);
+
   return (
     <div className="container py-8">
       <PinnedPosts posts={displayedPinnedPosts} />
 
       <div className="grid grid-cols-1 lg-grid-cols-12 gap-8">
         <div className="lg-col-span-8">
-          <LatestPosts posts={latestPosts} />
+          <LatestPosts 
+            posts={latestPosts} 
+            initialPageInfo={pageInfo} 
+            locale={locale}
+            pinnedPostIds={pinnedPostIds}
+          />
         </div>
 
         <aside className="lg-col-span-4">

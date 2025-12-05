@@ -43,3 +43,13 @@ export async function fetchMoreSearchPosts(locale: string, query: string, cursor
 
     return { posts, pageInfo };
 }
+
+export async function fetchMoreLatestPosts(locale: string, cursor: string) {
+    const host = getHashnodeHost(locale);
+    const data = await hashnodeApi.getPosts(host, POSTS_PER_PAGE, cursor);
+    
+    const posts = data.posts.edges.map((edge: any) => mapHashnodePostToPost(edge.node));
+    const pageInfo = data.posts.pageInfo;
+
+    return { posts, pageInfo };
+}
