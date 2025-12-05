@@ -92,7 +92,7 @@ export default function SearchResults() {
                     {t('results')}
                 </h1>
                 <p className="text-muted text-lg">
-                    {t(searchResults.length === 1 ? 'foundPost' : 'foundPosts', { count: searchResults.length })} <span className="font-bold text-main">"{query}"</span>
+                    {t('resultsFor')} <span className="font-bold text-main">"{query}"</span>
                 </p>
             </div>
 

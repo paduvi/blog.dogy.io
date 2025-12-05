@@ -84,7 +84,7 @@ export default async function TagPage({ params }: PageProps) {
             <div className="mb-8 text-center py-12 bg-gray-50 rounded-xl border">
                 <span className="text-sm font-bold text-primary uppercase tracking-wider mb-2 block">{t('postsTaggedWith')}</span>
                 <h1 className="text-4xl font-bold mb-4">#{tagName}</h1>
-                <p className="text-muted">{t(tagPosts.length === 1 ? 'post' : 'posts', { count: tagPosts.length })}</p>
+                <p className="text-muted">{t(data.posts.totalDocuments === 1 ? 'post' : 'posts', { count: data.posts.totalDocuments })}</p>
             </div>
 
             <div className="grid grid-cols-1 lg-grid-cols-12 gap-8">

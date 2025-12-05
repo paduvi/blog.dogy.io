@@ -282,6 +282,7 @@ export const GET_POSTS_BY_TAG = `
                     hasNextPage
                     endCursor
                 }
+                totalDocuments
             }
         }
     }
@@ -365,7 +366,14 @@ export const hashnodeApi = {
         // Cache publication ID
         const { setPublicationId } = await import('@/store/publicationStore').then(m => m.usePublicationStore.getState());
         setPublicationId(host, publication.id);
-        return publication;
+        
+        return {
+            ...publication,
+            posts: {
+                ...publication.posts,
+                totalDocuments: publication.posts.totalDocuments
+            }
+        };
     },
     getPublicationId: async (host: string) => {
         const data = await fetchGraphQL(GET_PUBLICATION_ID, { host });
