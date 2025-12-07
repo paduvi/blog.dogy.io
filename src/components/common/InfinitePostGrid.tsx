@@ -55,7 +55,7 @@ export default function InfinitePostGrid({ initialPosts, initialPageInfo, fetchM
                     loadMore();
                 }
             },
-            { threshold: 0.1 }
+            { threshold: 0.1, rootMargin: '50px' }
         );
 
         const currentTarget = observerTarget.current;
@@ -83,9 +83,9 @@ export default function InfinitePostGrid({ initialPosts, initialPageInfo, fetchM
 
                 {loading && (
                     <>
-                        <PostCardSkeleton />
-                        <PostCardSkeleton />
-                        <PostCardSkeleton />
+                        {Array.from({ length: 3 - (posts.length % 3) }).map((_, index) => (
+                            <PostCardSkeleton key={`skeleton-${index}`} />
+                        ))}
                     </>
                 )}
             </div>

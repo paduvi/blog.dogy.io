@@ -3,7 +3,7 @@
 import { Post } from '@/types';
 import PostCard from '@/components/common/PostCard';
 import PostCardSkeleton from '@/components/common/PostCardSkeleton';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { fetchMoreLatestPosts } from '@/actions/postActions';
 
@@ -25,6 +25,20 @@ export default function LatestPosts({ posts, initialPageInfo, locale, pinnedPost
     const [pageInfo, setPageInfo] = useState<PageInfo>(initialPageInfo);
     const [loading, setLoading] = useState(false);
     const observerTarget = useRef<HTMLDivElement>(null);
+
+    // Filter displayed posts to always show complete rows (multiples of 3)
+    // unless there are no more posts to load.
+    const visiblePosts = useMemo(() => {
+        // If no more pages, show everything
+        if (!pageInfo.hasNextPage) return displayedPosts;
+        
+        // If we have posts, ensure we only show complete rows (3 columns)
+        const remainder = displayedPosts.length % 3;
+        if (remainder === 0) return displayedPosts;
+        
+        // Hide the "leftover" posts until we load enough to fill the row
+        return displayedPosts.slice(0, -remainder);
+    }, [displayedPosts, pageInfo.hasNextPage]);
 
     // Load more posts from server
     const loadMore = useCallback(async () => {
@@ -60,7 +74,7 @@ export default function LatestPosts({ posts, initialPageInfo, locale, pinnedPost
                     loadMore();
                 }
             },
-            { threshold: 0.1 }
+            { threshold: 0.1, rootMargin: '50px' }
         );
 
         const currentTarget = observerTarget.current;
@@ -85,16 +99,16 @@ export default function LatestPosts({ posts, initialPageInfo, locale, pinnedPost
             </div>
 
             <div className="grid grid-cols-1 md-grid-cols-2 lg-grid-cols-3 gap-6">
-                {displayedPosts.map((post) => (
+                {visiblePosts.map((post) => (
                     <PostCard key={post.id} post={post} />
                 ))}
 
                 {/* Show skeleton loaders while loading */}
                 {loading && (
                     <>
-                        <PostCardSkeleton />
-                        <PostCardSkeleton />
-                        <PostCardSkeleton />
+                        {Array.from({ length: 3 - (visiblePosts.length % 3) }).map((_, index) => (
+                            <PostCardSkeleton key={`skeleton-${index}`} />
+                        ))}
                     </>
                 )}
             </div>

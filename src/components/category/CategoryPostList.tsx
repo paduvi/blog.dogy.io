@@ -53,7 +53,7 @@ export default function CategoryPostList({ initialPosts, initialPageInfo, fetchM
                     loadMore();
                 }
             },
-            { threshold: 0.1 }
+            { threshold: 0.1, rootMargin: '50px' }
         );
 
         const currentTarget = observerTarget.current;
