@@ -2,7 +2,7 @@
 
 import { Link } from '@/i18n/routing';
 import { Post } from '@/types';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, Image as ImageIcon } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
 
 interface PostCardProps {
@@ -17,11 +17,17 @@ export default function PostCard({ post, compact = false }: PostCardProps) {
     return (
         <div className={`card group flex ${compact ? 'flex-row h-32' : 'flex-col'}`}>
             <div className={`relative ${compact ? 'w-1-3 overflow-hidden' : 'w-full h-48 overflow-hidden'}`}>
-                <img
-                    src={post.coverImage}
-                    alt={post.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover-scale-115"
-                />
+                {post.coverImage ? (
+                    <img
+                        src={post.coverImage}
+                        alt={post.title}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover-scale-115"
+                    />
+                ) : (
+                    <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                        <ImageIcon size={32} className="text-gray-300" />
+                    </div>
+                )}
             </div>
 
             <div className="p-4 flex flex-col gap-4 flex-1">

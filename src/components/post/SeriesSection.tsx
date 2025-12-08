@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react';
 import { Link } from '@/i18n/routing';
-import { ChevronDown, Calendar, Clock } from 'lucide-react';
+import { ChevronDown, Calendar, Clock, Image as ImageIcon } from 'lucide-react';
 import SeriesPostSkeleton from './SeriesPostSkeleton';
 import type { Post } from '@/types';
 import { useTranslations, useLocale } from 'next-intl';
@@ -10,7 +10,7 @@ import { getHashnodeHost, hashnodeApi, mapHashnodePostToPost } from '@/lib/hashn
 import { usePostStore } from '@/store/postStore';
 import { fetchMoreCategoryPosts } from '@/actions/postActions';
 
-const POSTS_PER_PAGE = 5;
+const POSTS_PER_PAGE = 6;
 
 function SeriesSectionContent() {
     const t = useTranslations('Post');
@@ -18,6 +18,7 @@ function SeriesSectionContent() {
     const post = usePostStore((state) => state.post);
     const [seriesPosts, setSeriesPosts] = useState<Post[]>([]);
     const [pageInfo, setPageInfo] = useState<{ hasNextPage: boolean; endCursor: string | null }>({ hasNextPage: false, endCursor: null });
+    const [totalPosts, setTotalPosts] = useState(0);
     const [loading, setLoading] = useState(false);
     const [showPrevious, setShowPrevious] = useState(false);
     const [isExpanding, setIsExpanding] = useState(false);
@@ -77,6 +78,7 @@ function SeriesSectionContent() {
                 
                 setSeriesPosts(allFetchedPosts);
                 setPageInfo(lastPageInfo);
+                setTotalPosts(data.series.posts.totalDocuments || allFetchedPosts.length);
 
                 // Reset showPrevious when changing posts
                 setShowPrevious(false);
@@ -136,7 +138,11 @@ function SeriesSectionContent() {
         try {
             const { posts: newPosts, pageInfo: newPageInfo } = await fetchMoreCategoryPosts(locale, categorySlug, pageInfo.endCursor);
             
-            setSeriesPosts(prev => [...prev, ...newPosts]);
+            setSeriesPosts(prev => {
+                const existingIds = new Set(prev.map(p => p.id));
+                const uniqueNewPosts = newPosts.filter((p: Post) => !existingIds.has(p.id));
+                return [...prev, ...uniqueNewPosts];
+            });
             setPageInfo(newPageInfo);
         } catch (error) {
             console.error("Failed to load more series posts:", error);
@@ -144,6 +150,29 @@ function SeriesSectionContent() {
             setLoading(false);
         }
     }, [loading, pageInfo, locale, categorySlug]);
+
+    // Intersection Observer for infinite scroll
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            entries => {
+                if (entries[0].isIntersecting && pageInfo.hasNextPage && !loading) {
+                    loadMore();
+                }
+            },
+            { threshold: 0.1, rootMargin: '50px' }
+        );
+
+        const currentTarget = observerTarget.current;
+        if (currentTarget) {
+            observer.observe(currentTarget);
+        }
+
+        return () => {
+            if (currentTarget) {
+                observer.unobserve(currentTarget);
+            }
+        };
+    }, [loadMore, pageInfo.hasNextPage, loading, isExpanded]);
 
     // ... (rest of the code)
 
@@ -187,7 +216,7 @@ function SeriesSectionContent() {
                     </div>
                     <div className="flex items-center gap-3">
                         <div className="text-xs font-medium text-muted bg-gray-100 px-2 py-1 rounded">
-                            {t(seriesPosts.length === 1 ? 'post' : 'posts', { count: seriesPosts.length })}
+                            {t(totalPosts === 1 ? 'post' : 'posts', { count: totalPosts })}
                         </div>
                         <button
                             className={`p-1 btn-transparent cursor-pointer transition-transform duration-200 ${isExpanded ? '' : 'rotate-180'}`}
@@ -264,11 +293,17 @@ function SeriesSectionContent() {
                                     {/* Post Image */}
                                     <div className="flex-shrink-0">
                                         <div className="w-64 h-48 rounded-lg overflow-hidden bg-gray-100 border">
-                                            <img
-                                                src={post.coverImage}
-                                                alt={post.title}
-                                                className="w-full h-full object-cover transform group-hover-scale-105 transition-transform duration-300"
-                                            />
+                                            {post.coverImage ? (
+                                                <img
+                                                    src={post.coverImage}
+                                                    alt={post.title}
+                                                    className="w-full h-full object-cover transform group-hover-scale-105 transition-transform duration-300"
+                                                />
+                                            ) : (
+                                                <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                                                    <ImageIcon size={32} className="text-gray-300" />
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 </Link>

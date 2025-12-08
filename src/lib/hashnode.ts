@@ -199,6 +199,7 @@ export const GET_POSTS_BY_SERIES = `
                         hasNextPage
                         endCursor
                     }
+                    totalDocuments
                 }
             }
         }

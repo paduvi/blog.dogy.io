@@ -2,7 +2,7 @@
 
 import { Link } from '@/i18n/routing';
 import { Post } from '@/types';
-import { BookOpen, Pin } from 'lucide-react';
+import { BookOpen, Pin, Image as ImageIcon } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
 
 interface PinnedPostsProps {
@@ -28,11 +28,17 @@ export default function PinnedPosts({ posts }: PinnedPostsProps) {
                 {/* Fixed Post - Left Side */}
                 <Link href={`/post/${fixedPost.slug}`} className="group lg-col-span-7">
                     <div className="relative h-600 rounded-xl overflow-hidden bg-white shadow-sm border">
-                        <img
-                            src={fixedPost.coverImage}
-                            alt={fixedPost.title}
-                            className="w-full h-full object-cover transition-transform duration-300 group-hover-scale-115"
-                        />
+                        {fixedPost.coverImage ? (
+                            <img
+                                src={fixedPost.coverImage}
+                                alt={fixedPost.title}
+                                className="w-full h-full object-cover transition-transform duration-300 group-hover-scale-115"
+                            />
+                        ) : (
+                            <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                                <ImageIcon size={64} className="text-gray-300" />
+                            </div>
+                        )}
                         <div className="absolute inset-0 bg-black-30 bg-gradient-to-t from-black-80 via-black-30 to-transparent flex flex-col justify-end p-6 text-white">
                             <div className="flex items-center gap-2 mb-2">
                                 <Pin size={14} className="text-primary" fill="currentColor" />
@@ -60,11 +66,17 @@ export default function PinnedPosts({ posts }: PinnedPostsProps) {
                         >
                             <div className="relative h-full rounded-xl overflow-hidden bg-white shadow-sm border">
                                 <div className="relative h-full rounded-lg overflow-hidden card-img-scale">
-                                    <img
-                                        src={post.coverImage}
-                                        alt={post.title}
-                                        className="w-full h-full object-cover transition-transform duration-300"
-                                    />
+                                    {post.coverImage ? (
+                                        <img
+                                            src={post.coverImage}
+                                            alt={post.title}
+                                            className="w-full h-full object-cover transition-transform duration-300"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                                            <ImageIcon size={48} className="text-gray-300" />
+                                        </div>
+                                    )}
                                     <div className="absolute inset-0 bg-black-30 bg-gradient-to-t from-black-80 via-black-30 to-transparent flex flex-col justify-end p-5 text-white">
                                         <h3 className="text-lg md-text-xl font-bold mb-3 card-group-hover-underline decoration-2 underline-offset-4 line-clamp-2">
                                             {post.title}
