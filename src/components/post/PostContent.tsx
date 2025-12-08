@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Calendar, Clock, Tag as TagIcon } from 'lucide-react';
+import { Calendar, Clock, Tag as TagIcon, Image as ImageIcon } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { MarkdownToHtml } from '@/components/post/markdown-to-html';
 import SeriesSection from '@/components/post/SeriesSection';
@@ -91,11 +91,17 @@ export default function PostContent({ post, locale, translations }: PostContentP
             </div>
 
             <div className="relative w-full mb-10 rounded-xl overflow-hidden">
-                <img
-                    src={post.coverImage}
-                    alt={post.title}
-                    className="w-full h-full object-cover"
-                />
+                {post.coverImage ? (
+                    <img
+                        src={post.coverImage}
+                        alt={post.title}
+                        className="w-full h-full object-cover"
+                    />
+                ) : (
+                    <div className="w-full h-64 md-h-96 bg-gray-100 flex items-center justify-center">
+                        <ImageIcon size={64} className="text-gray-300" />
+                    </div>
+                )}
             </div>
 
             <MarkdownToHtml contentMarkdown={post.content.markdown} />
