@@ -1,7 +1,7 @@
 'use client';
 
-import { useMemo } from 'react';
-import { X } from 'lucide-react';
+import { useMemo, useState, useEffect } from 'react';
+import { X, AlertCircle } from 'lucide-react';
 import { DiscussionEmbed } from 'disqus-react';
 import { useModalStore } from '@/store/modalStore';
 import { usePostStore } from '@/store/postStore';
@@ -25,6 +25,25 @@ export default function CommentsModal() {
         title: postTitle,
         language: locale
     }), [postSlug, postTitle, locale]);
+    
+    const [isBlocked, setIsBlocked] = useState(false);
+
+    useEffect(() => {
+        if (!isOpen) {
+            setIsBlocked(false);
+            return;
+        }
+
+        const checkDisqus = setTimeout(() => {
+            const disqusFrame = document.querySelector('#disqus_thread iframe');
+            // If the iframe doesn't exist or has no height, it's likely blocked
+            if (!disqusFrame || disqusFrame.clientHeight === 0) {
+                setIsBlocked(true);
+            }
+        }, 3000);
+
+        return () => clearTimeout(checkDisqus);
+    }, [isOpen, postSlug]);
 
     const disqusShortname = "https-dogy-io";
 
@@ -52,7 +71,16 @@ export default function CommentsModal() {
                         <BuyMeACoffee isModal/>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-4">
+                    <div className="flex-1 overflow-y-auto p-4 relative">
+                        {isBlocked && (
+                            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6 flex flex-col items-center text-center">
+                                <AlertCircle className="text-amber-500 mb-2" size={32} />
+                                <h4 className="font-bold text-amber-800 mb-1">{t('commentsBlockedTitle', { defaultMessage: 'Comments Unable to Load' })}</h4>
+                                <p className="text-sm text-amber-700">
+                                    {t('commentsBlockedMessage', { defaultMessage: 'Please disable your ad blocker to view and join the discussion.' })}
+                                </p>
+                            </div>
+                        )}
                         <DiscussionEmbed
                             shortname={disqusShortname}
                             config={disqusConfig}
