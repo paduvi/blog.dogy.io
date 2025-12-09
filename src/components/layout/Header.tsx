@@ -26,6 +26,7 @@ export default function Header({ categories }: HeaderProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
 
     // Clear search query when navigating away from search page
     useEffect(() => {
@@ -33,6 +34,12 @@ export default function Header({ categories }: HeaderProps) {
             setSearchQuery('');
         }
     }, [pathname]);
+
+    // Detect mobile device
+    useEffect(() => {
+        const checkMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(window.navigator.userAgent);
+        setIsMobile(checkMobile);
+    }, []);
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
@@ -147,9 +154,11 @@ export default function Header({ categories }: HeaderProps) {
                                 </>
                             )}
                         </button>
-                        <span className="absolute top-full mt-2 left-half translate-x-neg-half px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 invisible group-hover-opacity-100 group-hover-visible transition-opacity duration-200 whitespace-nowrap z-50">
-                            {locale === 'vi' ? t('switchToEnglish') : t('switchToVietnamese')}
-                        </span>
+                        {!isMobile && (
+                            <span className="absolute top-full mt-2 left-half translate-x-neg-half px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 invisible group-hover-opacity-100 group-hover-visible transition-opacity duration-200 whitespace-nowrap z-50">
+                                {locale === 'vi' ? t('switchToEnglish') : t('switchToVietnamese')}
+                            </span>
+                        )}
                     </div>
 
                     <button
