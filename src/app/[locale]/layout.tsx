@@ -5,6 +5,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import GlobalBackdrop from '@/components/common/GlobalBackdrop';
 import SubscribeModal from '@/components/post/SubscribeModal';
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
@@ -115,6 +116,7 @@ export default async function LocaleLayout({
           <GlobalBackdrop />
           <SubscribeModal />
         </NextIntlClientProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
