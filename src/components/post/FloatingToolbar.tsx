@@ -122,7 +122,21 @@ export default function FloatingToolbar() {
 
                 {/* Share */}
                 <ToolbarButton
-                    onClick={() => setActiveModal(shareOpen ? null : 'share')}
+                    onClick={async () => {
+                        if (typeof navigator !== 'undefined' && 'share' in navigator) {
+                            try {
+                                await navigator.share({
+                                    title: postTitle,
+                                    text: postTitle,
+                                    url: typeof window !== 'undefined' ? `${window.location.origin}/${locale}/post/${postSlug}` : '',
+                                });
+                            } catch (err) {
+                                console.error('Error sharing:', err);
+                            }
+                        } else {
+                            setActiveModal(shareOpen ? null : 'share')
+                        }
+                    }}
                     icon={Share2}
                     label={t('shareArticle')}
                 >

@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Calendar, Clock, Tag as TagIcon, Image as ImageIcon } from 'lucide-react';
+import { Calendar, Clock, Image as ImageIcon } from 'lucide-react';
 import { Link } from '@/i18n/routing';
 import { MarkdownToHtml } from '@/components/post/markdown-to-html';
-import SeriesSection from '@/components/post/SeriesSection';
 import TagCloud from '@/components/common/TagCloud';
 import PostActions from '@/components/post/PostActions';
 import NewsletterSubscribe from '@/components/common/NewsletterSubscribe';
+import dynamic from 'next/dynamic';
+
+const SeriesSection = dynamic(() => import('@/components/post/SeriesSection'), { ssr: false });
 import handleMathJax from '@/utils/handle-math-jax';
 import { useEmbeds } from '@/utils/renderer/hooks/useEmbeds';
 import { loadIframeResizer } from '@/utils/renderer/services/embed';

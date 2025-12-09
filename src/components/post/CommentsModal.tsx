@@ -19,11 +19,13 @@ export default function CommentsModal() {
 
     const postSlug = post.slug;
     const postTitle = post.title;
+    const postUrl = typeof window !== 'undefined' ? `${window.location.origin}/${locale}/post/${postSlug}` : '';
 
     const disqusConfig = useMemo(() => ({
-        identifier: locale + "/" + postSlug,
+        identifier: locale + "/post/" + postSlug,
         title: postTitle,
-        language: locale
+        language: locale,
+        url: postUrl
     }), [postSlug, postTitle, locale]);
     
     const [isBlocked, setIsBlocked] = useState(false);
