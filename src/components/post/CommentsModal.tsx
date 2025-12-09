@@ -28,11 +28,10 @@ export default function CommentsModal() {
     }, [locale, postSlug]);
 
     const disqusConfig = useMemo(() => ({
-        identifier: locale + "/post/" + postSlug,
         title: postTitle,
         language: locale,
         url: postUrl
-    }), [postSlug, postTitle, locale, postUrl]);
+    }), [postTitle, locale, postUrl]);
     
     const [isMobile, setIsMobile] = useState(false);
 

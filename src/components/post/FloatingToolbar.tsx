@@ -60,11 +60,10 @@ export default function FloatingToolbar() {
     }, [locale, postSlug]);
 
     const disqusConfig = useMemo(() => ({
-        identifier: locale + "/post/" + postSlug,
         title: postTitle,
         language: locale,
         url: postUrl
-    }), [postSlug, postTitle, locale, postUrl]);
+    }), [postTitle, locale, postUrl]);
 
     const disqusShortname = "https-dogy-io";
 
