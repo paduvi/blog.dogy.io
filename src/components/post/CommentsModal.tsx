@@ -34,6 +34,13 @@ export default function CommentsModal() {
         url: postUrl
     }), [postSlug, postTitle, locale, postUrl]);
     
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(window.navigator.userAgent);
+        setIsMobile(checkMobile);
+    }, []);
+
     const [isBlocked, setIsBlocked] = useState(false);
 
     useEffect(() => {
@@ -59,7 +66,10 @@ export default function CommentsModal() {
         <>
             {/* Modal Panel */}
             <div
-                className={`fixed top-0 right-0 h-full w-full lg-w-1-3 bg-white z-50 shadow-2xl transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none'
+                className={`fixed top-0 right-0 h-full w-full lg-w-1-3 bg-white z-50 shadow-2xl transition-all duration-300 ease-in-out 
+                    ${isMobile 
+                        ? (isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none') 
+                        : (isOpen ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none')
                     }`}
             >
                 <div className="flex flex-col h-full">
