@@ -123,12 +123,13 @@ export default function FloatingToolbar() {
                 {/* Share */}
                 <ToolbarButton
                     onClick={async () => {
-                        if (typeof navigator !== 'undefined' && 'share' in navigator) {
+                        const isMobile = typeof window !== 'undefined' && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(window.navigator.userAgent);
+                        if (isMobile && typeof navigator !== 'undefined' && 'share' in navigator) {
                             try {
                                 await navigator.share({
                                     title: postTitle,
                                     text: postTitle,
-                                    url: typeof window !== 'undefined' ? `${window.location.origin}/${locale}/post/${postSlug}` : '',
+                                    url: `${window.location.origin}/${locale}/post/${postSlug}`,
                                 });
                             } catch (err) {
                                 console.error('Error sharing:', err);
