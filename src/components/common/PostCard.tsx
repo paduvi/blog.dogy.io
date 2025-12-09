@@ -44,7 +44,7 @@ export default function PostCard({ post, compact = false }: PostCardProps) {
                 </Link>
 
                 {!compact && (
-                    <p className="text-muted text-sm line-clamp-2 mb-4">
+                    <p className="text-muted text-sm line-clamp-6 mb-4">
                         {post.excerpt}
                     </p>
                 )}
@@ -56,7 +56,7 @@ export default function PostCard({ post, compact = false }: PostCardProps) {
                     </div>
                     <div className="flex gap-2 flex-wrap">
                         {/* Only show first tag if compact */}
-                        {post.tags.slice(0, compact ? 1 : 6).map(tag => (
+                        {post.tags.slice(0, compact ? 1 : 4).map(tag => (
                             <Link
                                 key={tag.id}
                                 href={`/tag/${tag.slug}`}
