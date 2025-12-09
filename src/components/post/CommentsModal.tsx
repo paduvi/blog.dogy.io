@@ -42,6 +42,12 @@ export default function CommentsModal() {
     }, []);
 
     const [isBlocked, setIsBlocked] = useState(false);
+    const [disqusKey, setDisqusKey] = useState(0);
+
+    const handleRetryDisqus = () => {
+        setIsBlocked(false);
+        setDisqusKey(prev => prev + 1);
+    };
 
     useEffect(() => {
         if (!isOpen) {
@@ -58,7 +64,7 @@ export default function CommentsModal() {
         }, 3000);
 
         return () => clearTimeout(checkDisqus);
-    }, [isOpen, postSlug]);
+    }, [isOpen, postSlug, disqusKey]);
 
     const disqusShortname = "https-dogy-io";
 
@@ -68,7 +74,7 @@ export default function CommentsModal() {
             <div
                 className={`fixed top-0 right-0 h-full w-full lg-w-1-3 bg-white z-50 shadow-2xl transition-all duration-300 ease-in-out 
                     ${isMobile 
-                        ? (isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none') 
+                        ? (isOpen ? 'opacity-100 visible pointer-events-auto' : 'opacity-0 invisible pointer-events-none') 
                         : (isOpen ? 'translate-x-0 pointer-events-auto' : 'translate-x-full pointer-events-none')
                     }`}
             >
@@ -91,15 +97,22 @@ export default function CommentsModal() {
 
                     <div className="flex-1 overflow-y-auto p-4 relative">
                         {isBlocked && (
-                            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6 flex flex-col items-center text-center">
-                                <AlertCircle className="text-amber-500 mb-2" size={32} />
-                                <h4 className="font-bold text-amber-800 mb-1">{t('commentsBlockedTitle', { defaultMessage: 'Comments Unable to Load' })}</h4>
-                                <p className="text-sm text-amber-700">
+                            <div className="rounded-lg p-4 mb-6 flex flex-col items-center text-center" style={{ backgroundColor: '#fffbeb', border: '1px solid #fcd34d' }}>
+                                <AlertCircle className="mb-2" size={32} style={{ color: '#f59e0b' }} />
+                                <h4 className="font-bold mb-1" style={{ color: '#92400e' }}>{t('commentsBlockedTitle', { defaultMessage: 'Comments Unable to Load' })}</h4>
+                                <p className="text-sm" style={{ color: '#b45309' }}>
                                     {t('commentsBlockedMessage', { defaultMessage: 'Please disable your ad blocker to view and join the discussion.' })}
                                 </p>
+                                <button 
+                                    onClick={handleRetryDisqus}
+                                    className="mt-2 text-sm text-primary font-medium hover-underline"
+                                >
+                                    {t('reloadComments')}
+                                </button>
                             </div>
                         )}
                         <DiscussionEmbed
+                            key={disqusKey}
                             shortname={disqusShortname}
                             config={disqusConfig}
                         />

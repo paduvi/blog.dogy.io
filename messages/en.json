@@ -59,7 +59,8 @@
         "title": "Comments",
         "loading": "Loading comments...",
         "commentsBlockedTitle": "Comments Unable to Load",
-        "commentsBlockedMessage": "Please disable your ad blocker to view and join the discussion."
+        "commentsBlockedMessage": "Please disable your ad blocker to view and join the discussion.",
+        "reloadComments": "Try Again"
     },
     "Category": {
         "posts": "{count} Posts",

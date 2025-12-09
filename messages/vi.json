@@ -59,7 +59,8 @@
         "title": "Bình luận",
         "loading": "Đang tải bình luận...",
         "commentsBlockedTitle": "Không thể tải bình luận",
-        "commentsBlockedMessage": "Vui lòng tắt trình chặn quảng cáo để xem và tham gia thảo luận."
+        "commentsBlockedMessage": "Vui lòng tắt trình chặn quảng cáo để xem và tham gia thảo luận.",
+        "reloadComments": "Thử lại"
     },
     "Category": {
         "posts": "{count} Bài viết",
