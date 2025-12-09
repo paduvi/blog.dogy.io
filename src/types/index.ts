@@ -38,4 +38,5 @@ export interface Post {
     category: Category;
     tags: Tag[];
     isPinned?: boolean;
+    canonicalUrl?: string; // Added canonicalUrl
 }

@@ -25,6 +25,7 @@ export interface Post {
         id: string;
     };
     hasLatexInPost?: boolean;
+    canonicalUrl?: string;
 }
 
 interface PostStore {

@@ -117,6 +117,7 @@ export const GET_POST_BY_SLUG = `
                 coverImage {
                     url
                 }
+                canonicalUrl
                 author {
                     name
                     profilePicture
@@ -319,6 +320,7 @@ export interface HashnodePost {
         slug: string;
     }[];
     hasLatexInPost?: boolean;
+    canonicalUrl?: string;
 }
 
 export interface HashnodeSeries {
@@ -433,5 +435,6 @@ export const mapHashnodePostToPost = (node: HashnodePost): any => {
         })) || [],
         isPinned: false,
         hasLatexInPost: node.hasLatexInPost,
+        canonicalUrl: node.canonicalUrl,
     };
 };

@@ -6,6 +6,7 @@ import { Link, useRouter, usePathname } from '@/i18n/routing';
 import { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useModalStore } from '@/store/modalStore';
+import { usePostStore } from '@/store/postStore';
 
 interface HeaderProps {
     categories: {
@@ -21,6 +22,7 @@ export default function Header({ categories }: HeaderProps) {
     const locale = useLocale();
     const t = useTranslations('Header');
     const { setActiveModal } = useModalStore();
+    const post = usePostStore((state) => state.post);
     const [searchQuery, setSearchQuery] = useState('');
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
@@ -52,6 +54,13 @@ export default function Header({ categories }: HeaderProps) {
 
     const switchLanguage = () => {
         const nextLocale = locale === 'en' ? 'vi' : 'en';
+
+        // Check if we are on a post page and have reference to canonical URL
+        if (post?.canonicalUrl) {
+           window.location.href = post.canonicalUrl;
+           return;
+        }
+        
         // Redirect to home page of the new locale
         router.replace('/', { locale: nextLocale });
     };
