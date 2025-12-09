@@ -6,11 +6,12 @@ import { faLinkedin, faXTwitter, faFacebook, faReddit, faHackerNews } from '@for
 import { faLink } from '@fortawesome/free-solid-svg-icons';
 import { useModalStore } from '@/store/modalStore';
 import { usePostStore } from '@/store/postStore';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { Link } from '@/i18n/routing';
 
 export default function ShareModal() {
     const t = useTranslations('Share');
+    const locale = useLocale();
     const { activeModal } = useModalStore();
     const post = usePostStore((state) => state.post);
     const [copied, setCopied] = useState(false);
@@ -19,7 +20,7 @@ export default function ShareModal() {
     if (!isOpen || !post) return null;
 
     const postTitle = post.title;
-    const postUrl = typeof window !== 'undefined' ? `${window.location.origin}/post/${post.slug}` : '';
+    const postUrl = typeof window !== 'undefined' ? `${window.location.origin}/${locale}/post/${post.slug}` : '';
 
     const handleCopyLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
