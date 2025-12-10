@@ -56,14 +56,14 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon.ico' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
     ],
     apple: [
-      { url: '/favicon/apple-icon.png', sizes: '180x180', type: 'image/png' },
+      { url: '/apple-icon.png' },
     ],
     other: [
-      { rel: 'mask-icon', url: '/favicon/icon.svg', color: '#5bbad5' },
+      { rel: 'mask-icon', url: '/icon.svg', color: '#5bbad5' },
     ],
   },
   manifest: '/site.webmanifest',
