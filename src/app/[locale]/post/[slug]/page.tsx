@@ -69,15 +69,47 @@ export default async function PostPage({params}: PageProps) {
         notFound();
     }
 
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: post.title,
+        description: post.excerpt,
+        image: post.coverImage,
+        datePublished: post.publishedAt,
+        author: {
+            '@type': 'Person',
+            name: post.author.name,
+            url: `https://hashnode.com/@${post.author.username}`
+        },
+        publisher: {
+            '@type': 'Organization',
+            name: 'Dogy.io',
+            logo: {
+                '@type': 'ImageObject',
+                url: 'https://dogy.io/favicon/dog_logo.png'
+            }
+        },
+        mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': `https://dogy.io/${locale}/post/${slug}`
+        }
+    };
+
     return (
-        <PostContent
-            post={post}
-            locale={locale}
-            translations={{
-                tags: t('tags'),
-                readTime: t('readTime', {minutes: 0}).replace('0', '{minutes}')
-            }}
-        />
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <PostContent
+                post={post}
+                locale={locale}
+                translations={{
+                    tags: t('tags'),
+                    readTime: t('readTime', {minutes: 0}).replace('0', '{minutes}')
+                }}
+            />
+        </>
     );
 }
 

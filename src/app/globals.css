@@ -919,6 +919,10 @@ img {
   height: 12rem;
 }
 
+.h-64 {
+  height: 16rem;
+}
+
 .w-48 {
   width: 12rem;
 }

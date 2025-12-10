@@ -1,4 +1,5 @@
 import CategoryPostList from '@/components/category/CategoryPostList';
+import Image from 'next/image';
 import TagCloud from '@/components/common/TagCloud';
 import BuyMeACoffee from '@/components/common/BuyMeACoffee';
 import { notFound } from 'next/navigation';
@@ -91,12 +92,15 @@ export default async function CategoryPage({ params }: PageProps) {
                 </div>
 
                 {/* Right: Cover Image */}
-                <div className="relative rounded-xl overflow-hidden bg-gray-900 aspect-video lg-aspect-auto lg-h-full min-h-300">
+                <div className="relative rounded-xl overflow-hidden bg-gray-900 w-full h-64 md-h-64 lg-h-auto lg-aspect-auto lg-min-h-full">
                     {category.coverImage && (
-                        <img
+                        <Image
                             src={category.coverImage}
                             alt={category.name}
-                            className="absolute inset-0 w-full h-full object-cover"
+                            fill
+                            priority
+                            sizes="(max-width: 1024px) 100vw, 50vw"
+                            className="object-cover"
                         />
                     )}
                 </div>

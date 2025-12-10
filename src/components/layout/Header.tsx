@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { Search, Menu, ChevronDown, Bell, X } from 'lucide-react';
 import { Link, useRouter, usePathname } from '@/i18n/routing';
+import Image from 'next/image';
 import { useState } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { useModalStore } from '@/store/modalStore';
@@ -84,7 +85,13 @@ export default function Header({ categories }: HeaderProps) {
                             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>
                         <Link href="/" className="flex items-center gap-2">
-                            <img className='w-8 h-8 rounded-lg' src="/favicon/favicon-32x32.png" alt="Dogy.io Logo" />
+                            <Image 
+                                className='rounded-lg' 
+                                src="/favicon/favicon-32x32.png" 
+                                alt="Dogy.io Logo" 
+                                width={32} 
+                                height={32} 
+                            />
                             <span className="font-bold text-xl hidden md-block">Dogy.io</span>
                         </Link>
                     </div>
@@ -132,11 +139,13 @@ export default function Header({ categories }: HeaderProps) {
                         >
                             {locale === 'en' ? (
                                 <>
-                                    <div className="flag-circle">
-                                        <img
+                                    <div className="flag-circle relative w-full h-full">
+                                        <Image
                                             src="https://flagcdn.com/w80/gb.png"
                                             alt="English"
-                                            className="flag-img"
+                                            fill
+                                            className="flag-img object-cover"
+                                            sizes="40px"
                                         />
                                     </div>
                                     <span className="language-text">EN</span>
@@ -144,11 +153,13 @@ export default function Header({ categories }: HeaderProps) {
                             ) : (
                                 <>
                                     <span className="language-text">VI</span>
-                                    <div className="flag-circle">
-                                        <img
+                                    <div className="flag-circle relative w-full h-full">
+                                        <Image
                                             src="https://flagcdn.com/w80/vn.png"
                                             alt="Vietnamese"
-                                            className="flag-img"
+                                            fill
+                                            className="flag-img object-cover"
+                                            sizes="40px"
                                         />
                                     </div>
                                 </>

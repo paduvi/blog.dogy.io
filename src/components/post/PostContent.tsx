@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Calendar, Clock, Image as ImageIcon } from 'lucide-react';
+import Image from 'next/image';
 import { Link } from '@/i18n/routing';
 import { MarkdownToHtml } from '@/components/post/markdown-to-html';
 import TagCloud from '@/components/common/TagCloud';
@@ -94,10 +95,13 @@ export default function PostContent({ post, locale, translations }: PostContentP
 
             <div className="relative w-full mb-10 rounded-xl overflow-hidden">
                 {post.coverImage ? (
-                    <img
+                    <Image
                         src={post.coverImage}
                         alt={post.title}
-                        className="w-full h-full object-cover"
+                        fill
+                        priority
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 900px"
                     />
                 ) : (
                     <div className="w-full h-64 md-h-96 bg-gray-100 flex items-center justify-center">

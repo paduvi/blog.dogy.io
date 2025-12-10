@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react';
 import { Link } from '@/i18n/routing';
 import { ChevronDown, Calendar, Clock, Image as ImageIcon } from 'lucide-react';
+import Image from 'next/image';
 import SeriesPostSkeleton from './SeriesPostSkeleton';
 import type { Post } from '@/types';
 import { useTranslations, useLocale } from 'next-intl';
@@ -294,10 +295,12 @@ function SeriesSectionContent() {
                                     <div className="flex-shrink-0">
                                         <div className="w-64 h-48 rounded-lg overflow-hidden bg-gray-100 border">
                                             {post.coverImage ? (
-                                                <img
+                                                <Image
                                                     src={post.coverImage}
                                                     alt={post.title}
-                                                    className="w-full h-full object-cover transform group-hover-scale-105 transition-transform duration-300"
+                                                    fill
+                                                    sizes="(max-width: 768px) 100vw, 300px"
+                                                    className="object-cover transform group-hover-scale-105 transition-transform duration-300"
                                                 />
                                             ) : (
                                                 <div className="w-full h-full bg-gray-100 flex items-center justify-center">

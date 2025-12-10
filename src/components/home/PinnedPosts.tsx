@@ -4,6 +4,7 @@ import { Link } from '@/i18n/routing';
 import { Post } from '@/types';
 import { BookOpen, Pin, Image as ImageIcon } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
+import Image from 'next/image';
 
 interface PinnedPostsProps {
     posts: Post[];
@@ -29,10 +30,13 @@ export default function PinnedPosts({ posts }: PinnedPostsProps) {
                 <Link href={`/post/${fixedPost.slug}`} className="group lg-col-span-7">
                     <div className="relative h-600 rounded-xl overflow-hidden bg-white shadow-sm border">
                         {fixedPost.coverImage ? (
-                            <img
+                            <Image
                                 src={fixedPost.coverImage}
                                 alt={fixedPost.title}
-                                className="w-full h-full object-cover transition-transform duration-300 group-hover-scale-115"
+                                fill
+                                sizes="(max-width: 1024px) 100vw, 70vw"
+                                priority
+                                className="object-cover transition-transform duration-300 group-hover-scale-115"
                             />
                         ) : (
                             <div className="w-full h-full bg-gray-100 flex items-center justify-center">
@@ -67,10 +71,12 @@ export default function PinnedPosts({ posts }: PinnedPostsProps) {
                             <div className="relative h-full rounded-xl overflow-hidden bg-white shadow-sm border">
                                 <div className="relative h-full rounded-lg overflow-hidden card-img-scale">
                                     {post.coverImage ? (
-                                        <img
+                                        <Image
                                             src={post.coverImage}
                                             alt={post.title}
-                                            className="w-full h-full object-cover transition-transform duration-300"
+                                            fill
+                                            sizes="(max-width: 1024px) 50vw, 30vw"
+                                            className="object-cover transition-transform duration-300"
                                         />
                                     ) : (
                                         <div className="w-full h-full bg-gray-100 flex items-center justify-center">

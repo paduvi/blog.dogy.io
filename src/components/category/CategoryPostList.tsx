@@ -6,6 +6,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from '@/i18n/routing';
 import { Calendar, Clock, Image as ImageIcon } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
+import Image from 'next/image';
 
 interface PageInfo {
     hasNextPage: boolean;
@@ -80,10 +81,12 @@ export default function CategoryPostList({ initialPosts, initialPageInfo, fetchM
                         {/* Left: Image */}
                         <div className="relative aspect-video md-aspect-square rounded-lg overflow-hidden bg-gray-100">
                             {post.coverImage ? (
-                                <img
+                                <Image
                                     src={post.coverImage}
                                     alt={post.title}
-                                    className="absolute inset-0 w-full h-full object-cover group-hover-scale-105 transition-transform duration-300"
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, 300px"
+                                    className="object-cover group-hover-scale-105 transition-transform duration-300"
                                 />
                             ) : (
                                 <div className="absolute inset-0 w-full h-full bg-gray-100 flex items-center justify-center">

@@ -4,6 +4,7 @@ import { Link } from '@/i18n/routing';
 import { Post } from '@/types';
 import { BookOpen, Image as ImageIcon } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
+import Image from 'next/image';
 
 interface PostCardProps {
     post: Post;
@@ -18,10 +19,12 @@ export default function PostCard({ post, compact = false }: PostCardProps) {
         <div className={`card group flex ${compact ? 'flex-row h-32' : 'flex-col'}`}>
             <div className={`relative ${compact ? 'w-1-3 overflow-hidden' : 'w-full h-48 overflow-hidden'}`}>
                 {post.coverImage ? (
-                    <img
+                    <Image
                         src={post.coverImage}
                         alt={post.title}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover-scale-115"
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-300 group-hover-scale-115"
                     />
                 ) : (
                     <div className="w-full h-full bg-gray-100 flex items-center justify-center">
