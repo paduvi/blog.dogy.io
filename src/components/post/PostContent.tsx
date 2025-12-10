@@ -93,7 +93,7 @@ export default function PostContent({ post, locale, translations }: PostContentP
                 </div>
             </div>
 
-            <div className="relative w-full mb-10 rounded-xl overflow-hidden">
+            <div className="relative w-full aspect-video mb-10 rounded-xl overflow-hidden">
                 {post.coverImage ? (
                     <Image
                         src={post.coverImage}
