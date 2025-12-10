@@ -60,10 +60,10 @@ export const metadata: Metadata = {
       { url: '/favicon/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
     ],
     apple: [
-      { url: '/favicon/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+      { url: '/favicon/apple-icon.png', sizes: '180x180', type: 'image/png' },
     ],
     other: [
-      { rel: 'mask-icon', url: '/favicon/safari-pinned-tab.svg', color: '#5bbad5' },
+      { rel: 'mask-icon', url: '/favicon/icon.svg', color: '#5bbad5' },
     ],
   },
   manifest: '/site.webmanifest',
