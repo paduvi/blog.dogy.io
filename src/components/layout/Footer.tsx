@@ -9,7 +9,7 @@ export default function Footer() {
     return (
         <footer className="bg-white border-t mt-12 py-8">
             <div className="container">
-                <div className="flex flex-row md-flex-row justify-between items-center gap-4">
+                <div className="flex flex-col md-flex-row justify-between items-center gap-4">
                     <div className="flex items-center gap-2">
                         
                         <img className='w-6 h-6 rounded' src="/favicon/favicon-32x32.png" alt="Dogy.io Logo" />
