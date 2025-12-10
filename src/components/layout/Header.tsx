@@ -81,6 +81,7 @@ export default function Header({ categories }: HeaderProps) {
                         <button
                             onClick={toggleMobileMenu}
                             className="md-hidden p-2 rounded-full btn-transparent"
+                            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
                         >
                             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>
@@ -136,6 +137,7 @@ export default function Header({ categories }: HeaderProps) {
                         <button
                             onClick={switchLanguage}
                             className="language-toggle-pill bg-gray-100"
+                            aria-label={locale === 'en' ? "Switch to Vietnamese" : "Switch to English"}
                         >
                             {locale === 'en' ? (
                                 <>
@@ -175,6 +177,7 @@ export default function Header({ categories }: HeaderProps) {
                     <button
                         onClick={toggleMobileSearch}
                         className="md-hidden p-2 hover-bg-gray-100 rounded-full border-none"
+                        aria-label={isMobileSearchOpen ? "Close search" : "Open search"}
                     >
                         {isMobileSearchOpen ? <X size={18} /> : <Search size={18} />}
                     </button>
@@ -182,6 +185,7 @@ export default function Header({ categories }: HeaderProps) {
                     <button 
                         onClick={() => setActiveModal('subscribe')}
                         className="hidden cursor-pointer md-flex items-center gap-2 px-4 bg-primary text-white text-sm font-medium rounded-full hover-bg-primary-hover hover-scale-105 transition-all h-10"
+                        aria-label={t('subscribe')}
                     >
                         <Bell size={16} />
                         {t('subscribe')}

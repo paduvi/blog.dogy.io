@@ -84,6 +84,7 @@ export default function CommentsModal() {
                         <button
                             onClick={() => setActiveModal(null)}
                             className="p-2 hover-bg-gray-200 rounded-full btn-transparent cursor-pointer transition-colors"
+                            aria-label={t('closeComments', { defaultMessage: 'Close Comments' })}
                         >
                             <X size={20} className="text-gray-600" />
                         </button>

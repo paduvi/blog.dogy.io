@@ -19,6 +19,7 @@ export default function SponsorModal() {
                 <button
                     onClick={() => setActiveModal(null)}
                     className="absolute top-2 right-2 p-2 hover-bg-gray-200 rounded-full transition-colors z-10 bg-white-50 backdrop-blur-sm border-none cursor-pointer"
+                    aria-label="Close Sponsor"
                 >
                     <X size={20} className="text-gray-600" />
                 </button>

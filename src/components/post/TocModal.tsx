@@ -46,6 +46,7 @@ export default function TocModal() {
                         <button
                             onClick={() => setActiveModal(null)}
                             className="p-2 hover-bg-gray-200 rounded-full btn-transparent cursor-pointer"
+                            aria-label={t('closeToc', { defaultMessage: 'Close Table of contents' })}
                         >
                             <X size={20} className="text-gray-600" />
                         </button>
