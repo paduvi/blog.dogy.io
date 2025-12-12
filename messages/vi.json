@@ -33,6 +33,7 @@
         "currentPost": "Bài hiện tại",
         "posts": "{count} Bài viết",
         "post": "{count} Bài viết",
+        "closeToc": "Đóng Mục lục",
         "noTableOfContents": "Không có mục lục"
     },
     "Common": {
@@ -58,6 +59,7 @@
     "Comments": {
         "title": "Bình luận",
         "loading": "Đang tải bình luận...",
+        "closeComments": "Đóng bình luận",
         "commentsBlockedTitle": "Không thể tải bình luận",
         "commentsBlockedMessage": "Vui lòng tắt trình chặn quảng cáo để xem và tham gia thảo luận.",
         "reloadComments": "Thử lại"

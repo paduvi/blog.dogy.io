@@ -1,6 +1,6 @@
 'use client';
 
-import { Link } from '@/i18n/routing';
+import { Link, useRouter } from '@/i18n/routing';
 import { Post } from '@/types';
 import { BookOpen, Image as ImageIcon } from 'lucide-react';
 import { useTranslations, useLocale } from 'next-intl';
@@ -14,9 +14,13 @@ interface PostCardProps {
 export default function PostCard({ post, compact = false }: PostCardProps) {
     const t = useTranslations('Post');
     const locale = useLocale();
+    const router = useRouter();
 
     return (
-        <div className={`card group flex ${compact ? 'flex-row h-32' : 'flex-col'}`}>
+        <div
+            onClick={() => router.push(`/post/${post.slug}`)}
+            className={`card group flex cursor-pointer ${compact ? 'flex-row h-32' : 'flex-col'}`}
+        >
             <div className={`relative ${compact ? 'w-1-3 overflow-hidden' : 'w-full h-48 overflow-hidden'}`}>
                 {post.coverImage ? (
                     <Image
@@ -40,11 +44,11 @@ export default function PostCard({ post, compact = false }: PostCardProps) {
                     </span>
                 </div>
 
-                <Link href={`/post/${post.slug}`} className="static">
-                    <h3 className={`font-bold group-hover-text-primary cursor-pointer transition-colors mb-2 ${compact ? 'text-sm line-clamp-2' : 'text-xl'}`}>
+                <div className="static">
+                    <h3 className={`font-bold group-hover-text-primary transition-colors mb-2 ${compact ? 'text-sm line-clamp-2' : 'text-xl'}`}>
                         {post.title}
                     </h3>
-                </Link>
+                </div>
 
                 {!compact && (
                     <p className="text-muted text-sm line-clamp-6 mb-4">
@@ -63,6 +67,7 @@ export default function PostCard({ post, compact = false }: PostCardProps) {
                             <Link
                                 key={tag.id}
                                 href={`/tag/${tag.slug}`}
+                                onClick={(e) => e.stopPropagation()}
                                 className="badge relative z-2 bg-blue-50 text-blue-600 hover-bg-blue-100"
                             >
                                 #{tag.name}

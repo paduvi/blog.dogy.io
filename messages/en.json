@@ -33,6 +33,7 @@
         "currentPost": "Current post",
         "posts": "{count} Posts",
         "post": "{count} Post",
+        "closeToc": "Close Table of Contents",
         "noTableOfContents": "No table of contents"
     },
     "Common": {
@@ -58,6 +59,7 @@
     "Comments": {
         "title": "Comments",
         "loading": "Loading comments...",
+        "closeComments": "Close Comments",
         "commentsBlockedTitle": "Comments Unable to Load",
         "commentsBlockedMessage": "Please disable your ad blocker to view and join the discussion.",
         "reloadComments": "Try Again"
